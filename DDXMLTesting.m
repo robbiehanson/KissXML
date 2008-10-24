@@ -19,6 +19,8 @@
 + (void)testPrefix;
 + (void)testURI;
 + (void)testXmlns;
++ (void)testCopy;
++ (void)testCData;
 @end
 
 @implementation DDXMLTesting
@@ -42,6 +44,8 @@
 	[self testPrefix];
 	[self testURI];
 	[self testXmlns];
+	[self testCopy];
+	[self testCData];
 
 	[self tearDown];
 }
@@ -833,6 +837,126 @@
 	NSUInteger ddTest9 = [[ddNode namespaces] count];
 	
 	NSAssert(nsTest9 == ddTest9, @"Failed test 9");
+}
+
++ (void)testCopy
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	
+	// <parent>
+	//   <child age="4">Billy</child>
+	// </parent>
+	
+	NSString *xmlStr = @"<parent><child age=\"4\">Billy</child></parent>";
+	
+	NSXMLDocument *nsDoc = [[[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil] autorelease];
+	DDXMLDocument *ddDoc = [[[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil] autorelease];
+	
+	// Test Document copy
+	
+	NSXMLDocument *nsDocCopy = [[nsDoc copy] autorelease];
+	[[nsDocCopy rootElement] addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"mom"]];
+	
+	NSXMLNode *nsDocAttr = [[nsDoc rootElement] attributeForName:@"type"];
+	NSXMLNode *nsDocCopyAttr = [[nsDocCopy rootElement] attributeForName:@"type"];
+	
+	NSAssert(nsDocAttr == nil, @"Failed CHECK 1");
+	NSAssert(nsDocCopyAttr != nil, @"Failed CHECK 2");
+	
+	DDXMLDocument *ddDocCopy = [[ddDoc copy] autorelease];
+	[[ddDocCopy rootElement] addAttribute:[DDXMLNode attributeWithName:@"type" stringValue:@"mom"]];
+	
+	DDXMLNode *ddDocAttr = [[ddDoc rootElement] attributeForName:@"type"];
+	DDXMLNode *ddDocCopyAttr = [[ddDocCopy rootElement] attributeForName:@"type"];
+	
+	NSAssert(ddDocAttr == nil, @"Failed test 1");
+	NSAssert(ddDocCopyAttr != nil, @"Failed test 2");
+	
+	// Test Element copy
+	
+	NSXMLElement *nsElement = [[[nsDoc rootElement] elementsForName:@"child"] objectAtIndex:0];
+	NSXMLElement *nsElementCopy = [[nsElement copy] autorelease];
+	
+	NSAssert([nsElement parent] != nil, @"Failed CHECK 3");
+	NSAssert([nsElementCopy parent] == nil, @"Failed CHECK 4");
+	
+	[nsElementCopy addAttribute:[NSXMLNode attributeWithName:@"type" stringValue:@"son"]];
+	
+	NSXMLNode *nsElementAttr = [nsElement attributeForName:@"type"];
+	NSXMLNode *nsElementCopyAttr = [nsElementCopy attributeForName:@"type"];
+	
+	NSAssert(nsElementAttr == nil, @"Failed CHECK 5");
+	NSAssert(nsElementCopyAttr != nil, @"Failed CHECK 6");
+	
+	DDXMLElement *ddElement = [[[ddDoc rootElement] elementsForName:@"child"] objectAtIndex:0];
+	DDXMLElement *ddElementCopy = [[ddElement copy] autorelease];
+		
+	NSAssert([nsElement parent] != nil, @"Failed test 3");
+	NSAssert([nsElementCopy parent] == nil, @"Failed test 4");
+	
+	[ddElementCopy addAttribute:[DDXMLNode attributeWithName:@"type" stringValue:@"son"]];
+	
+	DDXMLNode *ddElementAttr = [ddElement attributeForName:@"type"];
+	DDXMLNode *ddElementCopyAttr = [ddElementCopy attributeForName:@"type"];
+	
+	NSAssert(ddElementAttr == nil, @"Failed test 5");
+	NSAssert(ddElementCopyAttr != nil, @"Failed test 6");
+	
+	// Test Node copy
+	
+	NSXMLNode *nsAttr = [nsElement attributeForName:@"age"];
+	NSXMLNode *nsAttrCopy = [[nsAttr copy] autorelease];
+	
+	NSAssert([nsAttr parent] != nil, @"Failed CHECK 7");
+	NSAssert([nsAttrCopy parent] == nil, @"Failed CHECK 8");
+	
+	[nsAttrCopy setStringValue:@"5"];
+	
+	NSString *nsAttrValue = [nsAttr stringValue];
+	NSString *nsAttrCopyValue = [nsAttrCopy stringValue];
+	
+	NSAssert([nsAttrValue isEqualToString:@"4"], @"Failed CHECK 9");
+	NSAssert([nsAttrCopyValue isEqualToString:@"5"], @"Failed CHECK 10");
+	
+	DDXMLNode *ddAttr = [ddElement attributeForName:@"age"];
+	DDXMLNode *ddAttrCopy = [[ddAttr copy] autorelease];
+	
+	NSAssert([ddAttr parent] != nil, @"Failed test 7");
+	NSAssert([ddAttrCopy parent] == nil, @"Failed test 8");
+	
+	[ddAttrCopy setStringValue:@"5"];
+	
+	NSString *ddAttrValue = [ddAttr stringValue];
+	NSString *ddAttrCopyValue = [ddAttrCopy stringValue];
+	
+	NSAssert([ddAttrValue isEqualToString:@"4"], @"Failed test 9");
+	NSAssert([ddAttrCopyValue isEqualToString:@"5"], @"Failed test 10");
+}
+
++ (void)testCData
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	
+	// <?xml version="1.0"?>
+	// <request>
+	//   <category>
+	//     <name><![CDATA[asdfdsfafasdfsf]]></name>
+	//     <type><![CDATA[post]]></type>
+	//   </category>
+	// </request>
+	
+	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
+	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
+	[xmlStr appendString:@"<request>"];
+	[xmlStr appendString:@"  <category>"];
+	[xmlStr appendString:@"    <name><![CDATA[asdfdsfafasdfsf]]></name>"];
+	[xmlStr appendString:@"    <type><![CDATA[post]]></type>"];
+	[xmlStr appendString:@"  </category>"];
+	[xmlStr appendString:@"</request>"];
+	
+	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	
+	[ddDoc release];
 }
 
 @end

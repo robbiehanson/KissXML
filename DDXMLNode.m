@@ -139,6 +139,53 @@
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark Copying
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (id)copyWithZone:(NSZone *)zone
+{
+	if([self isXmlDocPtr])
+	{
+		xmlDocPtr copyDocPtr = xmlCopyDoc((xmlDocPtr)genericPtr, 1);
+		
+		return [[DDXMLDocument alloc] initWithPrimitive:(xmlKindPtr)copyDocPtr];
+	}
+	
+	if([self isXmlNodePtr])
+	{
+		xmlNodePtr copyNodePtr = xmlCopyNode((xmlNodePtr)genericPtr, 1);
+		
+		if([self isKindOfClass:[DDXMLElement class]])
+			return [[DDXMLElement alloc] initWithPrimitive:(xmlKindPtr)copyNodePtr];
+		else
+			return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)copyNodePtr];
+	}
+	
+	if([self isXmlAttrPtr])
+	{
+		xmlAttrPtr copyAttrPtr = xmlCopyProp(NULL, (xmlAttrPtr)genericPtr);
+		
+		return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)copyAttrPtr];
+	}
+	
+	if([self isXmlNsPtr])
+	{
+		xmlNsPtr copyNsPtr = xmlCopyNamespace((xmlNsPtr)genericPtr);
+		
+		return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)copyNsPtr nsParent:nil];
+	}
+	
+	if([self isXmlDtdPtr])
+	{
+		xmlDtdPtr copyDtdPtr = xmlCopyDtd((xmlDtdPtr)genericPtr);
+		
+		return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)copyDtdPtr];
+	}
+	
+	return nil;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Properties
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -836,11 +883,12 @@
 	xmlElementType type = kindPtr->type;
 	switch(type)
 	{
-		case XML_ELEMENT_NODE :
-		case XML_PI_NODE      : 
-		case XML_COMMENT_NODE : 
-		case XML_TEXT_NODE    : return YES;
-		default               : return NO;
+		case XML_ELEMENT_NODE       :
+		case XML_PI_NODE            : 
+		case XML_COMMENT_NODE       : 
+		case XML_TEXT_NODE          : 
+		case XML_CDATA_SECTION_NODE : return YES;
+		default                     : return NO;
 	}
 }
 
@@ -986,7 +1034,7 @@
 **/
 + (void)nodeFree:(xmlNodePtr)node
 {
-	NSAssert([self isXmlNodePtr:(xmlKindPtr)node], @"Wrong kind of node passed to nodeFree");
+	NSAssert1([self isXmlNodePtr:(xmlKindPtr)node], @"Wrong kind of node passed to nodeFree: %i", node->type);
 	
 	if(node->_private == NULL)
 	{
