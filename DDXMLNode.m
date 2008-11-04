@@ -948,6 +948,22 @@
 	return [[self class] isXmlNsPtr:genericPtr];
 }
 
+/**
+ * Returns whether or not the node has a parent.
+ * Use this method instead of parent when you only need to ensure parent is nil.
+ * This prevents the unnecessary creation of a parent node wrapper.
+**/
+- (BOOL)hasParent
+{
+	if([self isXmlNsPtr])
+	{
+		return (nsParentPtr != NULL);
+	}
+	
+	xmlStdPtr node = (xmlStdPtr)genericPtr;
+	
+	return (node->parent != NULL);
+}
 
 /**
  * - - - - - - - - - - R E A D   M E - - - - - - - - - -
