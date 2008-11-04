@@ -261,13 +261,29 @@
 	
 	NSAssert([nsTest1 isEqualToString:ddTest1], @"Failed test 1");
 	
+	[nsNode setURI:@"food.com"];
+	[ddNode setURI:@"food.com"];
+	
+	NSString *nsTest2 = [nsNode URI];
+	NSString *ddTest2 = [ddNode URI];
+	
+	NSAssert([nsTest2 isEqualToString:ddTest2], @"Failed test 2");
+	
 	NSXMLElement *nsAttr = [NSXMLElement attributeWithName:@"duck" URI:@"quack.com" stringValue:@"quack"];
 	DDXMLElement *ddAttr = [DDXMLElement attributeWithName:@"duck" URI:@"quack.com" stringValue:@"quack"];
 	
-	NSString *nsTest2 = [nsAttr URI];
-	NSString *ddTest2 = [ddAttr URI];
+	NSString *nsTest3 = [nsAttr URI];
+	NSString *ddTest3 = [ddAttr URI];
 	
-	NSAssert([nsTest2 isEqualToString:ddTest2], @"Failed test 2");
+	NSAssert([nsTest3 isEqualToString:ddTest3], @"Failed test 3");
+	
+	[nsAttr setURI:@"food.com"];
+	[ddAttr setURI:@"food.com"];
+	
+	NSString *nsTest4 = [nsAttr URI];
+	NSString *ddTest4 = [ddAttr URI];
+	
+	NSAssert([nsTest4 isEqualToString:ddTest4], @"Failed test 4");
 }
 
 + (void)testAttrGeneral

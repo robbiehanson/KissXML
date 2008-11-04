@@ -305,6 +305,8 @@
 	if([[namespace name] isEqualToString:@""])
 	{
 		((xmlNodePtr)genericPtr)->ns = (xmlNsPtr)namespace->genericPtr;
+		
+		// Note: The removeNamespaceForPrefix method above properly handled removing any previous default namespace
 	}
 }
 
@@ -333,6 +335,8 @@
 		}
 		ns = ns->next;
 	}
+	
+	// Note: The removeNamespace method properly handles the situation where the namespace is the default namespace
 }
 
 - (NSArray *)namespaces
