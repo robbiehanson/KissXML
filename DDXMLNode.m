@@ -96,12 +96,27 @@
 		return nil;
 	}
 	
+	BOOL maybeIsaSwizzle = [self isMemberOfClass:[DDXMLNode class]];
+	
 	if(self = [super init])
 	{
 		genericPtr = nodePtr;
 		nsParentPtr = NULL;
 		[self nodeRetain];
 	}
+	
+	if(maybeIsaSwizzle)
+	{
+		if(nodePtr->type == XML_ELEMENT_NODE)
+		{
+			self->isa = [DDXMLElement class];
+		}
+		else if(nodePtr->type == XML_DOCUMENT_NODE)
+		{
+			self->isa = [DDXMLDocument class];
+		}
+	}
+	
 	return self;
 }
 
@@ -118,12 +133,27 @@
 		return nil;
 	}
 	
+	BOOL maybeIsaSwizzle = [self isMemberOfClass:[DDXMLNode class]];
+	
 	if(self = [super init])
 	{
 		genericPtr = nodePtr;
 		nsParentPtr = parentPtr;
 		[self nodeRetain];
 	}
+	
+	if(maybeIsaSwizzle)
+	{
+		if(nodePtr->type == XML_ELEMENT_NODE)
+		{
+			self->isa = [DDXMLElement class];
+		}
+		else if(nodePtr->type == XML_DOCUMENT_NODE)
+		{
+			self->isa = [DDXMLDocument class];
+		}
+	}
+	
 	return self;
 }
 

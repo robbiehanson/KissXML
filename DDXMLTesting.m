@@ -21,6 +21,7 @@
 + (void)testXmlns;
 + (void)testCopy;
 + (void)testCData;
++ (void)testElements;
 @end
 
 @implementation DDXMLTesting
@@ -46,6 +47,7 @@
 	[self testXmlns];
 	[self testCopy];
 	[self testCData];
+	[self testElements];
 
 	[self tearDown];
 }
@@ -956,6 +958,51 @@
 	
 	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
 	
+	[ddDoc release];
+}
+
++ (void)testElements
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	
+	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
+	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
+	[xmlStr appendString:@"<request>"];
+	[xmlStr appendString:@"  <category>"];
+	[xmlStr appendString:@"    <name>Jojo</name>"];
+	[xmlStr appendString:@"    <type>Mama</type>"];
+	[xmlStr appendString:@"  </category>"];
+	[xmlStr appendString:@"</request>"];
+	
+	NSArray *children = nil;
+	int i = 0;
+	
+	NSXMLDocument *nsDoc = [[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	
+	children = [[nsDoc rootElement] children];
+	for(i = 0; i < [children count]; i++)
+	{
+		NSXMLNode *child = [children objectAtIndex:i];
+				
+		if([child kind] == NSXMLElementKind)
+		{
+			NSAssert([child isMemberOfClass:[NSXMLElement class]], @"Failed CHECK 1");
+		}
+	}
+	[nsDoc release];
+	
+	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	
+	children = [[ddDoc rootElement] children];
+	for(i = 0; i < [children count]; i++)
+	{
+		DDXMLNode *child = [children objectAtIndex:i];
+		
+		if([child kind] == DDXMLElementKind)
+		{
+			NSAssert([child isMemberOfClass:[DDXMLElement class]], @"Failed test 1");
+		}
+	}
 	[ddDoc release];
 }
 
