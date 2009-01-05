@@ -4,8 +4,24 @@
 #import "NSStringAdditions.h"
 #import "DDXMLPrivate.h"
 
+#import <libxml/xpath.h>
+
 
 @implementation DDXMLNode
+
++ (void)initialize
+{
+	static BOOL initialized = NO;
+	if(!initialized)
+	{
+		// Tell libxml not to keep ignorable whitespace (such as node indentation, formatting, etc).
+		// NSXML ignores such whitespace.
+		// This also has the added benefit of taking up less RAM when parsing formatted XML documents.
+		xmlKeepBlanksDefault(0);
+		
+		initialized = YES;
+	}
+}
 
 + (id)elementWithName:(NSString *)name
 {
@@ -255,7 +271,12 @@
 	}
 	else
 	{
-		return [NSString stringWithUTF8String:((const char *)((xmlStdPtr)genericPtr)->name)];
+		const char *name = (const char *)((xmlStdPtr)genericPtr)->name;
+		
+		if(name == NULL)
+			return nil;
+		else
+			return [NSString stringWithUTF8String:name];
 	}
 }
 
@@ -530,8 +551,8 @@
 /**
  * Returns the previous DDXMLNode object that is a sibling node to the receiver.
  * 
- * This object will have an index value that is one less than the receiver‚Äôs.
- * If there are no more previous siblings (that is, other child nodes of the receiver‚Äôs parent) the method returns nil.
+ * This object will have an index value that is one less than the receiver’s.
+ * If there are no more previous siblings (that is, other child nodes of the receiver’s parent) the method returns nil.
 **/
 - (DDXMLNode *)previousSibling
 {
@@ -548,8 +569,8 @@
 /**
  * Returns the next DDXMLNode object that is a sibling node to the receiver.
  * 
- * This object will have an index value that is one more than the receiver‚Äôs.
- * If there are no more subsequent siblings (that is, other child nodes of the receiver‚Äôs parent) the
+ * This object will have an index value that is one more than the receiver’s.
+ * If there are no more subsequent siblings (that is, other child nodes of the receiver’s parent) the
  * method returns nil.
 **/
 - (DDXMLNode *)nextSibling
@@ -567,7 +588,7 @@
 /**
  * Returns the previous DDXMLNode object in document order.
  * 
- * You use this method to ‚Äúwalk‚Äù backward through the tree structure representing an XML document or document section.
+ * You use this method to “walk” backward through the tree structure representing an XML document or document section.
  * (Use nextNode to traverse the tree in the opposite direction.) Document order is the natural order that XML
  * constructs appear in markup text. If you send this message to the first node in the tree (that is, the root element),
  * nil is returned. DDXMLNode bypasses namespace and attribute nodes when it traverses a tree in document order.
@@ -581,7 +602,9 @@
 	
 	// Note: Try to accomplish this task without creating dozens of intermediate wrapper objects
 	
-	xmlStdPtr previousSibling = ((xmlStdPtr)genericPtr)->prev;
+	xmlStdPtr node = (xmlStdPtr)genericPtr;
+	xmlStdPtr previousSibling = node->prev;
+	
 	if(previousSibling != NULL)
 	{
 		if(previousSibling->last != NULL)
@@ -603,13 +626,18 @@
 	
 	// If there are no previous siblings, then the previous node is simply the parent
 	
-	return [self parent];
+	// Note: rootNode.parent == docNode
+	
+	if(node->parent == NULL || node->parent->type == XML_DOCUMENT_NODE)
+		return nil;
+	else
+		return [DDXMLNode nodeWithPrimitive:(xmlKindPtr)node->parent];
 }
 
 /**
  * Returns the next DDXMLNode object in document order.
  * 
- * You use this method to ‚Äúwalk‚Äù forward through the tree structure representing an XML document or document section.
+ * You use this method to “walk” forward through the tree structure representing an XML document or document section.
  * (Use previousNode to traverse the tree in the opposite direction.) Document order is the natural order that XML
  * constructs appear in markup text. If you send this message to the last node in the tree, nil is returned.
  * DDXMLNode bypasses namespace and attribute nodes when it traverses a tree in document order.
@@ -678,6 +706,76 @@
 	}
 }
 
+- (NSString *)XPath
+{
+	NSMutableString *result = [NSMutableString stringWithCapacity:25];
+	
+	// Examples:
+	// /rootElement[1]/subElement[4]/thisNode[2]
+	// topElement/thisNode[2]
+	
+	xmlStdPtr node = NULL;
+	
+	if([self isXmlNsPtr])
+	{
+		node = (xmlStdPtr)nsParentPtr;
+		
+		if(node == NULL)
+			[result appendFormat:@"namespace::%@", [self name]];
+		else
+			[result appendFormat:@"/namespace::%@", [self name]];
+	}
+	else if([self isXmlAttrPtr])
+	{
+		node = (xmlStdPtr)(((xmlAttrPtr)genericPtr)->parent);
+		
+		if(node == NULL)
+			[result appendFormat:@"@%@", [self name]];
+		else
+			[result appendFormat:@"/@%@", [self name]];
+	}
+	else
+	{
+		node = (xmlStdPtr)genericPtr;
+	}
+	
+	// Note: rootNode.parent == docNode
+		
+	while((node != NULL) && (node->type != XML_DOCUMENT_NODE))
+	{
+		if((node->parent == NULL) && (node->doc == NULL))
+		{
+			// We're at the top of the heirarchy, and there is no xml document.
+			// Thus we don't use a leading '/', and we don't need an index.
+			
+			[result insertString:[NSString stringWithFormat:@"%s", node->name] atIndex:0];
+		}
+		else
+		{
+			// Find out what index this node is.
+			// If it's the first node with this name, the index is 1.
+			// If there are previous siblings with the same name, the index is greater than 1.
+			
+			int index = 1;
+			xmlStdPtr prevNode = node->prev;
+			while(prevNode != NULL)
+			{
+				if(xmlStrEqual(node->name, prevNode->name))
+				{
+					index++;
+				}
+				prevNode = prevNode->prev;
+			}
+			
+			[result insertString:[NSString stringWithFormat:@"/%s[%i]", node->name, index] atIndex:0];
+		}
+		
+		node = (xmlStdPtr)node->parent;
+	}
+	
+	return [[result copy] autorelease];
+}
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark QNames
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -686,7 +784,7 @@
  * Returns the local name of the receiver.
  * 
  * The local name is the part of a node name that follows a namespace-qualifying colon or the full name if
- * there is no colon. For example, ‚Äúchapter‚Äù is the local name in the qualified name ‚Äúacme:chapter‚Äù.
+ * there is no colon. For example, “chapter” is the local name in the qualified name “acme:chapter”.
 **/
 - (NSString *)localName
 {
@@ -704,11 +802,11 @@
 }
 
 /**
- * Returns the prefix of the receiver‚Äôs name.
+ * Returns the prefix of the receiver’s name.
  * 
  * The prefix is the part of a namespace-qualified name that precedes the colon.
- * For example, ‚Äúacme‚Äù is the local name in the qualified name ‚Äúacme:chapter‚Äù.
- * This method returns an empty string if the receiver‚Äôs name is not qualified by a namespace.
+ * For example, “acme” is the local name in the qualified name “acme:chapter”.
+ * This method returns an empty string if the receiver’s name is not qualified by a namespace.
 **/
 - (NSString *)prefix
 {
@@ -768,7 +866,7 @@
 /**
  * Returns the URI associated with the receiver.
  * 
- * A node‚Äôs URI is derived from its namespace or a document‚Äôs URI; for documents, the URI comes either from the
+ * A node’s URI is derived from its namespace or a document’s URI; for documents, the URI comes either from the
  * parsed XML or is explicitly set. You cannot change the URI for a particular node other for than a namespace
  * or document node.
 **/

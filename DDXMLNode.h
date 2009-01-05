@@ -140,7 +140,7 @@ typedef struct _xmlStd *xmlStdPtr;
 
 - (void)detach;
 
-//- (NSString *)XPath;
+- (NSString *)XPath;
 
 #pragma mark --- QNames ---
 

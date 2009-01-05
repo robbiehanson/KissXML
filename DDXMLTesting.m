@@ -15,13 +15,16 @@
 + (void)testAttrDocOrder;
 + (void)testAttrChildren;
 + (void)testString;
-+ (void)testPreviousNextNode;
++ (void)testChildren;
++ (void)testPreviousNextNode1;
++ (void)testPreviousNextNode2;
 + (void)testPrefix;
 + (void)testURI;
 + (void)testXmlns;
 + (void)testCopy;
 + (void)testCData;
 + (void)testElements;
++ (void)testXPath;
 @end
 
 @implementation DDXMLTesting
@@ -41,13 +44,16 @@
 	[self testAttrDocOrder];
 	[self testAttrChildren];
 	[self testString];
-	[self testPreviousNextNode];
+	[self testChildren];
+	[self testPreviousNextNode1];
+	[self testPreviousNextNode2];
 	[self testPrefix];
 	[self testURI];
 	[self testXmlns];
 	[self testCopy];
 	[self testCData];
 	[self testElements];
+	[self testXPath];
 
 	[self tearDown];
 }
@@ -508,7 +514,39 @@
 //  The DDXML version is actually more accurate, so we'll accept the difference.
 }
 
-+ (void)testPreviousNextNode
++ (void)testChildren
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	
+	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
+	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
+	[xmlStr appendString:@"<beers>            "];
+	[xmlStr appendString:@"  <sam_adams/>     "];
+	[xmlStr appendString:@"  <left_hand/>     "];
+	[xmlStr appendString:@"  <goose_island/>  "];
+	[xmlStr appendString:@" <!-- budweiser -->"];
+	[xmlStr appendString:@"</beers>           "];
+	
+	NSXMLDocument *nsDoc = [[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	
+	NSUInteger nsChildCount = [[nsDoc rootElement] childCount];
+	NSUInteger ddChildCount = [[ddDoc rootElement] childCount];
+	
+	NSAssert(nsChildCount == ddChildCount, @"Failed test 1");
+	
+	NSArray *nsChildren = [[nsDoc rootElement] children];
+	NSArray *ddChildren = [[ddDoc rootElement] children];
+	
+	NSAssert([nsChildren count] == [ddChildren count], @"Failed test 2");
+	
+	NSString *nsBeer = [[[nsDoc rootElement] childAtIndex:1] name];
+	NSString *ddBeer = [[[ddDoc rootElement] childAtIndex:1] name];
+	
+	NSAssert([nsBeer isEqualToString:ddBeer], @"Failed test 3");
+}
+
++ (void)testPreviousNextNode1
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
 	
@@ -563,6 +601,83 @@
 	[ddNode3 addChild:ddNode5];
 	[ddNode6 addChild:ddNode7];
 	[ddNode6 addChild:ddNode8];
+	
+	NSString *nsTest1 = [[nsNode2 nextNode] name];
+	NSString *ddTest1 = [[ddNode2 nextNode] name];
+	
+	NSAssert2([nsTest1 isEqualToString:ddTest1], @"Failed test 1: ns(%@) dd(%@)", nsTest1, ddTest1);
+	
+	NSString *nsTest2 = [[nsNode3 nextNode] name];
+	NSString *ddTest2 = [[ddNode3 nextNode] name];
+	
+	NSAssert2([nsTest2 isEqualToString:ddTest2], @"Failed test 2: ns(%@) dd(%@)", nsTest2, ddTest2);
+	
+	NSString *nsTest3 = [[nsNode5 nextNode] name];
+	NSString *ddTest3 = [[ddNode5 nextNode] name];
+	
+	NSAssert2([nsTest3 isEqualToString:ddTest3], @"Failed test 3: ns(%@) dd(%@)", nsTest3, ddTest3);
+	
+	NSString *nsTest4 = [[nsNode5 previousNode] name];
+	NSString *ddTest4 = [[ddNode5 previousNode] name];
+	
+	NSAssert2([nsTest4 isEqualToString:ddTest4], @"Failed test 4: ns(%@) dd(%@)", nsTest4, ddTest4);
+	
+	NSString *nsTest5 = [[nsNode6 previousNode] name];
+	NSString *ddTest5 = [[ddNode6 previousNode] name];
+	
+	NSAssert2([nsTest5 isEqualToString:ddTest5], @"Failed test 5: ns(%@) dd(%@)", nsTest5, ddTest5);
+	
+	NSString *nsTest6 = [[nsNode8 nextNode] name];
+	NSString *ddTest6 = [[ddNode8 nextNode] name];
+	
+	NSAssert2((!nsTest6 && !ddTest6), @"Failed test 6: ns(%@) dd(%@)", nsTest6, ddTest6);
+	
+	NSString *nsTest7 = [[nsNode0 previousNode] name];
+	NSString *ddTest7 = [[ddNode0 previousNode] name];
+	
+	NSAssert2((!nsTest7 && !ddTest7), @"Failed test 7: ns(%@) dd(%@)", nsTest7, ddTest7);
+}
+
++ (void)testPreviousNextNode2
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	
+	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
+	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
+	[xmlStr appendString:@"<pizza>         "];
+	[xmlStr appendString:@"  <toppings>    "];
+	[xmlStr appendString:@"    <pepperoni/>"];
+	[xmlStr appendString:@"    <sausage>   "];
+	[xmlStr appendString:@"      <mild/>   "];
+	[xmlStr appendString:@"      <spicy/>  "];
+	[xmlStr appendString:@"    </sausage>  "];
+	[xmlStr appendString:@"  </toppings>   "];
+	[xmlStr appendString:@"  <crust>       "];
+	[xmlStr appendString:@"    <thin/>     "];
+	[xmlStr appendString:@"    <thick/>    "];
+	[xmlStr appendString:@"  </crust>      "];
+	[xmlStr appendString:@"</pizza>        "];
+	
+	NSXMLDocument *nsDoc = [[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	
+	NSXMLNode *nsNode0 = [nsDoc rootElement]; // pizza
+	DDXMLNode *ddNode0 = [ddDoc rootElement]; // pizza
+	
+	NSXMLNode *nsNode2 = [[[nsDoc rootElement] childAtIndex:0] childAtIndex:0]; // pepperoni
+	DDXMLNode *ddNode2 = [[[ddDoc rootElement] childAtIndex:0] childAtIndex:0]; // pepperoni
+	
+	NSXMLNode *nsNode3 = [[[nsDoc rootElement] childAtIndex:0] childAtIndex:1]; // sausage
+	DDXMLNode *ddNode3 = [[[ddDoc rootElement] childAtIndex:0] childAtIndex:1]; // sausage
+	
+	NSXMLNode *nsNode5 = [[[[nsDoc rootElement] childAtIndex:0] childAtIndex:1] childAtIndex:1]; // spicy
+	DDXMLNode *ddNode5 = [[[[ddDoc rootElement] childAtIndex:0] childAtIndex:1] childAtIndex:1]; // spicy
+	
+	NSXMLNode *nsNode6 = [[nsDoc rootElement] childAtIndex:1]; // crust
+	DDXMLNode *ddNode6 = [[ddDoc rootElement] childAtIndex:1]; // crust
+	
+	NSXMLNode *nsNode8 = [[[nsDoc rootElement] childAtIndex:1] childAtIndex:1]; // crust
+	DDXMLNode *ddNode8 = [[[ddDoc rootElement] childAtIndex:1] childAtIndex:1]; // crust
 	
 	NSString *nsTest1 = [[nsNode2 nextNode] name];
 	NSString *ddTest1 = [[ddNode2 nextNode] name];
@@ -1020,6 +1135,118 @@
 		}
 	}
 	[ddDoc release];
+}
+
++ (void)testXPath
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	
+	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
+	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
+	[xmlStr appendString:@"<menu xmlns=\"food.com\" xmlns:a=\"deusty.com\">"];
+	[xmlStr appendString:@"  <salad>"];
+	[xmlStr appendString:@"    <name>Ceasar</name>"];
+	[xmlStr appendString:@"    <price>1.99</price>"];
+	[xmlStr appendString:@"  </salad>"];
+	[xmlStr appendString:@"  <pizza>"];
+	[xmlStr appendString:@"    <name>Supreme</name>"];
+	[xmlStr appendString:@"    <price>9.99</price>"];
+	[xmlStr appendString:@"  </pizza>"];
+	[xmlStr appendString:@"  <pizza>"];
+	[xmlStr appendString:@"    <name>Three Cheese</name>"];
+	[xmlStr appendString:@"    <price>7.99</price>"];
+	[xmlStr appendString:@"  </pizza>"];
+	[xmlStr appendString:@"  <beer tap=\"yes\"/>"];
+	[xmlStr appendString:@"</menu>"];
+	
+	int i = 0;
+	
+	NSXMLDocument *nsDoc = [[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	
+	NSString *nsDocXPath = [nsDoc XPath]; // empty string
+	NSString *ddDocXPath = [ddDoc XPath]; // empty string
+	
+	NSAssert([nsDocXPath isEqualToString:ddDocXPath], @"Failed test 1");
+	
+	NSXMLElement *nsMenu = [nsDoc rootElement];
+	DDXMLElement *ddMenu = [ddDoc rootElement];
+	
+	NSString *nsMenuXPath = [nsMenu XPath];
+	NSString *ddMenuXPath = [ddMenu XPath];
+	
+	NSAssert([nsMenuXPath isEqualToString:ddMenuXPath], @"Failed test 2");
+	
+	NSArray *nsChildren = [nsMenu children];
+	NSArray *ddChildren = [ddMenu children];
+	
+	NSAssert([nsChildren count] == [ddChildren count], @"Failed CHECK 1");
+	
+	for(i = 0; i < [nsChildren count]; i++)
+	{
+		NSString *nsChildXPath = [[nsChildren objectAtIndex:i] XPath];
+		NSString *ddChildXPath = [[ddChildren objectAtIndex:i] XPath];
+		
+		NSAssert([nsChildXPath isEqualToString:ddChildXPath], @"Failed test 3");
+	}
+	
+	NSXMLElement *nsBeer = [[nsMenu elementsForName:@"beer"] objectAtIndex:0];
+	NSXMLElement *ddBeer = [[ddMenu elementsForName:@"beer"] objectAtIndex:0];
+	
+	NSArray *nsAttributes = [nsBeer attributes];
+	NSArray *ddAttributes = [ddBeer attributes];
+	
+	NSAssert([nsAttributes count] == [ddAttributes count], @"Failed CHECK 2");
+	
+	for(i = 0; i < [nsAttributes count]; i++)
+	{
+		NSString *nsAttrXPath = [[nsAttributes objectAtIndex:i] XPath];
+		NSString *ddAttrXPath = [[ddAttributes objectAtIndex:i] XPath];
+		
+		NSAssert2([nsAttrXPath isEqualToString:ddAttrXPath],
+				  @"Failed test 4: ns(%@) != dd(%@)", nsAttrXPath, ddAttrXPath);
+	}
+	
+	NSArray *nsNamespaces = [nsMenu namespaces];
+	NSArray *ddNamespaces = [ddMenu namespaces];
+	
+	NSAssert([nsNamespaces count] == [ddNamespaces count], @"Failed CHECK 3");
+	
+	for(i = 0; i < [nsNamespaces count]; i++)
+	{
+		NSString *nsNamespaceXPath = [[nsNamespaces objectAtIndex:i] XPath];
+		NSString *ddNamespaceXPath = [[ddNamespaces objectAtIndex:i] XPath];
+		
+		NSAssert([nsNamespaceXPath isEqualToString:ddNamespaceXPath], @"Failed test 5");
+	}
+	
+	[nsDoc release];
+	[ddDoc release];
+	
+	NSXMLElement *nsElement1 = [NSXMLElement elementWithName:@"duck"];
+	NSXMLElement *nsElement2 = [NSXMLElement elementWithName:@"quack"];
+	[nsElement1 addChild:nsElement2];
+	
+	DDXMLElement *ddElement1 = [DDXMLElement elementWithName:@"duck"];
+	DDXMLElement *ddElement2 = [DDXMLElement elementWithName:@"quack"];
+	[ddElement1 addChild:ddElement2];
+	
+	NSString *nsElement1XPath = [nsElement1 XPath];
+	NSString *ddElement1XPath = [ddElement1 XPath];
+	
+	NSAssert2([nsElement1XPath isEqualToString:ddElement1XPath],
+			  @"Failed test 6: ns(%@) != dd(%@)", nsElement1XPath, ddElement1XPath);
+	
+	NSString *nsElement2XPath = [nsElement2 XPath];
+	NSString *ddElement2XPath = [ddElement2 XPath];
+	
+	NSAssert2([nsElement2XPath isEqualToString:ddElement2XPath],
+	          @"Failed test 7: ns(%@) != dd(%@)", nsElement2XPath, ddElement2XPath);
+	
+	NSXMLNode *nsAttr = [NSXMLNode attributeWithName:@"deusty" stringValue:@"designs"];
+	NSXMLNode *ddAttr = [DDXMLNode attributeWithName:@"deusty" stringValue:@"designs"];
+	
+	NSAssert([[nsAttr XPath] isEqualToString:[ddAttr XPath]], @"Failed test 8");
 }
 
 @end
