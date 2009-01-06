@@ -25,6 +25,7 @@
 + (void)testCData;
 + (void)testElements;
 + (void)testXPath;
++ (void)testNodesForXPath;
 @end
 
 @implementation DDXMLTesting
@@ -54,6 +55,7 @@
 	[self testCData];
 	[self testElements];
 	[self testXPath];
+	[self testNodesForXPath];
 
 	[self tearDown];
 }
@@ -1247,6 +1249,85 @@
 	NSXMLNode *ddAttr = [DDXMLNode attributeWithName:@"deusty" stringValue:@"designs"];
 	
 	NSAssert([[nsAttr XPath] isEqualToString:[ddAttr XPath]], @"Failed test 8");
+}
+
++ (void)testNodesForXPath
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	
+	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
+	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
+	[xmlStr appendString:@"<menu xmlns:a=\"tap\">"];
+	[xmlStr appendString:@"  <salad>"];
+	[xmlStr appendString:@"    <name>Ceasar</name>"];
+	[xmlStr appendString:@"    <price>1.99</price>"];
+	[xmlStr appendString:@"  </salad>"];
+	[xmlStr appendString:@"  <pizza>"];
+	[xmlStr appendString:@"    <name>Supreme</name>"];
+	[xmlStr appendString:@"    <price>9.99</price>"];
+	[xmlStr appendString:@"  </pizza>"];
+	[xmlStr appendString:@"  <pizza>"];
+	[xmlStr appendString:@"    <name>Three Cheese</name>"];
+	[xmlStr appendString:@"    <price>7.99</price>"];
+	[xmlStr appendString:@"  </pizza>"];
+	[xmlStr appendString:@"  <a:beer delicious=\"yes\"/>"];
+	[xmlStr appendString:@"</menu>"];
+	
+	NSError *err = nil;
+	
+	NSXMLDocument *nsDoc = [[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	
+	NSArray *nsTest0 = [nsDoc nodesForXPath:@"/menu/b:salad[1]" error:&err];
+	
+	NSAssert(nsTest0 == nil, @"Failed CHECK 1");
+	NSAssert(err != nil, @"Failed CHECK 2");
+	
+	NSArray *nsTest1 = [nsDoc nodesForXPath:@"/menu/salad[1]" error:&err];
+	
+	NSAssert(err == nil, @"Failed CHECK 3");
+	
+	NSArray *ddTest0 = [ddDoc nodesForXPath:@"/menu/b:salad[1]" error:&err];
+	
+	NSAssert(ddTest0 == nil, @"Failed test 1");
+	NSAssert(err != nil, @"Failed test 2");
+	
+	NSArray *ddTest1 = [ddDoc nodesForXPath:@"/menu/salad[1]" error:&err];
+	
+	NSAssert(err == nil, @"Failed test 3");
+	
+	NSAssert([nsTest1 count] == [ddTest1 count], @"Failed test 4");
+	
+	NSArray *nsTest2 = [nsDoc nodesForXPath:@"menu/pizza" error:&err];
+	NSArray *ddTest2 = [ddDoc nodesForXPath:@"menu/pizza" error:&err];
+	
+	NSAssert([nsTest2 count] == [ddTest2 count], @"Failed test 5");
+	
+	NSArray *nsTest3 = [nsDoc nodesForXPath:@"menu/a:beer/@delicious" error:&err];
+	NSArray *ddTest3 = [ddDoc nodesForXPath:@"menu/a:beer/@delicious" error:&err];
+	
+	NSAssert([nsTest3 count] == [ddTest3 count], @"Failed test 6");
+	
+	NSString *nsYes = [[nsTest3 objectAtIndex:0] stringValue];
+	NSString *ddYes = [[ddTest3 objectAtIndex:0] stringValue];
+	
+	NSAssert([nsYes isEqualToString:ddYes], @"Failed test 7");
+	
+	[nsDoc release];
+	[ddDoc release];
+	
+	NSXMLElement *nsElement1 = [NSXMLElement elementWithName:@"duck"];
+	NSXMLElement *nsElement2 = [NSXMLElement elementWithName:@"quack"];
+	[nsElement1 addChild:nsElement2];
+	
+	DDXMLElement *ddElement1 = [DDXMLElement elementWithName:@"duck"];
+	DDXMLElement *ddElement2 = [DDXMLElement elementWithName:@"quack"];
+	[ddElement1 addChild:ddElement2];
+	
+	NSArray *nsTest4 = [nsElement1 nodesForXPath:@"quack[1]" error:&err];
+	NSArray *ddTest4 = [ddElement1 nodesForXPath:@"quack[1]" error:&err];
+	
+	NSAssert([nsTest4 count] == [ddTest4 count], @"Failed test 8");
 }
 
 @end

@@ -6,6 +6,7 @@
 // Our API contract requires us to keep these assertions intact.
 #define DDCheck(condition, desc, ...)  { if(!(condition)) { [[NSAssertionHandler currentHandler] handleFailureInMethod:_cmd object:self file:[NSString stringWithUTF8String:__FILE__] lineNumber:__LINE__ description:(desc), ##__VA_ARGS__]; } }
 
+#define DDLastErrorKey @"DDXML:LastError"
 
 struct _xmlRetain {
 	void * retainee;
@@ -54,6 +55,8 @@ typedef struct _xmlRetain *xmlRetainPtr;
 
 - (void)nodeRetain;
 - (void)nodeRelease;
+
++ (NSError *)lastError;
 
 @end
 

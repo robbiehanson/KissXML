@@ -5,24 +5,6 @@
 
 @implementation DDXMLDocument
 
-void MyErrorHandler(void * userData, xmlErrorPtr error)
-{
-	// Here we could extract the information from xmlError struct
-}
-
-+ (void)initialize
-{
-	static BOOL initialized = NO;
-	if(!initialized)
-	{
-		// Redirect error output to our own function (don't clog up the console)
-		initGenericErrorDefaultFunc(NULL);
-		xmlSetStructuredErrorFunc(NULL, MyErrorHandler);
-		
-		initialized = YES;
-	}
-}
-
 + (id)nodeWithPrimitive:(xmlKindPtr)nodePtr
 {
 	return [[[DDXMLDocument alloc] initWithPrimitive:nodePtr] autorelease];

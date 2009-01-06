@@ -5,15 +5,22 @@
 #import "DDXMLPrivate.h"
 
 #import <libxml/xpath.h>
+#import <libxml/xpathInternals.h>
 
 
 @implementation DDXMLNode
+
+static void MyErrorHandler(void * userData, xmlErrorPtr error);
 
 + (void)initialize
 {
 	static BOOL initialized = NO;
 	if(!initialized)
 	{
+		// Redirect error output to our own function (don't clog up the console)
+		initGenericErrorDefaultFunc(NULL);
+		xmlSetStructuredErrorFunc(NULL, MyErrorHandler);
+		
 		// Tell libxml not to keep ignorable whitespace (such as node indentation, formatting, etc).
 		// NSXML ignores such whitespace.
 		// This also has the added benefit of taking up less RAM when parsing formatted XML documents.
@@ -385,17 +392,19 @@
 		}
 		return 0;
 	}
-	
-	xmlStdPtr currentNode = ((xmlStdPtr)genericPtr)->prev;
-	
-	NSUInteger result = 0;
-	while(currentNode != NULL)
+	else
 	{
-		result++;
-		currentNode = currentNode->prev;
+		xmlStdPtr node = ((xmlStdPtr)genericPtr)->prev;
+		
+		NSUInteger result = 0;
+		while(node != NULL)
+		{
+			result++;
+			node = node->prev;
+		}
+		
+		return result;
 	}
-	
-	return result;
 }
 
 /**
@@ -551,8 +560,8 @@
 /**
  * Returns the previous DDXMLNode object that is a sibling node to the receiver.
  * 
- * This object will have an index value that is one less than the receiverÕs.
- * If there are no more previous siblings (that is, other child nodes of the receiverÕs parent) the method returns nil.
+ * This object will have an index value that is one less than the receiverâ€™s.
+ * If there are no more previous siblings (that is, other child nodes of the receiverâ€™s parent) the method returns nil.
 **/
 - (DDXMLNode *)previousSibling
 {
@@ -569,8 +578,8 @@
 /**
  * Returns the next DDXMLNode object that is a sibling node to the receiver.
  * 
- * This object will have an index value that is one more than the receiverÕs.
- * If there are no more subsequent siblings (that is, other child nodes of the receiverÕs parent) the
+ * This object will have an index value that is one more than the receiverâ€™s.
+ * If there are no more subsequent siblings (that is, other child nodes of the receiverâ€™s parent) the
  * method returns nil.
 **/
 - (DDXMLNode *)nextSibling
@@ -588,7 +597,7 @@
 /**
  * Returns the previous DDXMLNode object in document order.
  * 
- * You use this method to ÒwalkÓ backward through the tree structure representing an XML document or document section.
+ * You use this method to â€œwalkâ€ backward through the tree structure representing an XML document or document section.
  * (Use nextNode to traverse the tree in the opposite direction.) Document order is the natural order that XML
  * constructs appear in markup text. If you send this message to the first node in the tree (that is, the root element),
  * nil is returned. DDXMLNode bypasses namespace and attribute nodes when it traverses a tree in document order.
@@ -637,7 +646,7 @@
 /**
  * Returns the next DDXMLNode object in document order.
  * 
- * You use this method to ÒwalkÓ forward through the tree structure representing an XML document or document section.
+ * You use this method to â€œwalkâ€ forward through the tree structure representing an XML document or document section.
  * (Use previousNode to traverse the tree in the opposite direction.) Document order is the natural order that XML
  * constructs appear in markup text. If you send this message to the last node in the tree, nil is returned.
  * DDXMLNode bypasses namespace and attribute nodes when it traverses a tree in document order.
@@ -784,7 +793,7 @@
  * Returns the local name of the receiver.
  * 
  * The local name is the part of a node name that follows a namespace-qualifying colon or the full name if
- * there is no colon. For example, ÒchapterÓ is the local name in the qualified name Òacme:chapterÓ.
+ * there is no colon. For example, â€œchapterâ€ is the local name in the qualified name â€œacme:chapterâ€.
 **/
 - (NSString *)localName
 {
@@ -802,11 +811,11 @@
 }
 
 /**
- * Returns the prefix of the receiverÕs name.
+ * Returns the prefix of the receiverâ€™s name.
  * 
  * The prefix is the part of a namespace-qualified name that precedes the colon.
- * For example, ÒacmeÓ is the local name in the qualified name Òacme:chapterÓ.
- * This method returns an empty string if the receiverÕs name is not qualified by a namespace.
+ * For example, â€œacmeâ€ is the local name in the qualified name â€œacme:chapterâ€.
+ * This method returns an empty string if the receiverâ€™s name is not qualified by a namespace.
 **/
 - (NSString *)prefix
 {
@@ -866,7 +875,7 @@
 /**
  * Returns the URI associated with the receiver.
  * 
- * A nodeÕs URI is derived from its namespace or a documentÕs URI; for documents, the URI comes either from the
+ * A nodeâ€™s URI is derived from its namespace or a documentâ€™s URI; for documents, the URI comes either from the
  * parsed XML or is explicitly set. You cannot change the URI for a particular node other for than a namespace
  * or document node.
 **/
@@ -997,6 +1006,101 @@
 		
 		return result;
 	}
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark XPath/XQuery
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+-(NSArray *)nodesForXPath:(NSString *)xpath error:(NSError **)error
+{
+	xmlXPathContextPtr xpathCtx;
+	xmlXPathObjectPtr xpathObj;
+	
+	BOOL isTempDoc = NO;
+	xmlDocPtr doc;
+	
+	if([DDXMLNode isXmlDocPtr:genericPtr])
+	{
+		doc = (xmlDocPtr)genericPtr;
+	}
+	else if([DDXMLNode isXmlNodePtr:genericPtr])
+	{
+		doc = ((xmlNodePtr)genericPtr)->doc;
+		
+		if(doc == NULL)
+		{
+			isTempDoc = YES;
+			
+			doc = xmlNewDoc(NULL);
+			xmlDocSetRootElement(doc, (xmlNodePtr)genericPtr);
+		}
+	}
+	else
+	{
+		return nil;
+	}
+	
+	xpathCtx = xmlXPathNewContext(doc);
+	xpathCtx->node = (xmlNodePtr)genericPtr;
+		
+	xmlNodePtr rootNode = (doc)->children;
+	if(rootNode != NULL)
+	{
+		xmlNsPtr ns = rootNode->nsDef;
+		while(ns != NULL)
+		{
+			xmlXPathRegisterNs(xpathCtx, ns->prefix, ns->href);
+			
+			ns = ns->next;
+		}
+	}
+	
+	xpathObj = xmlXPathEvalExpression([xpath xmlChar], xpathCtx);
+	
+	NSArray *result;
+	
+	if(xpathObj == NULL)
+	{
+		if(error) *error = [[self class] lastError];
+		result = nil;
+	}
+	else
+	{
+		if(error) *error = nil;
+		
+		int count = xmlXPathNodeSetGetLength(xpathObj->nodesetval);
+		
+		if(count == 0)
+		{
+			result = [NSArray array];
+		}
+		else
+		{
+			NSMutableArray *mResult = [NSMutableArray arrayWithCapacity:count];
+			
+			int i;
+			for (i = 0; i < count; i++)
+			{
+				xmlNodePtr node = xpathObj->nodesetval->nodeTab[i];
+				
+				[mResult addObject:[DDXMLNode nodeWithPrimitive:(xmlKindPtr)node]];
+			}
+			
+			result = mResult;
+		}
+	}
+	
+	if(xpathObj) xmlXPathFreeObject(xpathObj);
+	if(xpathCtx) xmlXPathFreeContext(xpathCtx);
+	
+	if(isTempDoc)
+	{
+		xmlUnlinkNode((xmlNodePtr)genericPtr);
+		xmlFreeDoc(doc);
+	}
+	
+	return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1644,6 +1748,51 @@
 		{
 			// There is a wrapper with a reference to this node somewhere
 		}
+	}
+}
+
+/**
+ * Returns the last error encountered by libxml.
+ * Errors are caught in the MyErrorHandler method within DDXMLDocument.
+**/
++ (NSError *)lastError
+{
+	NSValue *lastErrorValue = [[[NSThread currentThread] threadDictionary] objectForKey:DDLastErrorKey];
+	if(lastErrorValue)
+	{
+		xmlError lastError;
+		[lastErrorValue getValue:&lastError];
+		
+		int errCode = lastError.code;
+		NSString *errMsg = [[NSString stringWithFormat:@"%s", lastError.message] trimWhitespace];
+		
+		NSDictionary *info = [NSDictionary dictionaryWithObject:errMsg forKey:NSLocalizedDescriptionKey];
+			
+		return [NSError errorWithDomain:@"DDXMLErrorDomain" code:errCode userInfo:info];
+	}
+	else
+	{
+		return nil;
+	}
+}
+
+static void MyErrorHandler(void * userData, xmlErrorPtr error)
+{
+	// This method is called by libxml when an error occurs.
+	// We register for this error in the initialize method below.
+	
+	// Extract error message and store in the current thread's dictionary.
+	// This ensure's thread safey, and easy access for all other DDXML classes.
+	
+	if(error == NULL)
+	{
+		[[[NSThread currentThread] threadDictionary] removeObjectForKey:DDLastErrorKey];
+	}
+	else
+	{
+		NSValue *errorValue = [NSValue valueWithBytes:error objCType:@encode(xmlError)];
+		
+		[[[NSThread currentThread] threadDictionary] setObject:errorValue forKey:DDLastErrorKey];
 	}
 }
 
