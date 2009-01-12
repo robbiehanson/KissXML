@@ -74,4 +74,14 @@
 		return [DDXMLElement nodeWithPrimitive:(xmlKindPtr)(docPtr->children)];
 }
 
+- (NSData *)XMLData
+{
+	return [[self XMLString] dataUsingEncoding:NSUTF8StringEncoding];
+}
+
+- (NSData *)XMLDataWithOptions:(NSUInteger)options
+{
+	return [[self XMLStringWithOptions:options] dataUsingEncoding:NSUTF8StringEncoding];
+}
+
 @end

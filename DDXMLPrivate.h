@@ -39,6 +39,8 @@ typedef struct _xmlRetain *xmlRetainPtr;
 
 - (BOOL)hasParent;
 
++ (void)recursiveStripDocPointersFromNode:(xmlNodePtr)node;
+
 + (void)detachAttribute:(xmlAttrPtr)attr fromNode:(xmlNodePtr)node;
 + (void)removeAttribute:(xmlAttrPtr)attr fromNode:(xmlNodePtr)node;
 + (void)removeAllAttributesFromNode:(xmlNodePtr)node;

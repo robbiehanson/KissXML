@@ -1098,6 +1098,9 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 	{
 		xmlUnlinkNode((xmlNodePtr)genericPtr);
 		xmlFreeDoc(doc);
+		
+		// xmlUnlinkNode doesn't remove the doc ptr
+		[[self class] recursiveStripDocPointersFromNode:(xmlNodePtr)genericPtr];
 	}
 	
 	return result;

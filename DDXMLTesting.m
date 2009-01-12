@@ -73,6 +73,7 @@
 + (void)testLocalName
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSString *nsTest1 = [NSXMLNode localNameForName:@"a:quack"];
 	NSString *ddTest1 = [DDXMLNode localNameForName:@"a:quack"];
@@ -106,11 +107,14 @@
 	NSString *ddTest6 = [ddNode localName];
 	
 	NSAssert([nsTest6 isEqualToString:ddTest6], @"Failed test 6");
+	
+	[pool release];
 }
 
 + (void)testPrefixName
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSString *nsTest1 = [NSXMLNode prefixForName:@"a:quack"];
 	NSString *ddTest1 = [DDXMLNode prefixForName:@"a:quack"];
@@ -144,11 +148,14 @@
 	NSString *ddTest6 = [ddNode prefix];
 	
 	NSAssert([nsTest6 isEqualToString:ddTest6], @"Failed test 6");
+	
+	[pool release];
 }
 
 + (void)testDoubleAdd
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 //	NSXMLElement *nsRoot1 = [NSXMLElement elementWithName:@"root1"];
 //	NSXMLElement *nsRoot2 = [NSXMLElement elementWithName:@"root2"];
@@ -189,11 +196,14 @@
 	
 //	[ddRoot1 addNamespace:ddNs];
 //	[ddRoot2 addNamespace:ddNs]; // Cannot add a namespace with a parent; detach or copy first
+	
+	[pool release];
 }
 
 + (void)testNsGeneral
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSXMLNode *nsNs = [NSXMLNode namespaceWithName:@"a" stringValue:@"deusty.com"];
 	DDXMLNode *ddNs = [DDXMLNode namespaceWithName:@"a" stringValue:@"deusty.com"];
@@ -218,11 +228,14 @@
 	NSString *ddTest3 = [ddNs XMLString];
 	
 	NSAssert([nsTest3 isEqualToString:ddTest3], @"Failed test 3");
+	
+	[pool release];
 }
 
 + (void)testNsLevel
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	// <root xmlns:a="apple.com">
 	//   <node xmlns:d="deusty.com" xmlns:rh="robbiehanson.com"/>
@@ -255,11 +268,14 @@
 	NSAssert([nsNs0 level] == [ddNs0 level], @"Failed test 4");
 	NSAssert([nsNs1 level] == [ddNs1 level], @"Failed test 5");
 	NSAssert([nsNs2 level] == [ddNs2 level], @"Failed test 6");
+	
+	[pool release];
 }
 
 + (void)testNsURI
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSXMLElement *nsNode = [NSXMLElement elementWithName:@"duck" URI:@"quack.com"];
 	DDXMLElement *ddNode = [DDXMLElement elementWithName:@"duck" URI:@"quack.com"];
@@ -292,11 +308,14 @@
 	NSString *ddTest4 = [ddAttr URI];
 	
 	NSAssert([nsTest4 isEqualToString:ddTest4], @"Failed test 4");
+	
+	[pool release];
 }
 
 + (void)testAttrGeneral
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSXMLNode *nsAttr = [NSXMLNode attributeWithName:@"apple" stringValue:@"inc"];
 	DDXMLNode *ddAttr = [DDXMLNode attributeWithName:@"apple" stringValue:@"inc"];
@@ -321,11 +340,14 @@
 	NSString *ddStr3 = [ddAttr XMLString];
 	
 	NSAssert([nsStr3 isEqualToString:ddStr3], @"Failed test 3");
+	
+	[pool release];
 }
 
 + (void)testAttrSiblings
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	// <duck sound="quack" swims="YES" flys="YES"/>
 	
@@ -354,11 +376,14 @@
 //	NSLog(@"ddAttr next: %@", [[ddAttr nextSibling] XMLString]);
 //	
 //	Analysis: Ours works and theirs doesn't.  I see no need to cripple ours because of that.
+	
+	[pool release];
 }
 
 + (void)testAttrDocOrder
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	// <duck sound="quack" swims="YES" flys="YES"/>
 	
@@ -386,11 +411,14 @@
 	NSAssert((!nsTest2 && !ddTest2), @"Failed test 2");
 	
 	// Notes: Attributes play no part in the document order.
+	
+	[pool release];
 }
 
 + (void)testAttrChildren
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSXMLNode *nsAttr1 = [NSXMLNode attributeWithName:@"deusty" stringValue:@"designs"];
 	DDXMLNode *ddAttr1 = [DDXMLNode attributeWithName:@"deusty" stringValue:@"designs"];
@@ -412,11 +440,14 @@
 	
 	// Notes: Attributes aren't supposed to have children, although in libxml they technically do.
 	// The child is simply a pointer to a text node, which contains the attribute value.
+	
+	[pool release];
 }
 
 + (void)testString
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	// <pizza>
 	//   <toppings>
@@ -514,11 +545,14 @@
 //	NSAssert([nsTest5 isEqualToString:ddTest5], @"Failed test 5");
 //  
 //  The DDXML version is actually more accurate, so we'll accept the difference.
+	
+	[pool release];
 }
 
 + (void)testChildren
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
 	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
@@ -546,11 +580,14 @@
 	NSString *ddBeer = [[[ddDoc rootElement] childAtIndex:1] name];
 	
 	NSAssert([nsBeer isEqualToString:ddBeer], @"Failed test 3");
+	
+	[pool release];
 }
 
 + (void)testPreviousNextNode1
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	// <pizza>
 	//   <toppings>
@@ -638,11 +675,14 @@
 	NSString *ddTest7 = [[ddNode0 previousNode] name];
 	
 	NSAssert2((!nsTest7 && !ddTest7), @"Failed test 7: ns(%@) dd(%@)", nsTest7, ddTest7);
+	
+	[pool release];
 }
 
 + (void)testPreviousNextNode2
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
 	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
@@ -715,11 +755,14 @@
 	NSString *ddTest7 = [[ddNode0 previousNode] name];
 	
 	NSAssert2((!nsTest7 && !ddTest7), @"Failed test 7: ns(%@) dd(%@)", nsTest7, ddTest7);
+	
+	[pool release];
 }
 
 + (void)testPrefix
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	// <root xmlns:a="beagle" xmlns:b="lab">
 	//   <dog/>
@@ -757,11 +800,14 @@
 	NSString *ddTest4 = [ddNode4 prefix];
 	
 	NSAssert([nsTest4 isEqualToString:ddTest4], @"Failed test 4");
+	
+	[pool release];
 }
 
 + (void)testURI
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	// <root xmlns:a="deusty.com" xmlns:b="robbiehanson.com">
 	//     <test test="1"/>
@@ -885,11 +931,14 @@
 	NSUInteger ddTest13 = [[ddRoot elementsForLocalName:@"test" URI:@"quack.com"] count];  // Returns node5
 	
 	NSAssert(nsTest13 == ddTest13, @"Failed test 13");
+	
+	[pool release];
 }
 
 + (void)testXmlns
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSString *parseMe = @"<query xmlns=\"jabber:iq:roster\"></query>";
 	NSData *data = [parseMe dataUsingEncoding:NSUTF8StringEncoding];
@@ -972,11 +1021,14 @@
 	NSUInteger ddTest9 = [[ddNode namespaces] count];
 	
 	NSAssert(nsTest9 == ddTest9, @"Failed test 9");
+	
+	[pool release];
 }
 
 + (void)testCopy
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	// <parent>
 	//   <child age="4">Billy</child>
@@ -1066,11 +1118,14 @@
 	
 	NSAssert([ddAttrValue isEqualToString:@"4"], @"Failed test 9");
 	NSAssert([ddAttrCopyValue isEqualToString:@"5"], @"Failed test 10");
+	
+	[pool release];
 }
 
 + (void)testCData
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	// <?xml version="1.0"?>
 	// <request>
@@ -1092,11 +1147,14 @@
 	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
 	
 	[ddDoc release];
+	
+	[pool release];
 }
 
 + (void)testElements
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
 	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
@@ -1137,11 +1195,14 @@
 		}
 	}
 	[ddDoc release];
+	
+	[pool release];
 }
 
 + (void)testXPath
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
 	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
@@ -1249,11 +1310,14 @@
 	NSXMLNode *ddAttr = [DDXMLNode attributeWithName:@"deusty" stringValue:@"designs"];
 	
 	NSAssert([[nsAttr XPath] isEqualToString:[ddAttr XPath]], @"Failed test 8");
+	
+	[pool release];
 }
 
 + (void)testNodesForXPath
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
 	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
@@ -1324,10 +1388,12 @@
 	DDXMLElement *ddElement2 = [DDXMLElement elementWithName:@"quack"];
 	[ddElement1 addChild:ddElement2];
 	
-	NSArray *nsTest4 = [nsElement1 nodesForXPath:@"quack[1]" error:&err];
-	NSArray *ddTest4 = [ddElement1 nodesForXPath:@"quack[1]" error:&err];
+	NSArray *nsTest4 = [nsElement1 nodesForXPath:@"quack[1]" error:nil];
+	NSArray *ddTest4 = [ddElement1 nodesForXPath:@"quack[1]" error:nil];
 	
 	NSAssert([nsTest4 count] == [ddTest4 count], @"Failed test 8");
+	
+	[pool release];
 }
 
 @end
