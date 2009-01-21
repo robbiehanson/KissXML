@@ -17,6 +17,7 @@
 		DC5442660E8F338300013051 /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5442650E8F338300013051 /* NSStringAdditions.m */; };
 		DC54426E0E8F33E100013051 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DC54426D0E8F33E100013051 /* AppDelegate.m */; };
 		DC5442710E8F340800013051 /* DDXMLTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5442700E8F340800013051 /* DDXMLTesting.m */; };
+		DC850DB80F26D50D008ACFD0 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DC850DB70F26D50D008ACFD0 /* DDXMLElementAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,8 @@
 		DC54426D0E8F33E100013051 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DC54426F0E8F340800013051 /* DDXMLTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLTesting.h; sourceTree = "<group>"; };
 		DC5442700E8F340800013051 /* DDXMLTesting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLTesting.m; sourceTree = "<group>"; };
+		DC850DB60F26D50D008ACFD0 /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
+		DC850DB70F26D50D008ACFD0 /* DDXMLElementAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElementAdditions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +151,7 @@
 				DC54425D0E8F336800013051 /* DDXMLNode.h */,
 				DC54425E0E8F336800013051 /* DDXMLNode.m */,
 				DC5442580E8F336800013051 /* DDXML.h */,
+				DC850DB50F26D4FD008ACFD0 /* Extras */,
 			);
 			name = DDXML;
 			sourceTree = "<group>";
@@ -167,6 +171,15 @@
 				DC5442670E8F339000013051 /* DDXMLPrivate.h */,
 			);
 			name = Private;
+			sourceTree = "<group>";
+		};
+		DC850DB50F26D4FD008ACFD0 /* Extras */ = {
+			isa = PBXGroup;
+			children = (
+				DC850DB60F26D50D008ACFD0 /* DDXMLElementAdditions.h */,
+				DC850DB70F26D50D008ACFD0 /* DDXMLElementAdditions.m */,
+			);
+			name = Extras;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +244,7 @@
 				DC5442660E8F338300013051 /* NSStringAdditions.m in Sources */,
 				DC54426E0E8F33E100013051 /* AppDelegate.m in Sources */,
 				DC5442710E8F340800013051 /* DDXMLTesting.m in Sources */,
+				DC850DB80F26D50D008ACFD0 /* DDXMLElementAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

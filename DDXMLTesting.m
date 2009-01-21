@@ -26,6 +26,7 @@
 + (void)testElements;
 + (void)testXPath;
 + (void)testNodesForXPath;
++ (void)testNSXMLBugs;
 @end
 
 @implementation DDXMLTesting
@@ -56,6 +57,7 @@
 	[self testElements];
 	[self testXPath];
 	[self testNodesForXPath];
+	[self testNSXMLBugs];
 
 	[self tearDown];
 }
@@ -369,13 +371,13 @@
 	
 	NSAssert([nsTest1 isEqualToString:ddTest1], @"Failed test 1");
 	
-//	NSLog(@"nsAttr prev: %@", [[nsAttr previousSibling] XMLString]);
-//	NSLog(@"nsAttr next: %@", [[nsAttr nextSibling] XMLString]);
-//	
-//	NSLog(@"ddAttr prev: %@", [[ddAttr previousSibling] XMLString]);
-//	NSLog(@"ddAttr next: %@", [[ddAttr nextSibling] XMLString]);
-//	
-//	Analysis: Ours works and theirs doesn't.  I see no need to cripple ours because of that.
+//	NSLog(@"nsAttr prev: %@", [[nsAttr previousSibling] XMLString]);  // nil
+//	NSLog(@"nsAttr next: %@", [[nsAttr nextSibling] XMLString]);      // nil
+	
+//	NSLog(@"ddAttr prev: %@", [[ddAttr previousSibling] XMLString]);  // sound="quack"
+//	NSLog(@"ddAttr next: %@", [[ddAttr nextSibling] XMLString]);      // flys="YES"
+	
+//	Analysis: DDXML works and NSXML doesn't. I see no need to cripple DDXML because of that.
 	
 	[pool release];
 }
@@ -1392,6 +1394,40 @@
 	NSArray *ddTest4 = [ddElement1 nodesForXPath:@"quack[1]" error:nil];
 	
 	NSAssert([nsTest4 count] == [ddTest4 count], @"Failed test 8");
+	
+	[pool release];
+}
+
++ (void)testNSXMLBugs
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	// <query xmlns="jabber:iq:private">
+	//   <x xmlns="some:other:namespace"></x>
+	// </query>
+	
+	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
+	[xmlStr appendString:@"<?xml version=\"1.0\"?>"];
+	[xmlStr appendString:@"<query xmlns=\"jabber:iq:private\">"];
+	[xmlStr appendString:@"  <x xmlns=\"some:other:namespace\"></x>"];
+	[xmlStr appendString:@"</query>"];
+	
+	NSXMLDocument *nsDoc = [[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	
+	NSArray *nsChildren = [[nsDoc rootElement] elementsForName:@"x"];
+	NSArray *ddChildren = [[ddDoc rootElement] elementsForName:@"x"];
+	
+	if([nsChildren count] > 0)
+	{
+		NSLog(@"Good news: Apple finally fixed that elementsForName: bug!");
+	}
+	
+	NSAssert([ddChildren count] == 1, @"Failed test 1");
+	
+	[nsDoc release];
+	[ddDoc release];
 	
 	[pool release];
 }
