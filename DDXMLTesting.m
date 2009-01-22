@@ -27,6 +27,7 @@
 + (void)testXPath;
 + (void)testNodesForXPath;
 + (void)testNSXMLBugs;
++ (void)testInsertChild;
 @end
 
 @implementation DDXMLTesting
@@ -58,6 +59,7 @@
 	[self testXPath];
 	[self testNodesForXPath];
 	[self testNSXMLBugs];
+	[self testInsertChild];
 
 	[self tearDown];
 }
@@ -1428,6 +1430,55 @@
 	
 	[nsDoc release];
 	[ddDoc release];
+	
+	[pool release];
+}
+
++ (void)testInsertChild
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSXMLElement *nsParent = [NSXMLElement elementWithName:@"parent"];
+	DDXMLElement *ddParent = [DDXMLElement elementWithName:@"parent"];
+	
+	NSXMLElement *nsChild2 = [NSXMLElement elementWithName:@"child2"];
+	DDXMLElement *ddChild2 = [DDXMLElement elementWithName:@"child2"];
+	
+	[nsParent insertChild:nsChild2 atIndex:0];
+	[ddParent insertChild:ddChild2 atIndex:0];
+	
+	NSAssert([[nsParent XMLString] isEqualToString:[ddParent XMLString]], @"Failed test 1");
+	
+	NSXMLElement *nsChild0 = [NSXMLElement elementWithName:@"child0"];
+	DDXMLElement *ddChild0 = [DDXMLElement elementWithName:@"child0"];
+	
+	[nsParent insertChild:nsChild0 atIndex:0];
+	[ddParent insertChild:ddChild0 atIndex:0];
+	
+	NSAssert([[nsParent XMLString] isEqualToString:[ddParent XMLString]], @"Failed test 2");
+	
+	NSXMLElement *nsChild1 = [NSXMLElement elementWithName:@"child1"];
+	DDXMLElement *ddChild1 = [DDXMLElement elementWithName:@"child1"];
+	
+	[nsParent insertChild:nsChild1 atIndex:1];
+	[ddParent insertChild:ddChild1 atIndex:1];
+	
+	NSAssert([[nsParent XMLString] isEqualToString:[ddParent XMLString]], @"Failed test 3");
+	
+	NSXMLElement *nsChild3 = [NSXMLElement elementWithName:@"child3"];
+	DDXMLElement *ddChild3 = [DDXMLElement elementWithName:@"child3"];
+	
+	[nsParent insertChild:nsChild3 atIndex:3];
+	[ddParent insertChild:ddChild3 atIndex:3];
+	
+	NSAssert([[nsParent XMLString] isEqualToString:[ddParent XMLString]], @"Failed test 4");
+	
+//	NSXMLElement *nsChild5 = [NSXMLElement elementWithName:@"child5"];
+//	DDXMLElement *ddChild5 = [DDXMLElement elementWithName:@"child5"];
+	
+//	[nsParent insertChild:nsChild5 atIndex:5];  // Exception - index (5) beyond bounds (5)
+//	[ddParent insertChild:ddChild5 atIndex:5];  // Exception - index (5) beyond bounds (5)
 	
 	[pool release];
 }
