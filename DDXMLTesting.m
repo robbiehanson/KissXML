@@ -1258,7 +1258,7 @@
 	}
 	
 	NSXMLElement *nsBeer = [[nsMenu elementsForName:@"beer"] objectAtIndex:0];
-	NSXMLElement *ddBeer = [[ddMenu elementsForName:@"beer"] objectAtIndex:0];
+	DDXMLElement *ddBeer = [[ddMenu elementsForName:@"beer"] objectAtIndex:0];
 	
 	NSArray *nsAttributes = [nsBeer attributes];
 	NSArray *ddAttributes = [ddBeer attributes];
