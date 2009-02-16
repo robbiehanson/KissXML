@@ -53,7 +53,7 @@ typedef struct _xmlRetain *xmlRetainPtr;
 + (void)removeChild:(xmlNodePtr)child fromNode:(xmlNodePtr)node;
 + (void)removeAllChildrenFromNode:(xmlNodePtr)node;
 
-+ (void)removeRootElementFromDoc:(xmlDocPtr)doc;
++ (void)removeAllChildrenFromDoc:(xmlDocPtr)doc;
 
 - (void)nodeRetain;
 - (void)nodeRelease;

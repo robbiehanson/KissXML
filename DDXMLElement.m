@@ -47,7 +47,7 @@
 {
 	if(nodePtr == NULL || nodePtr->type != XML_ELEMENT_NODE)
 	{
-		[super dealloc];
+		[self release];
 		return nil;
 	}
 	

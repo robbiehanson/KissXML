@@ -14,7 +14,7 @@
 {
 	if(nodePtr == NULL || nodePtr->type != XML_DOCUMENT_NODE)
 	{
-		[super dealloc];
+		[self release];
 		return nil;
 	}
 	
@@ -45,7 +45,7 @@
 	{
 		if(error) *error = [NSError errorWithDomain:@"DDXMLErrorDomain" code:0 userInfo:nil];
 		
-		[super dealloc];
+		[self release];
 		return nil;
 	}
 	
@@ -54,7 +54,7 @@
 	{
 		if(error) *error = [NSError errorWithDomain:@"DDXMLErrorDomain" code:1 userInfo:nil];
 		
-		[super dealloc];
+		[self release];
 		return nil;
 	}
 	
@@ -66,12 +66,16 @@
 **/
 - (DDXMLElement *)rootElement
 {
-	xmlDocPtr docPtr = (xmlDocPtr)genericPtr;
+	xmlDocPtr doc = (xmlDocPtr)genericPtr;
 	
-	if(docPtr->children == NULL)
-		return nil;
+	// doc->children is a list containing possibly comments, DTDs, etc...
+	
+	xmlNodePtr rootNode = xmlDocGetRootElement(doc);
+	
+	if(rootNode != NULL)
+		return [DDXMLElement nodeWithPrimitive:(xmlKindPtr)(rootNode)];
 	else
-		return [DDXMLElement nodeWithPrimitive:(xmlKindPtr)(docPtr->children)];
+		return nil;
 }
 
 - (NSData *)XMLData

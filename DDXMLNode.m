@@ -115,7 +115,7 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	if(nodePtr == NULL)
 	{
-		[super dealloc];
+		[self release];
 		return nil;
 	}
 	
@@ -152,7 +152,7 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	if(nodePtr == NULL)
 	{
-		[super dealloc];
+		[self release];
 		return nil;
 	}
 	
@@ -183,7 +183,7 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 - (void)dealloc
 {
 	// Check if genericPtr is NULL
-	// This may be the case if, eg, DDXMLElement calls [super dealloc] from it's init method
+	// This may be the case if, eg, DDXMLElement calls [self release] from it's init method
 	if(genericPtr != NULL)
 	{
 		[self nodeRelease];
@@ -1615,10 +1615,45 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 /**
  * Removes the root element from the given document.
 **/
-+ (void)removeRootElementFromDoc:(xmlDocPtr)doc
++ (void)removeAllChildrenFromDoc:(xmlDocPtr)doc
 {
-	// It's safe to cast a xmlDocPtr to a xmlNodePtr in this particular case
-	[self removeAllChildrenFromNode:(xmlNodePtr)doc];
+	xmlNodePtr child = doc->children;
+	
+	while(child != NULL)
+	{
+		xmlNodePtr nextChild = child->next;
+		
+		if(child->type == XML_ELEMENT_NODE)
+		{
+			// Remove child from list of children
+			if(child->prev != NULL)
+			{
+				child->prev->next = child->next;
+			}
+			if(child->next != NULL)
+			{
+				child->next->prev = child->prev;
+			}
+			if(doc->children == child)
+			{
+				doc->children = child->next;
+			}
+			if(doc->last == child)
+			{
+				doc->last = child->prev;
+			}
+			
+			// Free the child recursively if it's no longer in use
+			[self nodeFree:child];
+		}
+		else
+		{
+			// Leave comments and DTD's embedded in the doc's child list.
+			// They will get freed in xmlFreeDoc.
+		}
+		
+		child = nextChild;
+	}
 }
 
 /**
@@ -1734,7 +1769,7 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 				}
 				else if([self isXmlDocPtr])
 				{
-					[[self class] removeRootElementFromDoc:(xmlDocPtr)genericPtr];
+					[[self class] removeAllChildrenFromDoc:(xmlDocPtr)genericPtr];
 					xmlFreeDoc((xmlDocPtr)genericPtr);
 				}
 				else
