@@ -28,6 +28,7 @@
 + (void)testNodesForXPath;
 + (void)testNSXMLBugs;
 + (void)testInsertChild;
++ (void)testElementSerialization;
 @end
 
 @implementation DDXMLTesting
@@ -60,6 +61,7 @@
 	[self testNodesForXPath];
 	[self testNSXMLBugs];
 	[self testInsertChild];
+	[self testElementSerialization];
 
 	[self tearDown];
 }
@@ -1479,6 +1481,29 @@
 	
 //	[nsParent insertChild:nsChild5 atIndex:5];  // Exception - index (5) beyond bounds (5)
 //	[ddParent insertChild:ddChild5 atIndex:5];  // Exception - index (5) beyond bounds (5)
+	
+	[pool release];
+}
+
++ (void)testElementSerialization
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSString *str = @"<soup spicy=\"no\">chicken noodle</soup>";
+	NSError *err;
+	
+	err = nil;
+	NSXMLElement *nse = [[[NSXMLElement alloc] initWithXMLString:str error:&err] autorelease];
+	
+	NSAssert((nse != nil) && (err == nil), @"Failed CHECK 1");
+	
+	err = nil;
+	DDXMLElement *dde = [[[DDXMLElement alloc] initWithXMLString:str error:&err] autorelease];
+	
+	NSAssert((dde != nil) && (err == nil), @"Failed test 1");
+	
+	NSAssert([[nse XMLString] isEqualToString:[dde XMLString]], @"Failed test 2");
 	
 	[pool release];
 }
