@@ -35,6 +35,8 @@
 
 + (void)performTests
 {
+	NSDate *start = [NSDate date];
+	
 	[self setUp];
 	
 	[self testLocalName];
@@ -64,6 +66,9 @@
 	[self testElementSerialization];
 
 	[self tearDown];
+	
+	NSTimeInterval ellapsed = [start timeIntervalSinceNow] * -1.0;
+	NSLog(@"Testing took %f seconds", ellapsed);
 }
 
 + (void)setUp
@@ -299,8 +304,8 @@
 	
 	NSAssert([nsTest2 isEqualToString:ddTest2], @"Failed test 2");
 	
-	NSXMLElement *nsAttr = [NSXMLElement attributeWithName:@"duck" URI:@"quack.com" stringValue:@"quack"];
-	DDXMLElement *ddAttr = [DDXMLElement attributeWithName:@"duck" URI:@"quack.com" stringValue:@"quack"];
+	NSXMLNode *nsAttr = [NSXMLNode attributeWithName:@"duck" URI:@"quack.com" stringValue:@"quack"];
+	DDXMLNode *ddAttr = [DDXMLNode attributeWithName:@"duck" URI:@"quack.com" stringValue:@"quack"];
 	
 	NSString *nsTest3 = [nsAttr URI];
 	NSString *ddTest3 = [ddAttr URI];
