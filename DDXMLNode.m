@@ -318,7 +318,7 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 	{
 		xmlNsPtr copyNsPtr = xmlCopyNamespace((xmlNsPtr)genericPtr);
 		
-		return [[DDXMLNode alloc] initWithUncheckedPrimitive:(xmlKindPtr)copyNsPtr nsParent:nil];
+		return [[DDXMLNode alloc] initWithUncheckedPrimitive:(xmlKindPtr)copyNsPtr nsParent:NULL];
 	}
 	
 	if([self isXmlDtdPtr])
@@ -1076,8 +1076,8 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 	}
 	else
 	{
-		NSMutableString *result = [NSMutableString stringWithUTF8String:(const char *)bufferPtr->content];
-		CFStringTrimWhitespace((CFMutableStringRef)result);
+		NSMutableString *resTmp = [NSMutableString stringWithUTF8String:(const char *)bufferPtr->content];
+		NSString *result = [resTmp stringByTrimming];
 		
 		xmlBufferFree(bufferPtr);
 		
@@ -1811,7 +1811,7 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 		[lastErrorValue getValue:&lastError];
 		
 		int errCode = lastError.code;
-		NSString *errMsg = [[NSString stringWithFormat:@"%s", lastError.message] trimWhitespace];
+		NSString *errMsg = [[NSString stringWithFormat:@"%s", lastError.message] stringByTrimming];
 		
 		NSDictionary *info = [NSDictionary dictionaryWithObject:errMsg forKey:NSLocalizedDescriptionKey];
 			
