@@ -29,6 +29,7 @@
 + (void)testNSXMLBugs;
 + (void)testInsertChild;
 + (void)testElementSerialization;
++ (void)testAttributeWithColonInName;
 @end
 
 @implementation DDXMLTesting
@@ -64,6 +65,7 @@
 	[self testNSXMLBugs];
 	[self testInsertChild];
 	[self testElementSerialization];
+	[self testAttributeWithColonInName];
 
 	[self tearDown];
 	
@@ -1509,6 +1511,25 @@
 	NSAssert((dde != nil) && (err == nil), @"Failed test 1");
 	
 	NSAssert([[nse XMLString] isEqualToString:[dde XMLString]], @"Failed test 2");
+	
+	[pool release];
+}
+
++ (void)testAttributeWithColonInName
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSString *str = @"<artist name='Jay-Z' xml:pimp='yes' />";
+	
+	NSXMLDocument *nsDoc = [[[NSXMLDocument alloc] initWithXMLString:str options:0 error:nil] autorelease];
+	DDXMLDocument *ddDoc = [[[DDXMLDocument alloc] initWithXMLString:str options:0 error:nil] autorelease];
+	
+	NSXMLNode *nsa = [[nsDoc rootElement] attributeForName:@"xml:pimp"];
+	DDXMLNode *dda = [[ddDoc rootElement] attributeForName:@"xml:pimp"];
+	
+	NSAssert(nsa != nil, @"Failed CHECK 1");
+	NSAssert(dda != nil, @"Failed test 1");
 	
 	[pool release];
 }
