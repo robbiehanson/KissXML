@@ -10,6 +10,7 @@
 + (void)testNsGeneral;
 + (void)testNsLevel;
 + (void)testNsURI;
++ (void)testAddAttr;
 + (void)testAttrGeneral;
 + (void)testAttrSiblings;
 + (void)testAttrDocOrder;
@@ -46,6 +47,7 @@
 	[self testNsGeneral];
 	[self testNsLevel];
 	[self testNsURI];
+	[self testAddAttr];
 	[self testAttrGeneral];
 	[self testAttrSiblings];
 	[self testAttrDocOrder];
@@ -121,7 +123,7 @@
 	
 	NSAssert([nsTest6 isEqualToString:ddTest6], @"Failed test 6");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testPrefixName
@@ -162,7 +164,7 @@
 	
 	NSAssert([nsTest6 isEqualToString:ddTest6], @"Failed test 6");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testDoubleAdd
@@ -210,7 +212,7 @@
 //	[ddRoot1 addNamespace:ddNs];
 //	[ddRoot2 addNamespace:ddNs]; // Cannot add a namespace with a parent; detach or copy first
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testNsGeneral
@@ -242,7 +244,7 @@
 	
 	NSAssert([nsTest3 isEqualToString:ddTest3], @"Failed test 3");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testNsLevel
@@ -282,7 +284,7 @@
 	NSAssert([nsNs1 level] == [ddNs1 level], @"Failed test 5");
 	NSAssert([nsNs2 level] == [ddNs2 level], @"Failed test 6");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testNsURI
@@ -322,7 +324,57 @@
 	
 	NSAssert([nsTest4 isEqualToString:ddTest4], @"Failed test 4");
 	
-	[pool release];
+	[pool drain];
+}
+
++ (void)testAddAttr
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSXMLElement *nsNode = [NSXMLElement elementWithName:@"song"];
+	DDXMLElement *ddNode = [DDXMLElement elementWithName:@"song"];
+	
+	NSXMLNode *nsAttr1 = [NSXMLNode attributeWithName:@"artist" stringValue:@"John Mayer"];
+	DDXMLNode *ddAttr1 = [DDXMLNode attributeWithName:@"artist" stringValue:@"John Mayer"];
+	
+	[nsNode addAttribute:nsAttr1];
+	[ddNode addAttribute:ddAttr1];
+	
+	NSAssert([nsNode attributeForName:@"artist"] == nsAttr1, @"Failed CHECK 1");
+	NSAssert([ddNode attributeForName:@"artist"] == ddAttr1, @"Failed test 1");
+	
+	NSXMLNode *nsAttr2 = [NSXMLNode attributeWithName:@"artist" stringValue:@"Paramore"];
+	DDXMLNode *ddAttr2 = [DDXMLNode attributeWithName:@"artist" stringValue:@"Paramore"];
+	
+	[nsNode addAttribute:nsAttr2];
+	[ddNode addAttribute:ddAttr2];
+	
+	// The documentation for NSXMLElement's addAttribute: method says this:
+	// 
+	// "If the receiver already has an attribute with the same name, anAttribute is not added."
+	// 
+	// However, this is NOT the case.
+	// If the receiver already has an attribute with the same name, the previous attribute is replaced.
+	// 
+	// We match the functionality rather than the documentation.
+	
+	NSAssert([nsNode attributeForName:@"artist"] == nsAttr2, @"Failed CHECK 2");
+	NSAssert([ddNode attributeForName:@"artist"] == ddAttr2, @"Failed test 2");
+	
+	[nsNode removeAttributeForName:@"artist"];
+	[ddNode removeAttributeForName:@"artist"];
+	
+	NSAssert([nsNode attributeForName:@"artist"] == nil, @"Failed CHECK 3");
+	NSAssert([ddNode attributeForName:@"artist"] == nil, @"Failed test 3");
+	
+	[nsNode addAttribute:nsAttr2];
+	[ddNode addAttribute:ddAttr2];
+	
+	NSAssert([nsNode attributeForName:@"artist"] == nsAttr2, @"Failed CHECK 4");
+	NSAssert([ddNode attributeForName:@"artist"] == ddAttr2, @"Failed test 4");
+	
+	[pool drain];
 }
 
 + (void)testAttrGeneral
@@ -354,7 +406,7 @@
 	
 	NSAssert([nsStr3 isEqualToString:ddStr3], @"Failed test 3");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testAttrSiblings
@@ -390,7 +442,7 @@
 	
 //	Analysis: DDXML works and NSXML doesn't. I see no need to cripple DDXML because of that.
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testAttrDocOrder
@@ -425,7 +477,7 @@
 	
 	// Notes: Attributes play no part in the document order.
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testAttrChildren
@@ -454,7 +506,7 @@
 	// Notes: Attributes aren't supposed to have children, although in libxml they technically do.
 	// The child is simply a pointer to a text node, which contains the attribute value.
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testString
@@ -559,7 +611,7 @@
 //  
 //  The DDXML version is actually more accurate, so we'll accept the difference.
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testChildren
@@ -594,7 +646,7 @@
 	
 	NSAssert([nsBeer isEqualToString:ddBeer], @"Failed test 3");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testPreviousNextNode1
@@ -689,7 +741,7 @@
 	
 	NSAssert2((!nsTest7 && !ddTest7), @"Failed test 7: ns(%@) dd(%@)", nsTest7, ddTest7);
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testPreviousNextNode2
@@ -769,7 +821,7 @@
 	
 	NSAssert2((!nsTest7 && !ddTest7), @"Failed test 7: ns(%@) dd(%@)", nsTest7, ddTest7);
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testPrefix
@@ -814,7 +866,7 @@
 	
 	NSAssert([nsTest4 isEqualToString:ddTest4], @"Failed test 4");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testURI
@@ -945,7 +997,7 @@
 	
 	NSAssert(nsTest13 == ddTest13, @"Failed test 13");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testXmlns
@@ -1035,7 +1087,7 @@
 	
 	NSAssert(nsTest9 == ddTest9, @"Failed test 9");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testCopy
@@ -1132,7 +1184,7 @@
 	NSAssert([ddAttrValue isEqualToString:@"4"], @"Failed test 9");
 	NSAssert([ddAttrCopyValue isEqualToString:@"5"], @"Failed test 10");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testCData
@@ -1161,7 +1213,7 @@
 	
 	[ddDoc release];
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testElements
@@ -1209,7 +1261,7 @@
 	}
 	[ddDoc release];
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testXPath
@@ -1324,7 +1376,7 @@
 	
 	NSAssert([[nsAttr XPath] isEqualToString:[ddAttr XPath]], @"Failed test 8");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testNodesForXPath
@@ -1406,7 +1458,7 @@
 	
 	NSAssert([nsTest4 count] == [ddTest4 count], @"Failed test 8");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testNSXMLBugs
@@ -1440,7 +1492,7 @@
 	[nsDoc release];
 	[ddDoc release];
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testInsertChild
@@ -1489,7 +1541,7 @@
 //	[nsParent insertChild:nsChild5 atIndex:5];  // Exception - index (5) beyond bounds (5)
 //	[ddParent insertChild:ddChild5 atIndex:5];  // Exception - index (5) beyond bounds (5)
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testElementSerialization
@@ -1512,7 +1564,7 @@
 	
 	NSAssert([[nse XMLString] isEqualToString:[dde XMLString]], @"Failed test 2");
 	
-	[pool release];
+	[pool drain];
 }
 
 + (void)testAttributeWithColonInName
@@ -1531,7 +1583,7 @@
 	NSAssert(nsa != nil, @"Failed CHECK 1");
 	NSAssert(dda != nil, @"Failed test 1");
 	
-	[pool release];
+	[pool drain];
 }
 
 @end

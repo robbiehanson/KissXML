@@ -217,18 +217,36 @@
 #pragma mark Attributes
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+- (BOOL)hasAttributeWithName:(NSString *)name
+{
+	// If we use xmlUnsetProp, then the attribute will be automatically freed.
+	// We don't want this unless no other wrapper objects have a reference to the property.
+	
+	xmlAttrPtr attr = ((xmlNodePtr)genericPtr)->properties;
+	while(attr != NULL)
+	{
+		if(xmlStrEqual(attr->name, [name xmlChar]))
+		{
+			return YES;
+		}
+		attr = attr->next;
+	}
+	
+	return NO;
+}
+
 - (void)addAttribute:(DDXMLNode *)attribute
 {
 	// NSXML version uses this same assertion
 	DDCheck([attribute hasParent] == NO, @"Cannot add an attribute with a parent; detach or copy first");
 	DDCheck([attribute isXmlAttrPtr], @"Not an attribute");
 	
+	[self removeAttributeForName:[attribute name]];
+	
 	// xmlNodePtr xmlAddChild(xmlNodePtr parent, xmlNodePtr cur)
 	// Add a new node to @parent, at the end of the child (or property) list merging
 	// adjacent TEXT nodes (in which case @cur is freed). If the new node is ATTRIBUTE, it is added
 	// into properties instead of children. If there is an attribute with equal name, it is first destroyed.
-	
-	[self removeAttributeForName:[attribute name]];
 	
 	xmlAddChild((xmlNodePtr)genericPtr, (xmlNodePtr)attribute->genericPtr);
 }
