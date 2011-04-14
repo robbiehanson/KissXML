@@ -628,8 +628,8 @@
 	[xmlStr appendString:@" <!-- budweiser -->"];
 	[xmlStr appendString:@"</beers>           "];
 	
-	NSXMLDocument *nsDoc = [[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
-	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	NSXMLDocument *nsDoc = [[[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil] autorelease];
+	DDXMLDocument *ddDoc = [[[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil] autorelease];
 	
 	NSUInteger nsChildCount = [[nsDoc rootElement] childCount];
 	NSUInteger ddChildCount = [[ddDoc rootElement] childCount];
@@ -765,8 +765,8 @@
 	[xmlStr appendString:@"  </crust>      "];
 	[xmlStr appendString:@"</pizza>        "];
 	
-	NSXMLDocument *nsDoc = [[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
-	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	NSXMLDocument *nsDoc = [[[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil] autorelease];
+	DDXMLDocument *ddDoc = [[[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil] autorelease];
 	
 	NSXMLNode *nsNode0 = [nsDoc rootElement]; // pizza
 	DDXMLNode *ddNode0 = [ddDoc rootElement]; // pizza
@@ -1008,10 +1008,10 @@
 	NSString *parseMe = @"<query xmlns=\"jabber:iq:roster\"></query>";
 	NSData *data = [parseMe dataUsingEncoding:NSUTF8StringEncoding];
 	
-	NSXMLDocument *nsDoc = [[NSXMLDocument alloc] initWithData:data options:0 error:nil];
+	NSXMLDocument *nsDoc = [[[NSXMLDocument alloc] initWithData:data options:0 error:nil] autorelease];
 	NSXMLElement *nsRootElement = [nsDoc rootElement];
 	
-	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithData:data options:0 error:nil];
+	DDXMLDocument *ddDoc = [[[DDXMLDocument alloc] initWithData:data options:0 error:nil] autorelease];
 	DDXMLElement *ddRootElement = [ddDoc rootElement];
 	
 	// Both URI and namespaceForPrefix:@"" should return "jabber:iq:roster"
