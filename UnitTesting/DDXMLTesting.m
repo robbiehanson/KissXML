@@ -1,6 +1,17 @@
 #import "DDXMLTesting.h"
 #import "DDXML.h"
 
+@interface DDAssertionHandler : NSAssertionHandler
+{
+	BOOL shouldLogAssertionFailure;
+}
+
+@property (nonatomic, readwrite, assign) BOOL shouldLogAssertionFailure;
+
+@end
+
+#pragma mark -
+
 @interface DDXMLTesting (Tests)
 + (void)setUp;
 + (void)tearDown;
@@ -33,7 +44,12 @@
 + (void)testAttributeWithColonInName;
 @end
 
+#pragma mark -
+
 @implementation DDXMLTesting
+
+static NSAssertionHandler *prevAssertionHandler;
+static DDAssertionHandler *ddAssertionHandler;
 
 + (void)performTests
 {
@@ -77,12 +93,51 @@
 
 + (void)setUp
 {
-	// Reserved for future use
+	// We purposefully do bad things to ensure the library is throwing exceptions when it should.
+	// In other words, DDXML uses the same assertions as NSXML, and we test they both throw the same exceptions
+	// on bad input.
+	// 
+	// But the normal assertion handler does an NSLog for every failed assertion,
+	// even if that assertion is caught. This clogs up our console and makes it difficult to see test cases
+	// that failed. So we install our own assertion handler, and disable logging of failed assertions immediately
+	// before we enter those tests designed to trigger the assertion.
+	// And of course we re-enable the assertion logging when we exit those tests.
+	// 
+	// See the tryCatch method below.
+	
+	prevAssertionHandler = [[[[NSThread currentThread] threadDictionary] objectForKey:NSAssertionHandlerKey] retain];
+	ddAssertionHandler = [[DDAssertionHandler alloc] init];
+	
+	[[[NSThread currentThread] threadDictionary] setObject:ddAssertionHandler forKey:NSAssertionHandlerKey];
 }
 
 + (void)tearDown
 {
-	// Reserved for future use
+	// Remove our custom assertion handler.
+	
+	if (prevAssertionHandler)
+		[[[NSThread currentThread] threadDictionary] setObject:ddAssertionHandler forKey:NSAssertionHandlerKey];
+	else
+		[[[NSThread currentThread] threadDictionary] removeObjectForKey:NSAssertionHandlerKey];
+	
+	[prevAssertionHandler release]; prevAssertionHandler = nil;
+	[ddAssertionHandler release]; ddAssertionHandler = nil;
+}
+
++ (NSException *)tryCatch:(void (^)())block
+{
+	NSException *result = nil;
+	
+	ddAssertionHandler.shouldLogAssertionFailure = NO;
+	@try {
+		block();
+	}
+	@catch (NSException *e) {
+		result = e;
+	}
+	ddAssertionHandler.shouldLogAssertionFailure = YES;
+	
+	return result;
 }
 
 + (void)testLocalName
@@ -172,45 +227,117 @@
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
-//	NSXMLElement *nsRoot1 = [NSXMLElement elementWithName:@"root1"];
-//	NSXMLElement *nsRoot2 = [NSXMLElement elementWithName:@"root2"];
+	NSXMLElement *nsRoot1 = [NSXMLElement elementWithName:@"root1"];
+	NSXMLElement *nsRoot2 = [NSXMLElement elementWithName:@"root2"];
 	
-//	NSXMLElement *nsNode = [NSXMLElement elementWithName:@"node"];
-//	NSXMLNode *nsAttr = [NSXMLNode attributeWithName:@"key" stringValue:@"value"];
-//	NSXMLNode *nsNs = [NSXMLNode namespaceWithName:@"a" stringValue:@"domain.com"];
+	NSXMLElement *nsNode = [NSXMLElement elementWithName:@"node"];
+	NSXMLNode *nsAttr = [NSXMLNode attributeWithName:@"key" stringValue:@"value"];
+	NSXMLNode *nsNs = [NSXMLNode namespaceWithName:@"a" stringValue:@"domain.com"];
 	
-//	[nsRoot1 addChild:nsAttr]; // Elements can only have text, elements, processing instructions, and comments as children
-//	[nsRoot1 addAttribute:nsNode]; // Not an attribute
-//	[nsRoot1 addNamespace:nsNode]; // Not a namespace
+	NSException *nsInvalidAddException1 = nil;
+	NSException *nsInvalidAddException2 = nil;
+	NSException *nsInvalidAddException3 = nil;
 	
-//	[nsRoot1 addChild:nsNode];
-//	[nsRoot2 addChild:nsNode]; // Cannot add a child that has a parent; detach or copy first
+	NSException *nsDoubleAddException1 = nil;
+	NSException *nsDoubleAddException2 = nil;
+	NSException *nsDoubleAddException3 = nil;
 	
-//	[nsRoot1 addAttribute:nsAttr];
-//	[nsRoot2 addAttribute:nsAttr]; // Cannot add an attribute with a parent; detach or copy first
+	nsInvalidAddException1 = [self tryCatch:^{
+		// Elements can only have text, elements, processing instructions, and comments as children
+		[nsRoot1 addChild:nsAttr];
+	}];
 	
-//	[nsRoot1 addNamespace:nsNs];
-//	[nsRoot2 addNamespace:nsNs]; // Cannot add a namespace with a parent; detach or copy first
+	nsInvalidAddException2 = [self tryCatch:^{
+		// Not an attribute
+		[nsRoot1 addAttribute:nsNode];
+	}];
 	
-//	DDXMLElement *ddRoot1 = [DDXMLElement elementWithName:@"root1"];
-//	DDXMLElement *ddRoot2 = [DDXMLElement elementWithName:@"root2"];
+	nsInvalidAddException3 = [self tryCatch:^{
+		// Not a namespace
+		[nsRoot1 addNamespace:nsNode];
+	}];
 	
-//	DDXMLElement *ddNode = [DDXMLElement elementWithName:@"node"];
-//	DDXMLNode *ddAttr = [DDXMLNode attributeWithName:@"key" stringValue:@"value"];
-//	DDXMLNode *ddNs = [DDXMLNode namespaceWithName:@"a" stringValue:@"domain.com"];
+	[nsRoot1 addChild:nsNode];
+	nsDoubleAddException1 = [self tryCatch:^{
+		// Cannot add a child that has a parent; detach or copy first
+		[nsRoot2 addChild:nsNode]; 
+	}];
 	
-//	[ddRoot1 addChild:ddAttr]; // Elements can only have text, elements, processing instructions, and comments as children
-//	[ddRoot1 addAttribute:ddNode]; // Not an attribute
-//	[ddRoot1 addNamespace:ddNode]; // Not a namespace
+	[nsRoot1 addAttribute:nsAttr];
+	nsDoubleAddException2 = [self tryCatch:^{
+		// Cannot add an attribute with a parent; detach or copy first
+		[nsRoot2 addAttribute:nsAttr];
+	}];
 	
-//	[ddRoot1 addChild:ddNode];
-//	[ddRoot2 addChild:ddNode]; // Cannot add a child that has a parent; detach or copy first
+	[nsRoot1 addNamespace:nsNs];
+	nsDoubleAddException3 = [self tryCatch:^{
+		// Cannot add a namespace with a parent; detach or copy first
+		[nsRoot2 addNamespace:nsNs];
+	}];
 	
-//	[ddRoot1 addAttribute:ddAttr];
-//	[ddRoot2 addAttribute:ddAttr]; // Cannot add an attribute with a parent; detach or copy first
+	NSAssert(nsInvalidAddException1 != nil, @"Failed CHECK 1");
+	NSAssert(nsInvalidAddException2 != nil, @"Failed CHECK 2");
+	NSAssert(nsInvalidAddException3 != nil, @"Failed CHECK 3");
 	
-//	[ddRoot1 addNamespace:ddNs];
-//	[ddRoot2 addNamespace:ddNs]; // Cannot add a namespace with a parent; detach or copy first
+	NSAssert(nsDoubleAddException1 != nil, @"Failed CHECK 4");
+	NSAssert(nsDoubleAddException2 != nil, @"Failed CHECK 5");
+	NSAssert(nsDoubleAddException3 != nil, @"Failed CHECK 6");
+	
+	DDXMLElement *ddRoot1 = [DDXMLElement elementWithName:@"root1"];
+	DDXMLElement *ddRoot2 = [DDXMLElement elementWithName:@"root2"];
+	
+	DDXMLElement *ddNode = [DDXMLElement elementWithName:@"node"];
+	DDXMLNode *ddAttr = [DDXMLNode attributeWithName:@"key" stringValue:@"value"];
+	DDXMLNode *ddNs = [DDXMLNode namespaceWithName:@"a" stringValue:@"domain.com"];
+	
+	NSException *ddInvalidAddException1 = nil;
+	NSException *ddInvalidAddException2 = nil;
+	NSException *ddInvalidAddException3 = nil;
+	
+	NSException *ddDoubleAddException1 = nil;
+	NSException *ddDoubleAddException2 = nil;
+	NSException *ddDoubleAddException3 = nil;
+	
+	ddInvalidAddException1 = [self tryCatch:^{
+		// Elements can only have text, elements, processing instructions, and comments as children
+		[ddRoot1 addChild:ddAttr];
+	}];
+	
+	ddInvalidAddException2 = [self tryCatch:^{
+		// Not an attribute
+		[ddRoot1 addAttribute:ddNode];
+	}];
+	
+	ddInvalidAddException3 = [self tryCatch:^{
+		// Not a namespace
+		[ddRoot1 addNamespace:ddNode];
+	}];
+	
+	[ddRoot1 addChild:ddNode];
+	ddDoubleAddException1 = [self tryCatch:^{
+		// Cannot add a child that has a parent; detach or copy first
+		[ddRoot2 addChild:ddNode];
+	}];
+	
+	[ddRoot1 addAttribute:ddAttr];
+	ddDoubleAddException2 = [self tryCatch:^{
+		// Cannot add an attribute with a parent; detach or copy first
+		[ddRoot2 addAttribute:ddAttr];
+	}];
+	
+	[ddRoot1 addNamespace:ddNs];
+	ddDoubleAddException3 = [self tryCatch:^{
+		// Cannot add a namespace with a parent; detach or copy first
+		[ddRoot2 addNamespace:ddNs];
+	}];
+	
+	NSAssert(nsInvalidAddException1 != nil, @"Failed test 1");
+	NSAssert(nsInvalidAddException2 != nil, @"Failed test 2");
+	NSAssert(nsInvalidAddException3 != nil, @"Failed test 3");
+	
+	NSAssert(nsDoubleAddException1 != nil, @"Failed test 4");
+	NSAssert(nsDoubleAddException2 != nil, @"Failed test 5");
+	NSAssert(nsDoubleAddException3 != nil, @"Failed test 6");
 	
 	[pool drain];
 }
@@ -332,20 +459,33 @@
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
+	NSString *attrName  = @"artist";
+	
 	NSXMLElement *nsNode = [NSXMLElement elementWithName:@"song"];
 	DDXMLElement *ddNode = [DDXMLElement elementWithName:@"song"];
 	
-	NSXMLNode *nsAttr1 = [NSXMLNode attributeWithName:@"artist" stringValue:@"John Mayer"];
-	DDXMLNode *ddAttr1 = [DDXMLNode attributeWithName:@"artist" stringValue:@"John Mayer"];
+	// Test adding an attribute
+	
+	NSString *attrValue1 = @"John Mayer";
+	
+	NSXMLNode *nsAttr1 = [NSXMLNode attributeWithName:attrName stringValue:attrValue1];
+	DDXMLNode *ddAttr1 = [DDXMLNode attributeWithName:attrName stringValue:attrValue1];
 	
 	[nsNode addAttribute:nsAttr1];
 	[ddNode addAttribute:ddAttr1];
 	
-	NSAssert([nsNode attributeForName:@"artist"] == nsAttr1, @"Failed CHECK 1");
-	NSAssert([ddNode attributeForName:@"artist"] == ddAttr1, @"Failed test 1");
+	NSString *nsAttrValue1 = [[nsNode attributeForName:attrName] stringValue];
+	NSString *ddAttrValue1 = [[ddNode attributeForName:attrName] stringValue];
 	
-	NSXMLNode *nsAttr2 = [NSXMLNode attributeWithName:@"artist" stringValue:@"Paramore"];
-	DDXMLNode *ddAttr2 = [DDXMLNode attributeWithName:@"artist" stringValue:@"Paramore"];
+	NSAssert([nsAttrValue1 isEqualToString:attrValue1], @"Failed CHECK 1");
+	NSAssert([ddAttrValue1 isEqualToString:attrValue1], @"Failed test 1");
+	
+	// Test replacing an attribute
+	
+	NSString *attrValue2 = @"Paramore";
+	
+	NSXMLNode *nsAttr2 = [NSXMLNode attributeWithName:attrName stringValue:attrValue2];
+	DDXMLNode *ddAttr2 = [DDXMLNode attributeWithName:attrName stringValue:attrValue2];
 	
 	[nsNode addAttribute:nsAttr2];
 	[ddNode addAttribute:ddAttr2];
@@ -357,22 +497,57 @@
 	// However, this is NOT the case.
 	// If the receiver already has an attribute with the same name, the previous attribute is replaced.
 	// 
+	// Considering the fact that the API does NOT contain a setAttribute method,
+	// I believe this should be the desired functionality.
+	// 
 	// We match the functionality rather than the documentation.
 	
-	NSAssert([nsNode attributeForName:@"artist"] == nsAttr2, @"Failed CHECK 2");
-	NSAssert([ddNode attributeForName:@"artist"] == ddAttr2, @"Failed test 2");
+	NSString *nsAttrValue2 = [[nsNode attributeForName:attrName] stringValue];
+	NSString *ddAttrValue2 = [[ddNode attributeForName:attrName] stringValue];
 	
-	[nsNode removeAttributeForName:@"artist"];
-	[ddNode removeAttributeForName:@"artist"];
+	NSAssert([nsAttrValue2 isEqualToString:attrValue2], @"Failed CHECK 2");
+	NSAssert([ddAttrValue2 isEqualToString:attrValue2], @"Failed test 2");
 	
-	NSAssert([nsNode attributeForName:@"artist"] == nil, @"Failed CHECK 3");
-	NSAssert([ddNode attributeForName:@"artist"] == nil, @"Failed test 3");
+	// Test removing an attribute
 	
-	[nsNode addAttribute:nsAttr2];
-	[ddNode addAttribute:ddAttr2];
+	[nsNode removeAttributeForName:attrName];
+	[ddNode removeAttributeForName:attrName];
 	
-	NSAssert([nsNode attributeForName:@"artist"] == nsAttr2, @"Failed CHECK 4");
-	NSAssert([ddNode attributeForName:@"artist"] == ddAttr2, @"Failed test 4");
+	NSAssert([nsNode attributeForName:attrName] == nil, @"Failed CHECK 3");
+	NSAssert([ddNode attributeForName:attrName] == nil, @"Failed test 3");
+	
+	// Test detaching an attribute
+	
+	NSString *attrValue3 = @"Katy Perry";
+	
+	NSXMLNode *nsAttr3 = [NSXMLNode attributeWithName:attrName stringValue:attrValue3];
+	DDXMLNode *ddAttr3 = [DDXMLNode attributeWithName:attrName stringValue:attrValue3];
+	
+	[nsNode addAttribute:nsAttr3];
+	[ddNode addAttribute:ddAttr3];
+	
+	NSString *nsAttrValue3 = [[nsNode attributeForName:attrName] stringValue];
+	NSString *ddAttrValue3 = [[ddNode attributeForName:attrName] stringValue];
+	
+	NSAssert([nsAttrValue3 isEqualToString:attrValue3], @"Failed CHECK 4");
+	NSAssert([ddAttrValue3 isEqualToString:attrValue3], @"Failed test 4");
+	
+	[nsAttr3 detach];
+	[ddAttr3 detach];
+	
+	NSAssert([nsNode attributeForName:attrName] == nil, @"Failed CHECK 5");
+	NSAssert([ddNode attributeForName:attrName] == nil, @"Failed test 5");
+	
+	// Test reattaching an attribute
+	
+	[nsNode addAttribute:nsAttr3];
+	[ddNode addAttribute:ddAttr3];
+	
+	nsAttrValue3 = [[nsNode attributeForName:attrName] stringValue];
+	ddAttrValue3 = [[ddNode attributeForName:attrName] stringValue];
+	
+	NSAssert([nsAttrValue3 isEqualToString:attrValue3], @"Failed CHECK 6");
+	NSAssert([ddAttrValue3 isEqualToString:attrValue3], @"Failed test 6");
 	
 	[pool drain];
 }
@@ -607,7 +782,7 @@
 //	NSString *nsTest5 = [nsNode0 XMLString];  // Returns "<pizza>&lt;wtf>ESCAPE&lt;/wtf></pizza>"
 //	NSString *ddTest5 = [ddNode0 XMLString];  // Returns "<pizza>&lt;wtf&gt;ESCAPE&lt;/wtf&gt;</pizza>"
 //	
-//	NSAssert([nsTest5 isEqualToString:ddTest5], @"Failed test 5");
+//	NSAssert2([nsTest5 isEqualToString:ddTest5], @"Failed test 5 - ns(%@) dd(%@)", nsTest5, ddTest5);
 //  
 //  The DDXML version is actually more accurate, so we'll accept the difference.
 	
@@ -1292,13 +1467,13 @@
 	NSXMLDocument *nsDoc = [[NSXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
 	DDXMLDocument *ddDoc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
 	
+	NSXMLElement *nsMenu = [nsDoc rootElement];
+	DDXMLElement *ddMenu = [ddDoc rootElement];
+	
 	NSString *nsDocXPath = [nsDoc XPath]; // empty string
 	NSString *ddDocXPath = [ddDoc XPath]; // empty string
 	
 	NSAssert([nsDocXPath isEqualToString:ddDocXPath], @"Failed test 1");
-	
-	NSXMLElement *nsMenu = [nsDoc rootElement];
-	DDXMLElement *ddMenu = [ddDoc rootElement];
 	
 	NSString *nsMenuXPath = [nsMenu XPath];
 	NSString *ddMenuXPath = [ddMenu XPath];
@@ -1334,7 +1509,7 @@
 		NSAssert2([nsAttrXPath isEqualToString:ddAttrXPath],
 				  @"Failed test 4: ns(%@) != dd(%@)", nsAttrXPath, ddAttrXPath);
 	}
-	
+
 	NSArray *nsNamespaces = [nsMenu namespaces];
 	NSArray *ddNamespaces = [ddMenu namespaces];
 	
@@ -1345,7 +1520,8 @@
 		NSString *nsNamespaceXPath = [[nsNamespaces objectAtIndex:i] XPath];
 		NSString *ddNamespaceXPath = [[ddNamespaces objectAtIndex:i] XPath];
 		
-		NSAssert([nsNamespaceXPath isEqualToString:ddNamespaceXPath], @"Failed test 5");
+		NSAssert2([nsNamespaceXPath isEqualToString:ddNamespaceXPath], @"Failed test 5 - ns(%@) dd(%@)",
+		                                                                 nsNamespaceXPath, ddNamespaceXPath);
 	}
 	
 	[nsDoc release];
@@ -1374,7 +1550,11 @@
 	NSXMLNode *nsAttr = [NSXMLNode attributeWithName:@"deusty" stringValue:@"designs"];
 	NSXMLNode *ddAttr = [DDXMLNode attributeWithName:@"deusty" stringValue:@"designs"];
 	
-	NSAssert([[nsAttr XPath] isEqualToString:[ddAttr XPath]], @"Failed test 8");
+	NSString *nsAttrXPath = [nsAttr XPath];
+	NSString *ddAttrXPath = [ddAttr XPath];
+	
+	NSAssert2([nsAttrXPath isEqualToString:ddAttrXPath],
+			  @"Failed test 8: ns(%@) != dd(%@)", nsAttrXPath, ddAttrXPath);
 	
 	[pool drain];
 }
@@ -1535,11 +1715,24 @@
 	
 	NSAssert([[nsParent XMLString] isEqualToString:[ddParent XMLString]], @"Failed test 4");
 	
-//	NSXMLElement *nsChild5 = [NSXMLElement elementWithName:@"child5"];
-//	DDXMLElement *ddChild5 = [DDXMLElement elementWithName:@"child5"];
+	NSException *nsException;
+	NSException *ddException;
 	
-//	[nsParent insertChild:nsChild5 atIndex:5];  // Exception - index (5) beyond bounds (5)
-//	[ddParent insertChild:ddChild5 atIndex:5];  // Exception - index (5) beyond bounds (5)
+	NSXMLElement *nsChild5 = [NSXMLElement elementWithName:@"child5"];
+	DDXMLElement *ddChild5 = [DDXMLElement elementWithName:@"child5"];
+	
+	nsException = [self tryCatch:^{
+		// Exception - index (5) beyond bounds (5)
+		[nsParent insertChild:nsChild5 atIndex:5];
+	}];
+	
+	ddException = [self tryCatch:^{
+		// Exception - index (5) beyond bounds (5)
+		[ddParent insertChild:ddChild5 atIndex:5];
+	}];
+	
+	NSAssert(nsException != nil, @"Failed CHECK 1");
+	NSAssert(ddException != nil, @"Failed test 6");
 	
 	[pool drain];
 }
@@ -1584,6 +1777,89 @@
 	NSAssert(dda != nil, @"Failed test 1");
 	
 	[pool drain];
+}
+
+@end
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@implementation DDAssertionHandler
+
+@synthesize shouldLogAssertionFailure;
+
+- (id)init
+{
+	if ((self = [super init]))
+	{
+		shouldLogAssertionFailure = YES;
+	}
+	return self;
+}
+
+- (void)logFailureIn:(NSString *)place
+                file:(NSString *)fileName
+          lineNumber:(NSInteger)line
+{
+	// How Apple's default assertion handler does it (all on one line):
+	// 
+	// *** Assertion failure in -[NSXMLElement insertChild:atIndex:],
+	// /SourceCache/Foundation/Foundation-751.53/XML.subproj/XMLTypes.subproj/NSXMLElement.m:823
+	
+	NSLog(@"*** Assertion failure in %@, %@:%li", place, fileName, (long int)line);
+}
+
+- (void)handleFailureInFunction:(NSString *)functionName
+						   file:(NSString *)fileName
+					 lineNumber:(NSInteger)line
+					description:(NSString *)format, ...
+{
+	if (shouldLogAssertionFailure)
+	{
+		[self logFailureIn:functionName file:fileName lineNumber:line];
+	}
+	
+	va_list args;
+	va_start(args, format);
+	
+	NSString *reason = [[[NSString alloc] initWithFormat:format arguments:args] autorelease];
+	
+	va_end(args);
+	
+	[[NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil] raise];
+}
+
+- (void)handleFailureInMethod:(SEL)selector
+					   object:(id)object
+						 file:(NSString *)fileName
+				   lineNumber:(NSInteger)line
+				  description:(NSString *)format, ...
+{
+	if (shouldLogAssertionFailure)
+	{
+		Class objectClass = [object class];
+		
+		NSString *type;
+		if (objectClass == object)
+			type = @"+";
+		else
+			type = @"-";
+		
+		NSString *place = [NSString stringWithFormat:@"%@[%@ %@]",
+						   type, NSStringFromClass(objectClass), NSStringFromSelector(selector)];
+		
+		[self logFailureIn:place file:fileName lineNumber:line];
+	}
+	
+	va_list args;
+	va_start(args, format);
+	
+	NSString *reason = [[[NSString alloc] initWithFormat:format arguments:args] autorelease];
+	
+	va_end(args);
+	
+	[[NSException exceptionWithName:NSInternalInconsistencyException reason:reason userInfo:nil] raise];
 }
 
 @end
