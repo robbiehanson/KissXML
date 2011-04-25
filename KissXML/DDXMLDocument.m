@@ -89,6 +89,10 @@
 **/
 - (DDXMLElement *)rootElement
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlDocPtr doc = (xmlDocPtr)genericPtr;
 	
 	// doc->children is a list containing possibly comments, DTDs, etc...
@@ -103,11 +107,15 @@
 
 - (NSData *)XMLData
 {
+	// Zombie test occurs in XMLString
+	
 	return [[self XMLString] dataUsingEncoding:NSUTF8StringEncoding];
 }
 
 - (NSData *)XMLDataWithOptions:(NSUInteger)options
 {
+	// Zombie test occurs in XMLString
+	
 	return [[self XMLStringWithOptions:options] dataUsingEncoding:NSUTF8StringEncoding];
 }
 

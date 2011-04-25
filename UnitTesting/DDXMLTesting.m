@@ -42,6 +42,7 @@
 + (void)testInsertChild;
 + (void)testElementSerialization;
 + (void)testAttributeWithColonInName;
++ (void)testMemoryIssueDebugging;
 @end
 
 #pragma mark -
@@ -84,6 +85,7 @@ static DDAssertionHandler *ddAssertionHandler;
 	[self testInsertChild];
 	[self testElementSerialization];
 	[self testAttributeWithColonInName];
+	[self testMemoryIssueDebugging];
 
 	[self tearDown];
 	
@@ -1777,6 +1779,73 @@ static DDAssertionHandler *ddAssertionHandler;
 	NSAssert(dda != nil, @"Failed test 1");
 	
 	[pool drain];
+}
+
++ (void)testMemoryIssueDebugging
+{
+#if DDXML_DEBUG_MEMORY_ISSUES
+	
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	// <starbucks>
+	//   <latte/>
+	// </starbucks>
+	
+	NSMutableString *xmlStr = [NSMutableString stringWithCapacity:100];
+	[xmlStr appendString:@"<starbucks>"];
+	[xmlStr appendString:@"  <latte/>"];
+	[xmlStr appendString:@"</starbucks>"];
+	
+	DDXMLDocument *doc = [[DDXMLDocument alloc] initWithXMLString:xmlStr options:0 error:nil];
+	DDXMLElement *starbucks = [doc rootElement];
+	DDXMLElement *latte = [[starbucks elementsForName:@"latte"] lastObject];
+	
+	[doc release];
+	
+	NSException *exception1;
+	exception1 = [self tryCatch:^{
+		
+		[latte name];
+	}];	
+	NSAssert(exception1 != nil, @"Failed test 1");
+	
+	// <animals>
+	//   <duck/>
+	// </animals>
+	
+	DDXMLElement *animals = [[DDXMLElement alloc] initWithName:@"animals"];
+	DDXMLElement *duck = [DDXMLElement elementWithName:@"duck"];
+	
+	[animals addChild:duck];
+	[animals release];
+	
+	NSException *exception2;
+	exception2 = [self tryCatch:^{
+		
+		[duck name];
+	}];
+	NSAssert(exception2 != nil, @"Failed test 2");
+	
+	// <colors>
+	//   <red/>
+	// </colors>
+	
+	DDXMLElement *colors = [[DDXMLElement alloc] initWithName:@"colors"];
+	DDXMLElement *red = [DDXMLElement elementWithName:@"red"];
+	
+	[colors addChild:red];
+	[colors setChildren:nil];
+	
+	NSException *exception3;
+	exception3 = [self tryCatch:^{
+		
+		[red name];
+	}];
+	NSAssert(exception3 != nil, @"Failed test 3");
+	
+	[pool drain];
+#endif
 }
 
 @end

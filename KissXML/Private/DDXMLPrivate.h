@@ -5,8 +5,7 @@
 // Our API contract requires us to keep these assertions intact.
 #define DDXMLAssert(condition, desc, ...)                                                                 \
   do{                                                                                                     \
-    if(!(condition))                                                                                      \
-    {                                                                                                     \
+    if(!(condition)) {                                                                                    \
       [[NSAssertionHandler currentHandler] handleFailureInMethod:_cmd                                     \
                                                           object:self                                     \
                                                             file:[NSString stringWithUTF8String:__FILE__] \
@@ -15,7 +14,25 @@
     }                                                                                                     \
   }while(NO)
 
+
+// Create assertion to ensure xml node is not a zombie.
+#if DDXML_DEBUG_MEMORY_ISSUES
+#define DDXMLNotZombieAssert()                                                                            \
+  do{                                                                                                     \
+    if(DDXMLIsZombie(genericPtr, self)) {                                                                      \
+      NSString *desc = @"XML node is a zombie - It's parent structure has been freed!";                   \
+      [[NSAssertionHandler currentHandler] handleFailureInMethod:_cmd                                     \
+                                                          object:self                                     \
+                                                            file:[NSString stringWithUTF8String:__FILE__] \
+                                                      lineNumber:__LINE__                                 \
+                                                     description:desc];                                   \
+    }                                                                                                     \
+  }while(NO)
+#endif
+
 #define DDLastErrorKey @"DDXML:LastError"
+
+
 
 /**
  * DDXMLNode can represent several underlying types, such as xmlNodePtr, xmlDocPtr, xmlAttrPtr, xmlNsPtr, etc.
@@ -102,8 +119,8 @@ NS_INLINE BOOL IsXmlNsPtr(void *kindPtr)
 + (id)nodeWithNsPrimitive:(xmlNsPtr)ns nsParent:(xmlNodePtr)parent freeOnDealloc:(BOOL)flag;
 - (id)initWithNsPrimitive:(xmlNsPtr)ns nsParent:(xmlNodePtr)parent freeOnDealloc:(BOOL)flag;
 
-- (xmlNodePtr)nsParentPtr;
-- (void)setNsParentPtr:(xmlNodePtr)parentPtr;
+- (xmlNodePtr)_nsParentPtr;
+- (void)_setNsParentPtr:(xmlNodePtr)parentPtr;
 
 // Overrides several methods in DDXMLNode
 
@@ -133,7 +150,7 @@ NS_INLINE BOOL IsXmlNsPtr(void *kindPtr)
 + (id)nodeWithPrimitive:(xmlKindPtr)kindPtr freeOnDealloc:(BOOL)flag;
 - (id)initWithPrimitive:(xmlKindPtr)kindPtr freeOnDealloc:(BOOL)flag;
 
-- (BOOL)hasParent;
+- (BOOL)_hasParent;
 
 + (void)recursiveStripDocPointersFromNode:(xmlNodePtr)node;
 
@@ -149,7 +166,7 @@ NS_INLINE BOOL IsXmlNsPtr(void *kindPtr)
 + (void)removeChild:(xmlNodePtr)child fromNode:(xmlNodePtr)node;
 + (void)removeAllChildrenFromNode:(xmlNodePtr)node;
 
-- (void)nodeFree;
+BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper);
 
 + (NSError *)lastError;
 
@@ -164,7 +181,7 @@ NS_INLINE BOOL IsXmlNsPtr(void *kindPtr)
 + (id)nodeWithElementPrimitive:(xmlNodePtr)node freeOnDealloc:(BOOL)flag;
 - (id)initWithElementPrimitive:(xmlNodePtr)node freeOnDealloc:(BOOL)flag;
 
-- (NSArray *)elementsForName:(NSString *)name uri:(NSString *)URI;
+- (NSArray *)_elementsForName:(NSString *)name uri:(NSString *)URI;
 
 + (DDXMLNode *)resolveNamespaceForPrefix:(NSString *)prefix atNode:(xmlNodePtr)nodePtr;
 + (NSString *)resolvePrefixForURI:(NSString *)uri atNode:(xmlNodePtr)nodePtr;

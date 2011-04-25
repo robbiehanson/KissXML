@@ -9,6 +9,20 @@
 
 static void MyErrorHandler(void * userData, xmlErrorPtr error);
 
+#if DDXML_DEBUG_MEMORY_ISSUES
+
+static CFMutableDictionaryRef zombieTracker;
+static dispatch_queue_t zombieQueue;
+
+static void RecursiveMarkZombiesFromNode(xmlNodePtr node);
+static void RecursiveMarkZombiesFromDoc(xmlDocPtr doc);
+
+static void MarkZombies(void *xmlPtr);
+static void MarkBirth(void *xmlPtr, DDXMLNode *wrapper);
+static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
+
+#endif
+
 + (void)initialize
 {
 	static BOOL initialized = NO;
@@ -24,6 +38,13 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 		// NSXML ignores such whitespace.
 		// This also has the added benefit of taking up less RAM when parsing formatted XML documents.
 		xmlKeepBlanksDefault(0);
+		
+	#if DDXML_DEBUG_MEMORY_ISSUES
+		
+		zombieTracker = CFDictionaryCreateMutable(NULL, 0, NULL, &kCFTypeDictionaryValueCallBacks);
+		zombieQueue = dispatch_queue_create("DDXMLZombieQueue", NULL);
+		
+	#endif
 	}
 }
 
@@ -160,33 +181,63 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 	{
 		genericPtr = kindPtr;
 		freeOnDealloc = flag;
+		
+	#if DDXML_DEBUG_MEMORY_ISSUES
+		MarkBirth(genericPtr, self);
+	#endif
 	}
 	return self;
 }
 
 - (void)dealloc
 {
-	if (freeOnDealloc)
+#if DDXML_DEBUG_MEMORY_ISSUES
+	MarkDeath(genericPtr, self);
+#endif
+	
+	// We also check if genericPtr is NULL.
+	// This may be the case if, e.g., DDXMLElement calls [self release] from it's init method.
+	
+	if (freeOnDealloc && (genericPtr != NULL))
 	{
 		if (IsXmlNsPtr(genericPtr))
 		{
+		#if DDXML_DEBUG_MEMORY_ISSUES
+			MarkZombies(genericPtr);
+		#endif
 			xmlFreeNs((xmlNsPtr)genericPtr);
 		}
 		else if (IsXmlAttrPtr(genericPtr))
 		{
+		#if DDXML_DEBUG_MEMORY_ISSUES
+			MarkZombies(genericPtr);
+		#endif
 			xmlFreeProp((xmlAttrPtr)genericPtr);
 		}
 		else if (IsXmlDtdPtr(genericPtr))
 		{
+		#if DDXML_DEBUG_MEMORY_ISSUES
+			MarkZombies(genericPtr);
+		#endif
 			xmlFreeDtd((xmlDtdPtr)genericPtr);
 		}
 		else if (IsXmlDocPtr(genericPtr))
 		{
-			xmlFreeDoc((xmlDocPtr)genericPtr);
+			xmlDocPtr doc = (xmlDocPtr)genericPtr;
+			
+		#if DDXML_DEBUG_MEMORY_ISSUES
+			RecursiveMarkZombiesFromDoc(doc);
+		#endif
+			xmlFreeDoc(doc);
 		}
 		else if (IsXmlNodePtr(genericPtr))
 		{
-			xmlFreeNode((xmlNodePtr)genericPtr);
+			xmlNodePtr node = (xmlNodePtr)genericPtr;
+			
+		#if DDXML_DEBUG_MEMORY_ISSUES
+			RecursiveMarkZombiesFromNode(node);
+		#endif
+			xmlFreeNode(node);
 		}
 		else
 		{
@@ -202,6 +253,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 
 - (id)copyWithZone:(NSZone *)zone
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	if (IsXmlDocPtr(genericPtr))
 	{
 		xmlDocPtr copyDocPtr = xmlCopyDoc((xmlDocPtr)genericPtr, 1);
@@ -259,6 +314,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 
 - (DDXMLNodeKind)kind
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	if (genericPtr != NULL)
 		return genericPtr->type;
 	else
@@ -269,6 +328,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	// Note: DDXMLNamespaceNode overrides this method
 	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	// The xmlNodeSetName function works for both nodes and attributes
 	xmlNodeSetName((xmlNodePtr)genericPtr, [name xmlChar]);
 }
@@ -276,6 +339,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 - (NSString *)name
 {
 	// Note: DDXMLNamespaceNode overrides this method
+	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
 	
 	const char *name = (const char *)((xmlStdPtr)genericPtr)->name;
 	
@@ -289,6 +356,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	// Note: DDXMLNamespaceNode overrides this method
 	// Note: DDXMLAttributeNode overrides this method
+	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
 	
 	if (IsXmlNodePtr(genericPtr))
 	{
@@ -316,6 +387,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 	// Note: DDXMLNamespaceNode overrides this method
 	// Note: DDXMLAttributeNode overrides this method
 	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	if (IsXmlNodePtr(genericPtr))
 	{
 		xmlChar *content = xmlNodeGetContent((xmlNodePtr)genericPtr);
@@ -341,6 +416,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	// Note: DDXMLNamespaceNode overrides this method
 	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	NSUInteger result = 0;
 	
 	xmlStdPtr node = ((xmlStdPtr)genericPtr)->prev;
@@ -360,6 +439,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 - (NSUInteger)level
 {
 	// Note: DDXMLNamespaceNode overrides this method
+	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
 	
 	NSUInteger result = 0;
 	
@@ -382,6 +465,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	// Note: DDXMLNamespaceNode overrides this method
 	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlStdPtr node = (xmlStdPtr)genericPtr;
 	
 	if (node == NULL || node->doc == NULL)
@@ -401,6 +488,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	// Note: DDXMLNamespaceNode overrides this method
 	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlStdPtr node = (xmlStdPtr)genericPtr;
 	
 	if (node->parent == NULL)
@@ -416,6 +507,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 - (NSUInteger)childCount
 {
 	// Note: DDXMLNamespaceNode overrides this method
+	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
 	
 	if (!IsXmlDocPtr(genericPtr) && !IsXmlNodePtr(genericPtr) && !IsXmlDtdPtr(genericPtr))
 	{
@@ -440,6 +535,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 - (NSArray *)children
 {
 	// Note: DDXMLNamespaceNode overrides this method
+	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
 	
 	if (!IsXmlDocPtr(genericPtr) && !IsXmlNodePtr(genericPtr) && !IsXmlDtdPtr(genericPtr))
 	{
@@ -471,6 +570,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 - (DDXMLNode *)childAtIndex:(NSUInteger)index
 {
 	// Note: DDXMLNamespaceNode overrides this method
+	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
 	
 	if (!IsXmlDocPtr(genericPtr) && !IsXmlNodePtr(genericPtr) && !IsXmlDtdPtr(genericPtr))
 	{
@@ -514,6 +617,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	// Note: DDXMLNamespaceNode overrides this method
 	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlStdPtr node = (xmlStdPtr)genericPtr;
 	
 	if (node->prev == NULL)
@@ -532,6 +639,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 - (DDXMLNode *)nextSibling
 {
 	// Note: DDXMLNamespaceNode overrides this method
+	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
 	
 	xmlStdPtr node = (xmlStdPtr)genericPtr;
 	
@@ -553,6 +664,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	// Note: DDXMLNamespaceNode overrides this method
 	// Note: DDXMLAttributeNode overrides this method
+	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
 	
 	// If the node has a previous sibling,
 	// then we need the last child of the last child of the last child etc
@@ -604,6 +719,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 	// Note: DDXMLNamespaceNode overrides this method
 	// Note: DDXMLAttributeNode overrides this method
 	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	// If the node has children, then next node is the first child
 	DDXMLNode *firstChild = [self childAtIndex:0];
 	if (firstChild)
@@ -644,6 +763,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 	// Note: DDXMLNamespaceNode overrides this method
 	// Note: DDXMLAttributeNode overrides this method
 	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlStdPtr node = (xmlStdPtr)genericPtr;
 	
 	if (node->parent != NULL)
@@ -658,6 +781,8 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 
 - (xmlStdPtr)XPathPreProcess:(NSMutableString *)result
 {
+	// This is a private/internal method
+	
 	// Note: DDXMLNamespaceNode overrides this method
 	// Note: DDXMLAttributeNode overrides this method
 	
@@ -666,6 +791,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 
 - (NSString *)XPath
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	NSMutableString *result = [NSMutableString stringWithCapacity:25];
 	
 	// Examples:
@@ -726,6 +855,8 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	// Note: DDXMLNamespaceNode overrides this method
 	
+	// Zombie test occurs in [self name]
+	
 	return [[self class] localNameForName:[self name]];
 }
 
@@ -740,6 +871,8 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	// Note: DDXMLNamespaceNode overrides this method
 	
+	// Zombie test occurs in [self name]
+	
 	return [[self class] prefixForName:[self name]];
 }
 
@@ -751,6 +884,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	// Note: DDXMLNamespaceNode overrides this method
 	// Note: DDXMLAttributeNode overrides this method
+	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
 	
 	if (IsXmlNodePtr(genericPtr))
 	{
@@ -782,6 +919,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 {
 	// Note: DDXMLNamespaceNode overrides this method
 	// Note: DDXMLAttributeNode overrides this method
+	
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
 	
 	if (IsXmlNodePtr(genericPtr))
 	{
@@ -848,17 +989,24 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 
 - (NSString *)description
 {
+	// Zombie test occurs in XMLStringWithOptions:
+	
 	return [self XMLStringWithOptions:0];
 }
 
 - (NSString *)XMLString
 {
-	// Todo: Test XMLString for namespace node
+	// Zombie test occurs in XMLStringWithOptions:
+	
 	return [self XMLStringWithOptions:0];
 }
 
 - (NSString *)XMLStringWithOptions:(NSUInteger)options
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	// xmlSaveNoEmptyTags:
 	// Global setting, asking the serializer to not output empty tags
 	// as <empty/> but <empty></empty>. those two forms are undistinguishable
@@ -908,6 +1056,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 
 - (NSArray *)nodesForXPath:(NSString *)xpath error:(NSError **)error
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlXPathContextPtr xpathCtx;
 	xmlXPathObjectPtr xpathObj;
 	
@@ -1117,8 +1269,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
  * Use this method instead of parent when you only need to ensure parent is nil.
  * This prevents the unnecessary creation of a parent node wrapper.
 **/
-- (BOOL)hasParent
+- (BOOL)_hasParent
 {
+	// This is a private/internal method
+	
 	// Note: DDXMLNamespaceNode overrides this method
 	
 	xmlStdPtr node = (xmlStdPtr)genericPtr;
@@ -1216,6 +1370,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 **/
 + (void)removeAttribute:(xmlAttrPtr)attr fromNode:(xmlNodePtr)node
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	MarkZombies(attr);
+#endif
+	
 	// We perform a bit of optimization here.
 	// No need to bother nullifying pointers since we're about to free the node anyway.
 	[self detachAttribute:attr fromNode:node andNullifyPointers:NO];
@@ -1230,13 +1388,15 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 + (void)removeAllAttributesFromNode:(xmlNodePtr)node
 {
 	xmlAttrPtr attr = node->properties;
-	
 	while (attr != NULL)
 	{
 		xmlAttrPtr nextAttr = attr->next;
 		
-		xmlFreeProp(attr);
+	#if DDXML_DEBUG_MEMORY_ISSUES
+		MarkZombies(attr);
+	#endif
 		
+		xmlFreeProp(attr);
 		attr = nextAttr;
 	}
 	
@@ -1277,7 +1437,6 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 	}
 	
 	// Nullify pointers
-	//ns->_private = NULL; Todo
 	ns->next = NULL;
 }
 
@@ -1289,6 +1448,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 **/
 + (void)removeNamespace:(xmlNsPtr)ns fromNode:(xmlNodePtr)node
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	MarkZombies(ns);
+#endif
+	
 	[self detachNamespace:ns fromNode:node];
 	
 	xmlFreeNs(ns);
@@ -1302,13 +1465,15 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 + (void)removeAllNamespacesFromNode:(xmlNodePtr)node
 {
 	xmlNsPtr ns = node->nsDef;
-	
 	while (ns != NULL)
 	{
 		xmlNsPtr nextNs = ns->next;
 		
-		xmlFreeNs(ns);
+	#if DDXML_DEBUG_MEMORY_ISSUES
+		MarkZombies(ns);
+	#endif
 		
+		xmlFreeNs(ns);
 		ns = nextNs;
 	}
 	
@@ -1381,6 +1546,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 **/
 + (void)removeChild:(xmlNodePtr)child fromNode:(xmlNodePtr)node
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	RecursiveMarkZombiesFromNode(child);
+#endif
+	
 	// We perform a bit of optimization here.
 	// No need to bother nullifying pointers since we're about to free the node anyway.
 	[self detachChild:child fromNode:node andNullifyPointers:NO];
@@ -1398,13 +1567,15 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error);
 + (void)removeAllChildrenFromNode:(xmlNodePtr)node
 {
 	xmlNodePtr child = node->children;
-	
 	while (child != NULL)
 	{
 		xmlNodePtr nextChild = child->next;
 		
-		xmlFreeNode(child);
+	#if DDXML_DEBUG_MEMORY_ISSUES
+		RecursiveMarkZombiesFromNode(child);
+	#endif
 		
+		xmlFreeNode(child);
 		child = nextChild;
 	}
 	
@@ -1457,6 +1628,192 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 	}
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+#pragma mark Zombie Tracking
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+#if DDXML_DEBUG_MEMORY_ISSUES
+
+// What is zombie tracking and how does it work?
+// 
+// It is all explained in full detail here:
+// http://code.google.com/p/kissxml/wiki/MemoryManagementThreadSafety
+// 
+// But here's a quick overview in case you're on a plane right now
+// (and the plane doesn't have internet access, or charges some ridiculous amount and you don't want to pay for it.)
+// 
+// <starbucks>
+//   <latte/>
+//   <cappuchino/>
+// </starbucks>
+// 
+// You have a reference to the latte node, and you release/dealloc the starbucks node. Uh oh!
+// The latte node is now a zombie, since the xmlNode it was pointing to (wrapping) is now gone.
+// If you attempt to read info from the latte node, you might get a crash.
+// Or you might get junk results.
+// And if you attempt to write info to the latte node, you might just wind up with some ugly heap corruption.
+// And if this happens, well.. it's a huge P.I.T.A to track down.
+// 
+// But I've been there before. And I feel your pain. That's where this debug option comes in.
+// 
+// The debugging option keeps a dictionary where the keys are the xml pointers (xmlNodePtr, xmlAttrPtr, etc),
+// and the values are mutable arrays. Any wrapper objects (DDXMLElement, DDXMLNode, etc) get added to the
+// mutable array for which the wrapper is pointing.
+// 
+// If the xml (xmlNodePtr, xmlAttrPtr, etc) is to be freed, it first removes its key from the dictionary,
+// and in doing so destroys any associated mutable array.
+// 
+// So a zombie check ensures that the xml structure the wrapper is referring to hasn't been freed.
+// If it has an exception is thrown to help track down the problem.
+// 
+// In other words, if you try to read info from the latte node, or attempt to alter the latte node
+// (after you release/dealloc starbucks), you'll immediately get a helpful exception.
+// (Goodbye junk values and heap corruption.)
+// 
+// This is helpful in debugging, as it is sometimes easy to forget about the memory rules of the xml heirarchy.
+// Or simply due to combinations of passing subelements around and using asynchronous operations.
+
+
+static void RecursiveMarkZombiesFromNode(xmlNodePtr node)
+{
+	// This method only exists if DDXML_DEBUG_MEMORY_ISSUES is enabled.
+	
+	// Mark attributes
+	xmlAttrPtr attr = node->properties;
+	while (attr != NULL)
+	{
+		MarkZombies(attr);
+		attr = attr->next;
+	}
+	
+	// Mark namespaces
+	xmlNsPtr ns = node->nsDef;
+	while (ns != NULL)
+	{
+		MarkZombies(ns);
+		ns = ns->next;
+	}
+	if (node->ns)
+	{
+		MarkZombies(node->ns);
+	}
+	
+	// Recursively mark children
+	xmlNodePtr child = node->children;
+	while (child != NULL)
+	{
+		RecursiveMarkZombiesFromNode(child);
+		child = child->next;
+	}
+	
+	MarkZombies(node);
+}
+
+static void RecursiveMarkZombiesFromDoc(xmlDocPtr doc)
+{
+	// This method only exists if DDXML_DEBUG_MEMORY_ISSUES is enabled.
+	
+	xmlNodePtr child = doc->children;
+	while (child != NULL)
+	{
+		RecursiveMarkZombiesFromNode(child);
+		
+		child = child->next;
+	}
+	
+	MarkZombies(doc);
+}
+
+static void MarkZombies(void *xmlPtr)
+{
+	// This method only exists if DDXML_DEBUG_MEMORY_ISSUES is enabled.
+	
+	dispatch_async(zombieQueue, ^{
+		
+	//	NSLog(@"MarkZombies: %p", xmlPtr);
+		
+		CFDictionaryRemoveValue(zombieTracker, xmlPtr);
+	});
+}
+
+static void MarkBirth(void *xmlPtr, DDXMLNode *wrapper)
+{
+	// This method only exists if DDXML_DEBUG_MEMORY_ISSUES is enabled.
+	
+	const void *value = (void *)wrapper;
+	
+	dispatch_async(zombieQueue, ^{
+		
+	//	NSLog(@"MarkBirth: %p, %p", xmlPtr, value);
+		
+		CFMutableArrayRef values = (CFMutableArrayRef)CFDictionaryGetValue(zombieTracker, xmlPtr);
+		if (values == NULL)
+		{
+			values = CFArrayCreateMutable(NULL, /*MaxCapacity:*/0, /*ValueCallbacks:*/NULL);
+			CFArrayAppendValue(values, value);
+			
+			CFDictionarySetValue(zombieTracker, xmlPtr, values);
+			CFRelease(values);
+		}
+		else
+		{
+			CFArrayAppendValue(values, value);
+		}
+	});
+}
+
+static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper)
+{
+	// This method only exists if DDXML_DEBUG_MEMORY_ISSUES is enabled.
+	
+	const void *value = (void *)wrapper;
+	
+	dispatch_async(zombieQueue, ^{
+		
+	//	NSLog(@"MarkDeath: %p, %p", xmlPtr, value);
+		
+		CFMutableArrayRef values = (CFMutableArrayRef)CFDictionaryGetValue(zombieTracker, xmlPtr);
+		if (values)
+		{
+			CFRange range = CFRangeMake(0, CFArrayGetCount(values));
+			CFIndex index = CFArrayGetFirstIndexOfValue(values, range, value);
+			if (index >= 0)
+			{
+				CFArrayRemoveValueAtIndex(values, index);
+			}
+		}
+	});
+}
+
+BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
+{
+	// This method only exists if DDXML_DEBUG_MEMORY_ISSUES is enabled.
+	
+	__block BOOL result;
+	
+	const void *value = (void *)wrapper;
+	
+	dispatch_sync(zombieQueue, ^{
+		
+		CFMutableArrayRef values = (CFMutableArrayRef)CFDictionaryGetValue(zombieTracker, xmlPtr);
+		if (values)
+		{
+			CFRange range = CFRangeMake(0, CFArrayGetCount(values));
+			CFIndex index = CFArrayGetFirstIndexOfValue(values, range, value);
+			
+			result = (index < 0);
+		}
+		else
+		{
+			result = YES;
+		}
+	});
+	
+	return result;
+}
+
+#endif
+
 @end
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1480,11 +1837,9 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 **/
 - (id)initWithNsPrimitive:(xmlNsPtr)ns nsParent:(xmlNodePtr)parent  freeOnDealloc:(BOOL)flag
 {
-	if ((self = [super init]))
+	if ((self = [super initWithPrimitive:(xmlKindPtr)ns freeOnDealloc:flag]))
 	{
-		genericPtr = (xmlKindPtr)ns;
 		nsParentPtr = parent;
-		freeOnDealloc = flag;
 	}
 	return self;
 }
@@ -1512,6 +1867,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (void)setName:(NSString *)name
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlNsPtr ns = (xmlNsPtr)genericPtr;
 	
 	xmlFree((xmlChar *)ns->prefix);
@@ -1520,6 +1879,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (NSString *)name
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlNsPtr ns = (xmlNsPtr)genericPtr;
 	if (ns->prefix != NULL)
 		return [NSString stringWithUTF8String:((const char*)ns->prefix)];
@@ -1529,6 +1892,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (void)setStringValue:(NSString *)string
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlNsPtr ns = (xmlNsPtr)genericPtr;
 	
 	xmlFree((xmlChar *)ns->href);
@@ -1537,6 +1904,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (NSString *)stringValue
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	return [NSString stringWithUTF8String:((const char *)((xmlNsPtr)genericPtr)->href)];
 }
 
@@ -1546,6 +1917,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (NSUInteger)index
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlNsPtr ns = (xmlNsPtr)genericPtr;
 	
 	// The xmlNsPtr has no prev pointer, so we have to search from the parent
@@ -1573,6 +1948,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (NSUInteger)level
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	NSUInteger result = 0;
 	
 	xmlNodePtr currentNode = nsParentPtr;
@@ -1587,6 +1966,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (DDXMLDocument *)rootDocument
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlStdPtr node = (xmlStdPtr)nsParentPtr;
 	
 	if (node == NULL || node->doc == NULL)
@@ -1597,6 +1980,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (DDXMLNode *)parent
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	if (nsParentPtr == NULL)
 		return nil;
 	else
@@ -1605,41 +1992,73 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (NSUInteger)childCount
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	return 0;
 }
 
 - (NSArray *)children
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	return nil;
 }
 
 - (DDXMLNode *)childAtIndex:(NSUInteger)index
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	return nil;
 }
 
 - (DDXMLNode *)previousSibling
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	return nil;
 }
 
 - (DDXMLNode *)nextSibling
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	return nil;
 }
 
 - (DDXMLNode *)previousNode
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	return nil;
 }
 
 - (DDXMLNode *)nextNode
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	return nil;
 }
 
 - (void)detach
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	if (nsParentPtr != NULL)
 	{
 		[DDXMLNode detachNamespace:(xmlNsPtr)genericPtr fromNode:nsParentPtr];
@@ -1651,6 +2070,8 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (xmlStdPtr)XPathPreProcess:(NSMutableString *)result
 {
+	// This is a private/internal method
+	
 	xmlStdPtr parent = (xmlStdPtr)nsParentPtr;
 		
 	if (parent == NULL)
@@ -1667,6 +2088,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (NSString *)localName
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	// Strangely enough, the localName of a namespace is the prefix, and the prefix is an empty string
 	xmlNsPtr ns = (xmlNsPtr)genericPtr;
 	if (ns->prefix != NULL)
@@ -1677,17 +2102,29 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (NSString *)prefix
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	// Strangely enough, the localName of a namespace is the prefix, and the prefix is an empty string
 	return @"";
 }
 
 - (void)setURI:(NSString *)URI
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	// Do nothing
 }
 
 - (NSString *)URI
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	return nil;
 }
 
@@ -1695,18 +2132,24 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 #pragma mark Private API
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-- (BOOL)hasParent
+- (BOOL)_hasParent
 {
+	// This is a private/internal method
+	
 	return (nsParentPtr != NULL);
 }
 
-- (xmlNodePtr)nsParentPtr
+- (xmlNodePtr)_nsParentPtr
 {
+	// This is a private/internal method
+	
 	return nsParentPtr;
 }
 
-- (void)setNsParentPtr:(xmlNodePtr)parentPtr
+- (void)_setNsParentPtr:(xmlNodePtr)parentPtr
 {
+	// This is a private/internal method
+	
 	nsParentPtr = parentPtr;
 }
 
@@ -1752,6 +2195,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (void)setStringValue:(NSString *)string
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlAttrPtr attr = (xmlAttrPtr)genericPtr;
 	
 	if (attr->children != NULL)
@@ -1769,6 +2216,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (NSString *)stringValue
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlAttrPtr attr = (xmlAttrPtr)genericPtr;
 	
 	if (attr->children != NULL)
@@ -1785,16 +2236,28 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (DDXMLNode *)previousNode
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	return nil;
 }
 
 - (DDXMLNode *)nextNode
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	return nil;
 }
 
 - (void)detach
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlAttrPtr attr = (xmlAttrPtr)genericPtr;
 	
 	if (attr->parent != NULL)
@@ -1806,6 +2269,8 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (xmlStdPtr)XPathPreProcess:(NSMutableString *)result
 {
+	// This is a private/internal method
+	
 	// Note: DDXMLNamespaceNode overrides this method
 	// Note: DDXMLAttributeNode overrides this method
 	
@@ -1826,6 +2291,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (void)setURI:(NSString *)URI
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlAttrPtr attr = (xmlAttrPtr)genericPtr;
 	if (attr->ns != NULL)
 	{
@@ -1846,6 +2315,10 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 
 - (NSString *)URI
 {
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
 	xmlAttrPtr attr = (xmlAttrPtr)genericPtr;
 	if (attr->ns != NULL)
 	{
