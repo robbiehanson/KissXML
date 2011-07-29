@@ -333,13 +333,13 @@ static DDAssertionHandler *ddAssertionHandler;
 		[ddRoot2 addNamespace:ddNs];
 	}];
 	
-	NSAssert(nsInvalidAddException1 != nil, @"Failed test 1");
-	NSAssert(nsInvalidAddException2 != nil, @"Failed test 2");
-	NSAssert(nsInvalidAddException3 != nil, @"Failed test 3");
+	NSAssert(ddInvalidAddException1 != nil, @"Failed test 1");
+	NSAssert(ddInvalidAddException2 != nil, @"Failed test 2");
+	NSAssert(ddInvalidAddException3 != nil, @"Failed test 3");
 	
-	NSAssert(nsDoubleAddException1 != nil, @"Failed test 4");
-	NSAssert(nsDoubleAddException2 != nil, @"Failed test 5");
-	NSAssert(nsDoubleAddException3 != nil, @"Failed test 6");
+	NSAssert(ddDoubleAddException1 != nil, @"Failed test 4");
+	NSAssert(ddDoubleAddException2 != nil, @"Failed test 5");
+	NSAssert(ddDoubleAddException3 != nil, @"Failed test 6");
 	
 	[pool drain];
 }
@@ -1806,9 +1806,19 @@ static DDAssertionHandler *ddAssertionHandler;
 	NSException *exception1;
 	exception1 = [self tryCatch:^{
 		
+		[starbucks name];
 		[latte name];
 	}];	
-	NSAssert(exception1 != nil, @"Failed test 1");
+	NSAssert(exception1 == nil, @"Failed test 1");
+	
+	[starbucks removeChildAtIndex:0];
+	
+	NSException *exception2;
+	exception2 = [self tryCatch:^{
+		
+		[latte name];
+	}];
+	NSAssert(exception2 != nil, @"Failed test 2");
 	
 	// <animals>
 	//   <duck/>
@@ -1820,12 +1830,12 @@ static DDAssertionHandler *ddAssertionHandler;
 	[animals addChild:duck];
 	[animals release];
 	
-	NSException *exception2;
-	exception2 = [self tryCatch:^{
+	NSException *exception3;
+	exception3 = [self tryCatch:^{
 		
 		[duck name];
 	}];
-	NSAssert(exception2 != nil, @"Failed test 2");
+	NSAssert(exception3 == nil, @"Failed test 3");
 	
 	// <colors>
 	//   <red/>
@@ -1837,12 +1847,12 @@ static DDAssertionHandler *ddAssertionHandler;
 	[colors addChild:red];
 	[colors setChildren:nil];
 	
-	NSException *exception3;
-	exception3 = [self tryCatch:^{
+	NSException *exception4;
+	exception4 = [self tryCatch:^{
 		
 		[red name];
 	}];
-	NSAssert(exception3 != nil, @"Failed test 3");
+	NSAssert(exception4 != nil, @"Failed test 4");
 	
 	[pool drain];
 #endif
