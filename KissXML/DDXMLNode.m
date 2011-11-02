@@ -1065,11 +1065,18 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		xmlIndentTreeOutput = 1;
 	}
 	
+	int dumpCnt;
+	
 	xmlBufferPtr bufferPtr = xmlBufferCreate();
 	if (IsXmlNsPtr(genericPtr))
-		xmlNodeDump(bufferPtr, NULL, (xmlNodePtr)genericPtr, 0, format);
+		dumpCnt = xmlNodeDump(bufferPtr, NULL, (xmlNodePtr)genericPtr, 0, format);
 	else
-		xmlNodeDump(bufferPtr, ((xmlStdPtr)genericPtr)->doc, (xmlNodePtr)genericPtr, 0, format);
+		dumpCnt = xmlNodeDump(bufferPtr, ((xmlStdPtr)genericPtr)->doc, (xmlNodePtr)genericPtr, 0, format);
+	
+	if (dumpCnt < 0)
+	{
+		return nil;
+	}
 	
 	if ([self kind] == DDXMLTextKind)
 	{
