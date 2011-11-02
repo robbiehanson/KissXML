@@ -43,6 +43,8 @@
 + (void)testElementSerialization;
 + (void)testAttrWithColonInName;
 + (void)testMemoryIssueDebugging;
++ (void)testAttrNs;
++ (void)testNsDetatchCopy;
 @end
 
 #pragma mark -
@@ -86,6 +88,8 @@ static DDAssertionHandler *ddAssertionHandler;
 	[self testElementSerialization];
 	[self testAttrWithColonInName];
 	[self testMemoryIssueDebugging];
+	[self testAttrNs];
+	[self testNsDetatchCopy];
 
 	[self tearDown];
 	
@@ -1856,6 +1860,241 @@ static DDAssertionHandler *ddAssertionHandler;
 	
 	[pool drain];
 #endif
+}
+
++ (void)testAttrNs
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSString *nsName, *ddName;
+	NSString *nsUri, *ddUri;
+	
+	// 1. Normal attribute: duck='quack'.
+	//    Then try setting the URI of the attribute.
+	
+	NSXMLNode *nsAttr1 = [NSXMLNode attributeWithName:@"duck" stringValue:@"quack"];
+	DDXMLNode *ddAttr1 = [DDXMLNode attributeWithName:@"duck" stringValue:@"quack"];
+	
+	nsName = [nsAttr1 name];
+	ddName = [ddAttr1 name];
+	
+	nsUri = [nsAttr1 URI];
+	ddUri = [ddAttr1 URI];
+	
+	NSAssert([nsName isEqualToString:ddName], @"Failed test 1A");
+	NSAssert(nsUri == nil && ddUri == nil, @"Failed test 1B");
+	
+	[nsAttr1 setURI:@"http://animal.com"];
+	[ddAttr1 setURI:@"http://animal.com"];
+	
+	nsName = [nsAttr1 name];
+	ddName = [ddAttr1 name];
+	
+	nsUri = [nsAttr1 URI];
+	ddUri = [ddAttr1 URI];
+	
+	NSAssert([nsName isEqualToString:ddName], @"Failed test 1C");
+	NSAssert([nsUri isEqualToString:ddUri], @"Failed test 1D");
+	
+	// 2. Try setting the URI of the attribute at creation time
+	
+	NSXMLNode *nsAttr2 = [NSXMLNode attributeWithName:@"duck" URI:@"http://animal.com" stringValue:@"quack"];
+	DDXMLNode *ddAttr2 = [DDXMLNode attributeWithName:@"duck" URI:@"http://animal.com" stringValue:@"quack"];
+	
+	nsName = [nsAttr2 name];
+	ddName = [ddAttr2 name];
+	
+	nsUri = [nsAttr2 URI];
+	ddUri = [ddAttr2 URI];
+	
+	NSAssert([nsName isEqualToString:ddName], @"Failed test 2A");
+	NSAssert([nsUri isEqualToString:ddUri], @"Failed test 2B");
+	
+	// 3. Try creating an attribute with a prefix but no URI (ns prefix, but no ns href)
+	
+	NSXMLNode *nsAttr3 = [NSXMLNode attributeWithName:@"animal:duck" stringValue:@"quack"];
+	DDXMLNode *ddAttr3 = [DDXMLNode attributeWithName:@"animal:duck" stringValue:@"quack"];
+	
+	nsName = [nsAttr3 name];
+	ddName = [ddAttr3 name];
+	
+	nsUri = [nsAttr3 URI];
+	ddUri = [ddAttr3 URI];
+	
+	NSAssert([nsName isEqualToString:ddName], @"Failed test 3A");
+	NSAssert(nsUri == nil && ddUri == nil, @"Failed test 3B");
+	
+	// 4. Try creating an attribute with a prefix and URI
+	
+	NSXMLNode *nsAttr4 = [NSXMLNode attributeWithName:@"animal:duck" URI:@"http://animal.com" stringValue:@"quack"];
+	DDXMLNode *ddAttr4 = [DDXMLNode attributeWithName:@"animal:duck" URI:@"http://animal.com" stringValue:@"quack"];
+	
+	nsName = [nsAttr4 name];
+	ddName = [ddAttr4 name];
+	
+	nsUri = [nsAttr4 URI];
+	ddUri = [ddAttr4 URI];
+	
+	NSAssert([nsName isEqualToString:ddName], @"Failed test 4A");
+	NSAssert([nsUri isEqualToString:ddUri], @"Failed test 4B");
+	
+	// Prep for next 2 tests
+	// 
+	// <zoo xmlns:animan='animal.com' />
+	
+	NSXMLElement *nsElement = [NSXMLElement elementWithName:@"zoo"];
+	[nsElement addNamespace:[NSXMLNode namespaceWithName:@"animal" stringValue:@"animal.com"]];
+	
+	DDXMLElement *ddElement = [DDXMLElement elementWithName:@"zoo"];
+	[ddElement addNamespace:[DDXMLNode namespaceWithName:@"animal" stringValue:@"animal.com"]];
+	
+	// 5. Try adding an attribute with a prefix to an element with specifies the href for the prefix
+	
+	NSXMLNode *nsAttr5 = [NSXMLNode attributeWithName:@"animal:duck" stringValue:@"quack"];
+	DDXMLNode *ddAttr5 = [DDXMLNode attributeWithName:@"animal:duck" stringValue:@"quack"];
+	
+	[nsElement addAttribute:nsAttr5];
+	[ddElement addAttribute:ddAttr5];
+	
+	nsName = [nsAttr5 name];
+	ddName = [ddAttr5 name];
+	
+	nsUri = [nsAttr5 URI];
+	ddUri = [ddAttr5 URI];
+	
+	NSAssert([nsName isEqualToString:ddName], @"Failed test 5A");
+	NSAssert([nsUri isEqualToString:ddUri], @"Failed test 5B - ns(%@) dd(%@)", nsUri, ddUri);
+	
+	// 6. Try adding an attribute with a URI to an element which specifies the prefix for the URI
+	
+	NSXMLNode *nsAttr6 = [NSXMLNode attributeWithName:@"duck" URI:@"animal.com" stringValue:@"quack"];
+	DDXMLNode *ddAttr6 = [DDXMLNode attributeWithName:@"duck" URI:@"animal.com" stringValue:@"quack"];
+	
+	[nsElement addAttribute:nsAttr6];
+	[ddElement addAttribute:ddAttr6];
+	
+	nsName = [nsAttr6 name];
+	ddName = [ddAttr6 name];
+	
+	nsUri = [nsAttr6 URI];
+	ddUri = [ddAttr6 URI];
+	
+	NSAssert([nsName isEqualToString:ddName], @"Failed test 6A - ns(%@) dd(%@)", nsName, ddName);
+	NSAssert([nsUri isEqualToString:ddUri], @"Failed test 6B - ns(%@) dd(%@)", nsUri, ddUri);
+	
+	// 7. Try when there are default namespaces involved
+	// 
+	// <zoo xmlns='farm.com'>
+	//   <animal xmlns='animals.com' duck='quack'/>
+	// </zoo>
+	
+	NSXMLElement *nsZoo = [NSXMLElement elementWithName:@"zoo" URI:@"zoo.com"];
+	DDXMLElement *ddZoo = [DDXMLElement elementWithName:@"zoo" URI:@"zoo.com"];
+	
+	NSXMLElement *nsAnimal = [NSXMLElement elementWithName:@"animal" URI:@"animals.com"];
+	DDXMLElement *ddAnimal = [DDXMLElement elementWithName:@"animal" URI:@"animals.com"];
+	
+	[nsZoo addChild:nsAnimal];
+	[ddZoo addChild:ddAnimal];
+	
+	NSXMLNode *nsAttr7 = [NSXMLNode attributeWithName:@"duck" stringValue:@"quack"];
+	DDXMLNode *ddAttr7 = [DDXMLNode attributeWithName:@"duck" stringValue:@"quack"];
+	
+	[nsAnimal addAttribute:nsAttr7];
+	[ddAnimal addAttribute:ddAttr7];
+	
+	nsName = [nsAttr7 name];
+	ddName = [ddAttr7 name];
+	
+	nsUri = [nsAttr7 URI];
+	ddUri = [ddAttr7 URI];
+	
+	NSAssert([nsName isEqualToString:ddName], @"Failed test 7A");
+	NSAssert(nsUri == nil && ddUri == nil, @"Failed test 7B");
+	
+	// 8. Try with the xml prefix
+	// 
+	// <farm xml:duck='quack'/>
+	
+	NSXMLElement *nsFarm = [NSXMLElement elementWithName:@"farm"];
+	DDXMLElement *ddFarm = [DDXMLElement elementWithName:@"farm"];
+	
+	NSXMLNode *nsAttr8 = [NSXMLNode attributeWithName:@"xml:duck" stringValue:@"quack"];
+	DDXMLNode *ddAttr8 = [DDXMLNode attributeWithName:@"xml:duck" stringValue:@"quack"];
+	
+	[nsFarm addAttribute:nsAttr8];
+	[ddFarm addAttribute:ddAttr8];
+	
+	nsName = [nsAttr8 name];
+	ddName = [ddAttr8 name];
+	
+	nsUri = [nsAttr8 URI];
+	ddUri = [ddAttr8 URI];
+	
+	NSAssert([nsName isEqualToString:ddName], @"Failed test 8A");
+	NSAssert([nsUri isEqualToString:ddUri], @"Failed test 8B - ns(%@) dd(%@)", nsUri, ddUri);
+	
+	[pool drain];
+}
+
++ (void)testNsDetatchCopy
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSString *nsUri;
+	NSString *ddUri;
+	
+	// Test 1 - Set a URI on a standalone attribute
+	
+	NSXMLNode *nsAttr = [NSXMLNode attributeWithName:@"duck" stringValue:@"quack"];
+	DDXMLNode *ddAttr = [DDXMLNode attributeWithName:@"duck" stringValue:@"quack"];
+	
+	[nsAttr setURI:@"zoo.com"];
+	[ddAttr setURI:@"zoo.com"];
+	
+	nsUri = [nsAttr URI];
+	ddUri = [ddAttr URI];
+	
+	NSAssert([nsUri isEqualToString:ddUri], @"Failed test 1 - ns(%@) dd(%@)", nsUri, ddUri);
+	
+	// Test 2 - Strip a URI from a doc
+	// 
+	// <animals xmlns:farm='animals:farm' xmlns:zoo='animals:zoo'>
+	//   <farm:animal name='cow' />
+	//   <zoo:animal name='lion' />
+	// </animal>
+	
+	NSString *str = @"<animals xmlns:farm='animals:farm' xmlns:zoo='animals:zoo' farm:loc='CA' zoo:loc='MO' >\n"
+	                @"  <farm:animal name='cow' />\n"
+	                @"  <zoo:animal name='lion' />\n"
+	                @"</animals>";
+	NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
+	
+	NSXMLDocument *nsDoc = [[[NSXMLDocument alloc] initWithData:data options:0 error:nil] autorelease];
+	DDXMLDocument *ddDoc = [[[DDXMLDocument alloc] initWithData:data options:0 error:nil] autorelease];
+	
+	NSXMLElement *nsRoot = [nsDoc rootElement];
+	DDXMLElement *ddRoot = [ddDoc rootElement];
+	
+	NSXMLElement *nsCow = [[nsRoot elementsForName:@"farm:animal"] objectAtIndex:0];
+	DDXMLElement *ddCow = [[ddRoot elementsForName:@"farm:animal"] objectAtIndex:0];
+	
+	nsUri = [nsCow URI];
+	ddUri = [ddCow URI];
+	
+	NSAssert([nsUri isEqualToString:ddUri], @"Failed test 2a");
+	
+	[nsRoot removeNamespaceForPrefix:@"farm"];
+	[ddRoot removeNamespaceForPrefix:@"farm"];
+	
+	nsUri = [nsCow URI];
+	ddUri = [ddCow URI];
+	
+	NSAssert([nsUri isEqualToString:ddUri], @"Failed test 2b");
+	
+	[pool drain];
 }
 
 @end

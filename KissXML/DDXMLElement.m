@@ -268,22 +268,10 @@
 	return NO;
 }
 
-- (void)_removeAttribute:(xmlAttrPtr)attr
-{
-	// This is a private/internal method
-	
-	[[self class] removeAttribute:attr fromNode:(xmlNodePtr)genericPtr];
-}
-
-- (void)_removeAllAttributes
-{
-	// This is a private/internal method
-	
-	[[self class] removeAllAttributesFromNode:(xmlNodePtr)genericPtr];
-}
-
 - (void)_removeAttributeForName:(NSString *)name
 {
+	// This is a private/internal method
+	
 	xmlAttrPtr attr = ((xmlNodePtr)genericPtr)->properties;
 	if (attr)
 	{
@@ -292,7 +280,7 @@
 		{
 			if (xmlStrEqual(attr->name, xmlName))
 			{
-				[self _removeAttribute:attr];
+				[DDXMLNode removeAttribute:attr];
 				return;
 			}
 			attr = attr->next;
@@ -403,7 +391,7 @@
 	DDXMLNotZombieAssert();
 #endif
 	
-	[self _removeAllAttributes];
+	[DDXMLNode removeAllAttributesFromNode:(xmlNodePtr)genericPtr];
 	
 	NSUInteger i;
 	for (i = 0; i < [attributes count]; i++)
@@ -419,31 +407,19 @@
 #pragma mark Namespaces
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-- (void)_removeNamespace:(xmlNsPtr)ns
-{
-	// This is a private/internal method
-	
-	[[self class] removeNamespace:ns fromNode:(xmlNodePtr)genericPtr];
-}
-
-- (void)_removeAllNamespaces
-{
-	// This is a private/internal method
-	
-	[[self class] removeAllNamespacesFromNode:(xmlNodePtr)genericPtr];
-}
-
 - (void)_removeNamespaceForPrefix:(NSString *)name
 {
+	xmlNodePtr node = (xmlNodePtr)genericPtr;
+	
 	// If name is nil or the empty string, the user is wishing to remove the default namespace
 	const xmlChar *xmlName = [name length] > 0 ? [name xmlChar] : NULL;
 	
-	xmlNsPtr ns = ((xmlNodePtr)genericPtr)->nsDef;
+	xmlNsPtr ns = node->nsDef;
 	while (ns != NULL)
 	{
 		if (xmlStrEqual(ns->prefix, xmlName))
 		{
-			[self _removeNamespace:ns];
+			[DDXMLNode removeNamespace:ns fromNode:node];
 			break;
 		}
 		ns = ns->next;
@@ -584,7 +560,7 @@
 	DDXMLNotZombieAssert();
 #endif
 	
-	[self _removeAllNamespaces];
+	[DDXMLNode removeAllNamespacesFromNode:(xmlNodePtr)genericPtr];
 	
 	NSUInteger i;
 	for (i = 0; i < [namespaces count]; i++)
@@ -785,7 +761,7 @@
 		{
 			if (i == index)
 			{
-				[DDXMLNode removeChild:child fromNode:(xmlNodePtr)genericPtr];
+				[DDXMLNode removeChild:child];
 				return;
 			}
 			
