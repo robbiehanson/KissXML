@@ -250,7 +250,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		}
 		else
 		{
-			NSAssert1(NO, @"Cannot free unknown node type: %i", ((xmlKindPtr)genericPtr)->type);
+			NSAssert1(NO, @"Cannot free unknown node type: %i", genericPtr->type);
 		}
 	}
 	
@@ -972,6 +972,58 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	return nil;
 }
 
++ (void)getHasPrefix:(BOOL *)hasPrefixPtr localName:(NSString **)localNamePtr forName:(NSString *)name
+{
+	// This is a private/internal method
+	
+	if (name)
+	{
+		NSRange range = [name rangeOfString:@":"];
+		
+		if (range.length != 0)
+		{
+			if (hasPrefixPtr) *hasPrefixPtr = range.location > 0;
+			if (localNamePtr) *localNamePtr = [name substringFromIndex:(range.location + range.length)];
+		}
+		else
+		{
+			if (hasPrefixPtr) *hasPrefixPtr = NO;
+			if (localNamePtr) *localNamePtr = name;
+		}
+	}
+	else
+	{
+		if (hasPrefixPtr) *hasPrefixPtr = NO;
+		if (localNamePtr) *localNamePtr = nil;
+	}
+}
+
++ (void)getPrefix:(NSString **)prefixPtr localName:(NSString **)localNamePtr forName:(NSString *)name
+{
+	// This is a private/internal method
+	
+	if (name)
+	{
+		NSRange range = [name rangeOfString:@":"];
+		
+		if (range.length != 0)
+		{
+			if (prefixPtr)    *prefixPtr    = [name substringToIndex:range.location];
+			if (localNamePtr) *localNamePtr = [name substringFromIndex:(range.location + range.length)];
+		}
+		else
+		{
+			if (prefixPtr)    *prefixPtr    = @"";
+			if (localNamePtr) *localNamePtr = name;
+		}
+	}
+	else
+	{
+		if (prefixPtr)    *prefixPtr    = @"";
+		if (localNamePtr) *localNamePtr = nil;
+	}
+}
+
 /**
  * Returns the local name from the specified qualified name.
  * 
@@ -985,16 +1037,10 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 {
 	// This is a public/API method
 	
-	if (name)
-	{
-		NSRange range = [name rangeOfString:@":"];
-		
-		if (range.length != 0)
-			return [name substringFromIndex:(range.location + range.length)];
-		else
-			return name;
-	}
-	return nil;
+	NSString *localName;
+	[self getPrefix:NULL localName:&localName forName:name];
+	
+	return localName;
 }
 
 /**
@@ -1011,16 +1057,10 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 {
 	// This is a public/API method
 	
-	if (name)
-	{
-		NSRange range = [name rangeOfString:@":"];
-		
-		if (range.length != 0)
-		{
-			return [name substringToIndex:range.location];
-		}
-	}
-	return @"";
+	NSString *prefix;
+	[self getPrefix:&prefix localName:NULL forName:name];
+	
+	return prefix;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

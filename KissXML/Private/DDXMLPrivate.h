@@ -153,6 +153,8 @@ NS_INLINE BOOL IsXmlNsPtr(void *kindPtr)
 - (BOOL)_hasParent;
 
 + (void)recursiveStripDocPointersFromNode:(xmlNodePtr)node;
++ (void)getHasPrefix:(BOOL *)hasPrefixPtr localName:(NSString **)localNamePtr forName:(NSString *)name;
++ (void)getPrefix:(NSString **)prefixPtr localName:(NSString **)localNamePtr forName:(NSString *)name;
 
 + (void)detachAttribute:(xmlAttrPtr)attr fromNode:(xmlNodePtr)node;
 + (void)removeAttribute:(xmlAttrPtr)attr fromNode:(xmlNodePtr)node;
@@ -180,8 +182,6 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper);
 
 + (id)nodeWithElementPrimitive:(xmlNodePtr)node owner:(DDXMLNode *)owner;
 - (id)initWithElementPrimitive:(xmlNodePtr)node owner:(DDXMLNode *)owner;
-
-- (NSArray *)_elementsForName:(NSString *)name uri:(NSString *)URI;
 
 - (DDXMLNode *)_recursiveResolveNamespaceForPrefix:(NSString *)prefix atNode:(xmlNodePtr)nodePtr;
 - (NSString *)_recursiveResolvePrefixForURI:(NSString *)uri atNode:(xmlNodePtr)nodePtr;

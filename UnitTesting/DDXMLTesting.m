@@ -41,7 +41,7 @@
 + (void)testNSXMLBugs;
 + (void)testInsertChild;
 + (void)testElementSerialization;
-+ (void)testAttributeWithColonInName;
++ (void)testAttrWithColonInName;
 + (void)testMemoryIssueDebugging;
 @end
 
@@ -84,7 +84,7 @@ static DDAssertionHandler *ddAssertionHandler;
 	[self testNSXMLBugs];
 	[self testInsertChild];
 	[self testElementSerialization];
-	[self testAttributeWithColonInName];
+	[self testAttrWithColonInName];
 	[self testMemoryIssueDebugging];
 
 	[self tearDown];
@@ -1762,7 +1762,7 @@ static DDAssertionHandler *ddAssertionHandler;
 	[pool drain];
 }
 
-+ (void)testAttributeWithColonInName
++ (void)testAttrWithColonInName
 {
 	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];

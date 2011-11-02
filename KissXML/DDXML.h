@@ -81,7 +81,7 @@
 // Heap corruption is one of the worst problems to track down.
 // So to help out, the library provides a debugging macro to track down these problems.
 // That is, if you invalidate the write-access thread-unsafe rule,
-// this macro will tell you when you're trying to access a no-dangling pointer.
+// this macro will tell you when you're trying to access a now-dangling pointer.
 // 
 // How does it work?
 // Well everytime a DDXML wrapper object is created atop a libxml structure,
@@ -90,6 +90,6 @@
 // So everytime a DDXML wrapper objects is about to dereference it's pointer,
 // it first ensures the linkage still exists in the table.
 // 
-// The debugging macro adds a significant amount of overhead, and shouldn't be enabled on production builds.
+// The debugging macro adds a significant amount of overhead, and should NOT be enabled on production builds.
 
 #define DDXML_DEBUG_MEMORY_ISSUES 0
