@@ -373,17 +373,35 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 - (NSString *)name
 {
 	// Note: DDXMLNamespaceNode overrides this method
+	// Note: DDXMLAttributeNode overrides this method
 	
 #if DDXML_DEBUG_MEMORY_ISSUES
 	DDXMLNotZombieAssert();
 #endif
 	
-	const char *name = (const char *)((xmlStdPtr)genericPtr)->name;
-	
-	if (name == NULL)
+	const xmlChar *xmlName = ((xmlStdPtr)genericPtr)->name;
+	if (xmlName == NULL)
+	{
 		return nil;
-	else
-		return [NSString stringWithUTF8String:name];
+	}
+	
+	NSString *name = [NSString stringWithUTF8String:(const char *)xmlName];
+	
+	if (IsXmlNodePtr(genericPtr))
+	{
+		xmlNodePtr node = (xmlNodePtr)genericPtr;
+		
+		NSRange range = [name rangeOfString:@":"];
+		if (range.length == 0)
+		{
+			if (node->ns && node->ns->prefix)
+			{
+				return [NSString stringWithFormat:@"%s:%@", node->ns->prefix, name];
+			}
+		}
+	}
+	
+	return name;
 }
 
 - (void)setStringValue:(NSString *)string
@@ -2499,6 +2517,34 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 #pragma mark Properties
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+- (NSString *)name
+{
+#if DDXML_DEBUG_MEMORY_ISSUES
+	DDXMLNotZombieAssert();
+#endif
+	
+	xmlAttrPtr attr = (xmlAttrPtr)genericPtr;
+	
+	const xmlChar *xmlName = attr->name;
+	if (xmlName == NULL)
+	{
+		return nil;
+	}
+	
+	NSString *name = [NSString stringWithUTF8String:(const char *)xmlName];
+	
+	NSRange range = [name rangeOfString:@":"];
+	if (range.length == 0)
+	{
+		if (attr->ns && attr->ns->prefix)
+		{
+			return [NSString stringWithFormat:@"%s:%@", attr->ns->prefix, name];
+		}
+	}
+	
+	return name;
+}
 
 - (void)setStringValue:(NSString *)string
 {

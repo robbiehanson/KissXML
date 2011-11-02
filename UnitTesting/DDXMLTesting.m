@@ -15,6 +15,7 @@
 @interface DDXMLTesting (Tests)
 + (void)setUp;
 + (void)tearDown;
++ (void)testName;
 + (void)testLocalName;
 + (void)testPrefixName;
 + (void)testDoubleAdd;
@@ -60,6 +61,7 @@ static DDAssertionHandler *ddAssertionHandler;
 	
 	[self setUp];
 	
+	[self testName];
 	[self testLocalName];
 	[self testPrefixName];
 	[self testDoubleAdd];
@@ -144,6 +146,37 @@ static DDAssertionHandler *ddAssertionHandler;
 	ddAssertionHandler.shouldLogAssertionFailure = YES;
 	
 	return result;
+}
+
++ (void)testName
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSString *str = @"<body xmlns:food='http://example.com/' food:genre='italian'>"
+	                @"  <food:pizza>yumyum</food:pizza>"
+	                @"</body>";
+	
+	NSError *error = nil;
+	
+	NSXMLElement *nsBody = [[NSXMLElement alloc] initWithXMLString:str error:&error];
+	DDXMLElement *ddBody = [[DDXMLElement alloc] initWithXMLString:str error:&error];
+	
+	// Test 1 - elements
+	
+	NSString *nsNodeName = [[nsBody childAtIndex:0] name];
+	NSString *ddNodeName = [[ddBody childAtIndex:0] name];
+	
+	NSAssert([nsNodeName isEqualToString:ddNodeName], @"Failed test 1");
+	
+	// Test 2 - attributes
+	
+	NSString *nsAttrName = [[nsBody attributeForName:@"food:genre"] name];
+	NSString *ddAttrName = [[ddBody attributeForName:@"food:genre"] name];
+	
+	NSAssert([nsAttrName isEqualToString:ddAttrName], @"Failed test 2");
+	
+	[pool release];
 }
 
 + (void)testLocalName
