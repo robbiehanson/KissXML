@@ -46,6 +46,7 @@
 + (void)testMemoryIssueDebugging;
 + (void)testAttrNs;
 + (void)testNsDetatchCopy;
++ (void)testInvalidNode;
 @end
 
 #pragma mark -
@@ -92,6 +93,7 @@ static DDAssertionHandler *ddAssertionHandler;
 	[self testMemoryIssueDebugging];
 	[self testAttrNs];
 	[self testNsDetatchCopy];
+	[self testInvalidNode];
 
 	[self tearDown];
 	
@@ -2126,6 +2128,32 @@ static DDAssertionHandler *ddAssertionHandler;
 	ddUri = [ddCow URI];
 	
 	NSAssert([nsUri isEqualToString:ddUri], @"Failed test 2b");
+	
+	[pool drain];
+}
+
++ (void)testInvalidNode
+{
+	NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	NSXMLNode *nsNode = [[NSXMLNode alloc] init];
+	DDXMLNode *ddNode = [[DDXMLNode alloc] init];
+	
+	NSAssert([NSStringFromClass([ddNode class]) isEqualToString:@"DDXMLInvalidNode"], @"Failed test 0");
+	
+	NSAssert([nsNode kind] == NSXMLInvalidKind, @"Failed CHECK 1a");
+	NSAssert([ddNode kind] == DDXMLInvalidKind, @"Failed test 1a");
+	
+	NSString *nsName = [nsNode name];
+	NSString *ddName = [ddNode name];
+	
+	NSAssert(nsName == nil && ddName == nil, @"Failed test 2 - ns(%@) dd(%@)", nsName, ddName);
+	
+	NSString *nsDesc = [nsNode description];
+	NSString *ddDesc = [ddNode description];
+	
+	NSAssert(nsDesc && [nsDesc isEqualToString:ddDesc], @"Failed test 3 - ns(%@) dd(%@)", nsDesc, ddDesc);
 	
 	[pool drain];
 }
