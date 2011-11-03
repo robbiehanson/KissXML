@@ -4,6 +4,23 @@
 #import <libxml/xpath.h>
 #import <libxml/xpathInternals.h>
 
+/**
+ * Welcome to KissXML.
+ * 
+ * The project page has documentation if you have questions.
+ * https://github.com/robbiehanson/KissXML
+ * 
+ * If you're new to the project you may wish to read the "Getting Started" wiki.
+ * https://github.com/robbiehanson/KissXML/wiki/GettingStarted
+ * 
+ * KissXML provides a drop-in replacement for Apple's NSXML class cluster.
+ * The goal is to get the exact same behavior as the NSXML classes.
+ * 
+ * For API Reference, see Apple's excellent documentation,
+ * either via Xcode's Mac OS X documentation, or via the web:
+ * 
+ * https://github.com/robbiehanson/KissXML/wiki/Reference
+**/
 
 @implementation DDXMLNode
 
@@ -1973,7 +1990,7 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 // What is zombie tracking and how does it work?
 // 
 // It is all explained in full detail here:
-// http://code.google.com/p/kissxml/wiki/MemoryManagementThreadSafety
+// https://github.com/robbiehanson/KissXML/wiki/MemoryManagementThreadSafety
 // 
 // But here's a quick overview in case you're on a plane right now
 // (and the plane doesn't have internet access, or charges some ridiculous amount and you don't want to pay for it.)

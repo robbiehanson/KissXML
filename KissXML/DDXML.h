@@ -1,10 +1,28 @@
+/**
+ * Welcome to KissXML.
+ * 
+ * The project page has documentation if you have questions.
+ * https://github.com/robbiehanson/KissXML
+ * 
+ * If you're new to the project you may wish to read the "Getting Started" wiki.
+ * https://github.com/robbiehanson/KissXML/wiki/GettingStarted
+ * 
+ * KissXML provides a drop-in replacement for Apple's NSXML class cluster.
+ * The goal is to get the exact same behavior as the NSXML classes.
+ * 
+ * For API Reference, see Apple's excellent documentation,
+ * either via Xcode's Mac OS X documentation, or via the web:
+ * 
+ * https://github.com/robbiehanson/KissXML/wiki/Reference
+**/
+
 #import "DDXMLNode.h"
 #import "DDXMLElement.h"
 #import "DDXMLDocument.h"
 
 
 // KissXML has rather straight-forward memory management:
-// http://code.google.com/p/kissxml/wiki/MemoryManagementThreadSafety
+// https://github.com/robbiehanson/KissXML/wiki/MemoryManagementThreadSafety
 // 
 // There are 3 important concepts to keep in mind when working with KissXML:
 // 
@@ -89,6 +107,9 @@
 // And everytime a libxml structure is freed, it destorys all corresponding linkages in the table.
 // So everytime a DDXML wrapper objects is about to dereference it's pointer,
 // it first ensures the linkage still exists in the table.
+// 
+// Set to 1 to enable
+// Set to 0 to disable (this is the default)
 // 
 // The debugging macro adds a significant amount of overhead, and should NOT be enabled on production builds.
 
