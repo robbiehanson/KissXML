@@ -31,66 +31,66 @@
 // This way, on Mac OS X it uses NSXML, and on iOS it uses KissXML.
 
 #ifndef NSXMLNode
-#define NSXMLNode DDXMLNode
+  #define NSXMLNode DDXMLNode
 #endif
 #ifndef NSXMLElement
-#define NSXMLElement DDXMLElement
+  #define NSXMLElement DDXMLElement
 #endif
 #ifndef NSXMLDocument
-#define NSXMLDocument DDXMLDocument
+  #define NSXMLDocument DDXMLDocument
 #endif
 
 #ifndef NSXMLInvalidKind
-#define NSXMLInvalidKind DDXMLInvalidKind
+  #define NSXMLInvalidKind DDXMLInvalidKind
 #endif
 #ifndef NSXMLDocumentKind
-#define NSXMLDocumentKind DDXMLDocumentKind
+  #define NSXMLDocumentKind DDXMLDocumentKind
 #endif
 #ifndef NSXMLElementKind
-#define NSXMLElementKind DDXMLElementKind
+  #define NSXMLElementKind DDXMLElementKind
 #endif
 #ifndef NSXMLAttributeKind
-#define NSXMLAttributeKind DDXMLAttributeKind
+  #define NSXMLAttributeKind DDXMLAttributeKind
 #endif
 #ifndef NSXMLNamespaceKind
-#define NSXMLNamespaceKind DDXMLNamespaceKind
+  #define NSXMLNamespaceKind DDXMLNamespaceKind
 #endif
 #ifndef NSXMLProcessingInstructionKind
-#define NSXMLProcessingInstructionKind DDXMLProcessingInstructionKind
+  #define NSXMLProcessingInstructionKind DDXMLProcessingInstructionKind
 #endif
 #ifndef NSXMLCommentKind
-#define NSXMLCommentKind DDXMLCommentKind
+  #define NSXMLCommentKind DDXMLCommentKind
 #endif
 #ifndef NSXMLTextKind
-#define NSXMLTextKind DDXMLTextKind
+  #define NSXMLTextKind DDXMLTextKind
 #endif
 #ifndef NSXMLDTDKind
-#define NSXMLDTDKind DDXMLDTDKind
+  #define NSXMLDTDKind DDXMLDTDKind
 #endif
 #ifndef NSXMLEntityDeclarationKind
-#define NSXMLEntityDeclarationKind DDXMLEntityDeclarationKind
+  #define NSXMLEntityDeclarationKind DDXMLEntityDeclarationKind
 #endif
 #ifndef NSXMLAttributeDeclarationKind
-#define NSXMLAttributeDeclarationKind DDXMLAttributeDeclarationKind
+  #define NSXMLAttributeDeclarationKind DDXMLAttributeDeclarationKind
 #endif
 #ifndef NSXMLElementDeclarationKind
-#define NSXMLElementDeclarationKind DDXMLElementDeclarationKind
+  #define NSXMLElementDeclarationKind DDXMLElementDeclarationKind
 #endif
 #ifndef NSXMLNotationDeclarationKind
-#define NSXMLNotationDeclarationKind DDXMLNotationDeclarationKind
+  #define NSXMLNotationDeclarationKind DDXMLNotationDeclarationKind
 #endif
 
 #ifndef NSXMLNodeOptionsNone
-#define NSXMLNodeOptionsNone DDXMLNodeOptionsNone
+  #define NSXMLNodeOptionsNone DDXMLNodeOptionsNone
 #endif
 #ifndef NSXMLNodeExpandEmptyElement
-#define NSXMLNodeExpandEmptyElement DDXMLNodeExpandEmptyElement
+  #define NSXMLNodeExpandEmptyElement DDXMLNodeExpandEmptyElement
 #endif
 #ifndef NSXMLNodeCompactEmptyElement
-#define NSXMLNodeCompactEmptyElement DDXMLNodeCompactEmptyElement
+  #define NSXMLNodeCompactEmptyElement DDXMLNodeCompactEmptyElement
 #endif
 #ifndef NSXMLNodePrettyPrint
-#define NSXMLNodePrettyPrint DDXMLNodePrettyPrint
+  #define NSXMLNodePrettyPrint DDXMLNodePrettyPrint
 #endif
 
 #endif // #if TARGET_OS_IPHONE
@@ -189,4 +189,8 @@
 // 
 // The debugging macro adds a significant amount of overhead, and should NOT be enabled on production builds.
 
-#define DDXML_DEBUG_MEMORY_ISSUES 0
+#if DEBUG
+  #define DDXML_DEBUG_MEMORY_ISSUES 0
+#else
+  #define DDXML_DEBUG_MEMORY_ISSUES 0 // Don't change me!
+#endif
