@@ -1,6 +1,10 @@
 #import "DDXMLPrivate.h"
 #import "NSString+DDXML.h"
 
+#if ! __has_feature(objc_arc)
+#warning This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+#endif
+
 /**
  * Welcome to KissXML.
  * 
@@ -21,13 +25,18 @@
 
 @implementation DDXMLDocument
 
++ (Class)replacementClassForClass:(Class)currentClass {
+    return currentClass;
+}
+
 /**
  * Returns a DDXML wrapper object for the given primitive node.
  * The given node MUST be non-NULL and of the proper type.
 **/
 + (id)nodeWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)owner
 {
-	return [[[DDXMLDocument alloc] initWithDocPrimitive:doc owner:owner] autorelease];
+    Class type = [[self class] replacementClassForClass:[DDXMLDocument class]];
+	return [[type alloc] initWithDocPrimitive:doc owner:owner];
 }
 
 - (id)initWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)inOwner
@@ -49,7 +58,6 @@
 	// Promote initializers which use proper parameter types to enable compiler to catch more mistakes.
 	NSAssert(NO, @"Use initWithDocPrimitive:owner:");
 	
-	[self release];
 	return nil;
 }
 
@@ -78,7 +86,6 @@
 	{
 		if (error) *error = [NSError errorWithDomain:@"DDXMLErrorDomain" code:0 userInfo:nil];
 		
-		[self release];
 		return nil;
 	}
 	
@@ -94,7 +101,6 @@
 	{
 		if (error) *error = [NSError errorWithDomain:@"DDXMLErrorDomain" code:1 userInfo:nil];
 		
-		[self release];
 		return nil;
 	}
 	
@@ -116,8 +122,10 @@
 	
 	xmlNodePtr rootNode = xmlDocGetRootElement(doc);
 	
-	if (rootNode != NULL)
-		return [DDXMLElement nodeWithElementPrimitive:rootNode owner:self];
+	if (rootNode != NULL){
+		Class type = [[self class] replacementClassForClass:[DDXMLElement class]];
+        return [type nodeWithElementPrimitive:rootNode owner:self];
+    }
 	else
 		return nil;
 }
