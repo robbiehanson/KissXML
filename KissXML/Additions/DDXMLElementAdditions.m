@@ -7,7 +7,8 @@
 **/
 + (DDXMLElement *)elementWithName:(NSString *)name xmlns:(NSString *)ns
 {
-	DDXMLElement *element = [DDXMLElement elementWithName:name];
+    Class type = [[self class] replacementClassForClass:[DDXMLElement class]];
+	DDXMLElement *element = [type elementWithName:name];
 	[element setXmlns:ns];
 	return element;
 }
@@ -83,7 +84,8 @@
 	// 
 	// This applies to both Apple's NSXML and DDXML.
 	
-	[self addNamespace:[DDXMLNode namespaceWithName:@"" stringValue:ns]];
+    Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+	[self addNamespace:[type namespaceWithName:@"" stringValue:ns]];
 }
 
 /**
@@ -107,7 +109,8 @@
 **/
 - (void)addAttributeWithName:(NSString *)name stringValue:(NSString *)string
 {
-	[self addAttribute:[DDXMLNode attributeWithName:name stringValue:string]];
+    Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+	[self addAttribute:[type attributeWithName:name stringValue:string]];
 }
 
 /**
