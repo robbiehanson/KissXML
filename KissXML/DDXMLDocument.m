@@ -22,15 +22,7 @@
 @implementation DDXMLDocument
 
 + (Class)replacementClassForClass:(Class)currentClass {
-    if ( currentClass == [DDXMLElement class] ) {
-        return [DDXMLElement class];
-    }
-    else if ( currentClass == [DDXMLNode class] ) {
-        return [DDXMLNode class];
-    }
-    else {
-        return [DDXMLDocument class];
-    }
+    return currentClass;
 }
 
 /**
