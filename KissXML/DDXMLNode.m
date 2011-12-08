@@ -168,7 +168,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	if (comment == NULL) return nil;
 	
     Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
-	return [[[type alloc] initWithPrimitive:(xmlKindPtr)comment owner:nil] autorelease];
+	return [[type alloc] initWithPrimitive:(xmlKindPtr)comment owner:nil];
 }
 
 + (id)textWithStringValue:(NSString *)stringValue
@@ -221,7 +221,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 + (id)nodeWithPrimitive:(xmlKindPtr)kindPtr owner:(DDXMLNode *)owner
 {
     Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
-	return [[[type alloc] initWithPrimitive:kindPtr owner:owner] autorelease];
+	return [[type alloc] initWithPrimitive:kindPtr owner:owner];
 }
 
 /**

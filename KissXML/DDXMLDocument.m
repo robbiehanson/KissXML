@@ -44,7 +44,7 @@
 + (id)nodeWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)owner
 {
     Class type = [[self class] replacementClassForClass:[DDXMLDocument class]];
-	return [[type alloc] initWithDocPrimitive:doc owner:owner]];
+	return [[type alloc] initWithDocPrimitive:doc owner:owner];
 }
 
 - (id)initWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)inOwner
