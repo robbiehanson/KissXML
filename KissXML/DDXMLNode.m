@@ -40,6 +40,18 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 
 #endif
 
++ (Class)replacementClassForClass:(Class)currentClass {
+    if ( currentClass == [DDXMLElement class] ) {
+        return [DDXMLElement class];
+    }
+    else if ( currentClass == [DDXMLNode class] ) {
+        return [DDXMLNode class];
+    }
+    else {
+        return [DDXMLDocument class];
+    }
+}
+
 /**
  * From Apple's Documentation:
  * 
@@ -76,17 +88,20 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 
 + (id)elementWithName:(NSString *)name
 {
-	return [[[DDXMLElement alloc] initWithName:name] autorelease];
+    Class type = [[self class] replacementClassForClass:[DDXMLElement class]];
+	return [[[type alloc] initWithName:name] autorelease];
 }
 
 + (id)elementWithName:(NSString *)name stringValue:(NSString *)string
 {
-	return [[[DDXMLElement alloc] initWithName:name stringValue:string] autorelease];
+    Class type = [[self class] replacementClassForClass:[DDXMLElement class]];
+	return [[[type alloc] initWithName:name stringValue:string] autorelease];
 }
 
 + (id)elementWithName:(NSString *)name children:(NSArray *)children attributes:(NSArray *)attributes
 {
-	DDXMLElement *result = [[[DDXMLElement alloc] initWithName:name] autorelease];
+    Class type = [[self class] replacementClassForClass:[DDXMLElement class]];
+	DDXMLElement *result = [[[type alloc] initWithName:name] autorelease];
 	[result setChildren:children];
 	[result setAttributes:attributes];
 	
@@ -95,7 +110,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 
 + (id)elementWithName:(NSString *)name URI:(NSString *)URI
 {
-	return [[[DDXMLElement alloc] initWithName:name URI:URI] autorelease];
+    Class type = [[self class] replacementClassForClass:[DDXMLElement class]];
+	return [[[type alloc] initWithName:name URI:URI] autorelease];
 }
 
 + (id)attributeWithName:(NSString *)name stringValue:(NSString *)stringValue
@@ -137,7 +153,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (procInst == NULL) return nil;
 	
-	return [[[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)procInst owner:nil] autorelease];
+    Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+	return [[[type alloc] initWithPrimitive:(xmlKindPtr)procInst owner:nil] autorelease];
 }
 
 + (id)commentWithStringValue:(NSString *)stringValue
@@ -146,7 +163,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (comment == NULL) return nil;
 	
-	return [[[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)comment owner:nil] autorelease];
+    Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+	return [[[type alloc] initWithPrimitive:(xmlKindPtr)comment owner:nil] autorelease];
 }
 
 + (id)textWithStringValue:(NSString *)stringValue
@@ -155,7 +173,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (text == NULL) return nil;
 	
-	return [[[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)text owner:nil] autorelease];
+    Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+	return [[[type alloc] initWithPrimitive:(xmlKindPtr)text owner:nil] autorelease];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -166,11 +185,13 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 {
 	if (kindPtr->type == XML_DOCUMENT_NODE)
 	{
-		return [DDXMLDocument nodeWithDocPrimitive:(xmlDocPtr)kindPtr owner:owner];
+        Class type = [[self class] replacementClassForClass:[DDXMLDocument class]];
+		return [type nodeWithDocPrimitive:(xmlDocPtr)kindPtr owner:owner];
 	}
 	else if (kindPtr->type == XML_ELEMENT_NODE)
 	{
-		return [DDXMLElement nodeWithElementPrimitive:(xmlNodePtr)kindPtr owner:owner];
+        Class type = [[self class] replacementClassForClass:[DDXMLElement class]];
+		return [type nodeWithElementPrimitive:(xmlNodePtr)kindPtr owner:owner];
 	}
 	else if (kindPtr->type == XML_NAMESPACE_DECL)
 	{
@@ -184,7 +205,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	}
 	else
 	{
-		return [DDXMLNode nodeWithPrimitive:kindPtr owner:owner];
+        Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+		return [type nodeWithPrimitive:kindPtr owner:owner];
 	}
 }
 
@@ -194,7 +216,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 **/
 + (id)nodeWithPrimitive:(xmlKindPtr)kindPtr owner:(DDXMLNode *)owner
 {
-	return [[[DDXMLNode alloc] initWithPrimitive:kindPtr owner:owner] autorelease];
+    Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+	return [[[type alloc] initWithPrimitive:kindPtr owner:owner] autorelease];
 }
 
 /**
@@ -310,7 +333,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		
 		if (copyDocPtr == NULL) return nil;
 		
-		return [[DDXMLDocument alloc] initWithDocPrimitive:copyDocPtr owner:nil];
+        Class type = [[self class] replacementClassForClass:[DDXMLDocument class]];
+		return [[type alloc] initWithDocPrimitive:copyDocPtr owner:nil];
 	}
 	
 	if (IsXmlNodePtr(genericPtr))
@@ -319,10 +343,14 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		
 		if (copyNodePtr == NULL) return nil;
 		
-		if ([self isKindOfClass:[DDXMLElement class]])
-			return [[DDXMLElement alloc] initWithElementPrimitive:copyNodePtr owner:nil];
-		else
-			return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)copyNodePtr owner:nil];
+		if ([self isKindOfClass:[DDXMLElement class]]){
+            Class type = [[self class] replacementClassForClass:[DDXMLElement class]];
+			return [[type alloc] initWithElementPrimitive:copyNodePtr owner:nil];
+        }
+		else{
+            Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+			return [[type alloc] initWithPrimitive:(xmlKindPtr)copyNodePtr owner:nil];
+        }
 	}
 	
 	if (IsXmlAttrPtr(genericPtr))
@@ -349,7 +377,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		
 		if (copyDtdPtr == NULL) return nil;
 		
-		return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)copyDtdPtr owner:nil];
+        Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+		return [[type alloc] initWithPrimitive:(xmlKindPtr)copyDtdPtr owner:nil];
 	}
 	
 	return nil;
@@ -561,8 +590,10 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (node == NULL || node->doc == NULL)
 		return nil;
-	else
-		return [DDXMLDocument nodeWithDocPrimitive:node->doc owner:self];
+	else{
+        Class type = [[self class] replacementClassForClass:[DDXMLDocument class]];
+		return [type nodeWithDocPrimitive:node->doc owner:self];
+    }
 }
 
 /**
@@ -584,8 +615,10 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (node->parent == NULL)
 		return nil;
-	else
-		return [DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)node->parent owner:self];
+	else{
+		Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+        return [type nodeWithUnknownPrimitive:(xmlKindPtr)node->parent owner:self];
+    }
 }
 
 /**
@@ -638,7 +671,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	xmlNodePtr child = ((xmlStdPtr)genericPtr)->children;
 	while (child != NULL)
 	{
-		[result addObject:[DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)child owner:self]];
+        Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+		[result addObject:[type nodeWithUnknownPrimitive:(xmlKindPtr)child owner:self]];
 		
 		child = child->next;
 	}
@@ -682,7 +716,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	{
 		if (i == index)
 		{
-			return [DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)child owner:self];
+            Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+			return [type nodeWithUnknownPrimitive:(xmlKindPtr)child owner:self];
 		}
 		
 		i++;
@@ -713,8 +748,10 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (node->prev == NULL)
 		return nil;
-	else
-		return [DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)node->prev owner:self];
+	else{
+        Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+		return [type nodeWithUnknownPrimitive:(xmlKindPtr)node->prev owner:self];
+    }
 }
 
 /**
@@ -736,8 +773,10 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (node->next == NULL)
 		return nil;
-	else
-		return [DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)node->next owner:self];
+	else{
+		Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+        return [type nodeWithUnknownPrimitive:(xmlKindPtr)node->next owner:self];
+    }
 }
 
 /**
@@ -775,12 +814,14 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 				lastChild = lastChild->last;
 			}
 			
-			return [DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)lastChild owner:self];
+            Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+			return [type nodeWithUnknownPrimitive:(xmlKindPtr)lastChild owner:self];
 		}
 		else
 		{
 			// The previous sibling has no children, so the previous node is simply the previous sibling
-			return [DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)previousSibling owner:self];
+            Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+			return [type nodeWithUnknownPrimitive:(xmlKindPtr)previousSibling owner:self];
 		}
 	}
 	
@@ -790,8 +831,10 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (node->parent == NULL || node->parent->type == XML_DOCUMENT_NODE)
 		return nil;
-	else
-		return [DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)node->parent owner:self];
+	else{
+        Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+		return [type nodeWithUnknownPrimitive:(xmlKindPtr)node->parent owner:self];
+    }
 }
 
 /**
@@ -831,8 +874,10 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	while (parent != NULL)
 	{
 		xmlNodePtr parentNextSibling = parent->next;
-		if (parentNextSibling != NULL)
-			return [DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)parentNextSibling owner:self];
+		if (parentNextSibling != NULL){
+			Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+            return [type nodeWithUnknownPrimitive:(xmlKindPtr)parentNextSibling owner:self];
+        }
 		else
 			parent = parent->parent;
 	}
@@ -1271,7 +1316,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 			{
 				xmlNodePtr node = xpathObj->nodesetval->nodeTab[i];
 				
-				[mResult addObject:[DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)node owner:self]];
+                Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+				[mResult addObject:[type nodeWithUnknownPrimitive:(xmlKindPtr)node owner:self]];
 			}
 			
 			result = mResult;
@@ -2330,8 +2376,10 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	
 	if (node == NULL || node->doc == NULL)
 		return nil;
-	else
-		return [DDXMLDocument nodeWithDocPrimitive:node->doc owner:self];
+	else{
+        Class type = [[self class] replacementClassForClass:[DDXMLDocument class]];
+		return [type nodeWithDocPrimitive:node->doc owner:self];
+    }
 }
 
 - (DDXMLNode *)parent
@@ -2342,8 +2390,10 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	
 	if (nsParentPtr == NULL)
 		return nil;
-	else
-		return [DDXMLNode nodeWithUnknownPrimitive:(xmlKindPtr)nsParentPtr owner:self];
+	else{
+		Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+        return [type nodeWithUnknownPrimitive:(xmlKindPtr)nsParentPtr owner:self];
+    }
 }
 
 - (NSUInteger)childCount
@@ -2417,7 +2467,8 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	
 	if (nsParentPtr != NULL)
 	{
-		[DDXMLNode detachNamespace:(xmlNsPtr)genericPtr fromNode:nsParentPtr];
+        Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+		[type detachNamespace:(xmlNsPtr)genericPtr fromNode:nsParentPtr];
 		
 		[owner release];
 		owner = nil;
