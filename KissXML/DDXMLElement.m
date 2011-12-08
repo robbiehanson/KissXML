@@ -25,13 +25,18 @@
 
 @implementation DDXMLElement
 
++ (Class)replacementClassForClass:(Class)currentClass {
+    return currentClass;
+}
+
 /**
  * Returns a DDXML wrapper object for the given primitive node.
  * The given node MUST be non-NULL and of the proper type.
 **/
 + (id)nodeWithElementPrimitive:(xmlNodePtr)node owner:(DDXMLNode *)owner
 {
-	return [[DDXMLElement alloc] initWithElementPrimitive:node owner:owner];
+    Class type = [[self class] replacementClassForClass:[DDXMLElement class]];
+	return [[type alloc] initWithElementPrimitive:node owner:owner];
 }
 
 - (id)initWithElementPrimitive:(xmlNodePtr)node owner:(DDXMLNode *)inOwner
@@ -103,7 +108,8 @@
 
 - (id)initWithXMLString:(NSString *)string error:(NSError **)error
 {
-	DDXMLDocument *doc = [[DDXMLDocument alloc] initWithXMLString:string options:0 error:error];
+    Class type = [[self class] replacementClassForClass:[DDXMLDocument class]];
+	DDXMLDocument *doc = [[type alloc] initWithXMLString:string options:0 error:error];
 	if (doc == nil)
 	{
 		return nil;
@@ -174,7 +180,8 @@
 			
 			if (match)
 			{
-				[result addObject:[DDXMLElement nodeWithElementPrimitive:child owner:self]];
+                Class type = [[self class] replacementClassForClass:[DDXMLElement class]];
+				[result addObject:[type nodeWithElementPrimitive:child owner:self]];
 			}
 		}
 		
@@ -207,7 +214,8 @@
 	NSString *prefix;
 	NSString *localName;
 	
-	[DDXMLNode getPrefix:&prefix localName:&localName forName:name];
+    Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+	[type getPrefix:&prefix localName:&localName forName:name];
 	
 	if ([prefix length] > 0)
 	{
@@ -250,7 +258,8 @@
 		NSString *prefix;
 		NSString *realLocalName;
 		
-		[DDXMLNode getPrefix:&prefix localName:&realLocalName forName:localName];
+        Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+		[type getPrefix:&prefix localName:&realLocalName forName:localName];
 		
 		return [self _elementsForName:localName localName:realLocalName prefix:prefix uri:uri];
 	}
@@ -294,7 +303,8 @@
 		{
 			if (xmlStrEqual(attr->name, xmlName))
 			{
-				[DDXMLNode removeAttribute:attr];
+                Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+				[type removeAttribute:attr];
 				return;
 			}
 			attr = attr->next;
@@ -403,8 +413,8 @@
 #if DDXML_DEBUG_MEMORY_ISSUES
 	DDXMLNotZombieAssert();
 #endif
-	
-	[DDXMLNode removeAllAttributesFromNode:(xmlNodePtr)genericPtr];
+	Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+	[type removeAllAttributesFromNode:(xmlNodePtr)genericPtr];
 	
 	NSUInteger i;
 	for (i = 0; i < [attributes count]; i++)
@@ -432,7 +442,8 @@
 	{
 		if (xmlStrEqual(ns->prefix, xmlName))
 		{
-			[DDXMLNode removeNamespace:ns fromNode:node];
+            Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+			[type removeNamespace:ns fromNode:node];
 			break;
 		}
 		ns = ns->next;
@@ -572,7 +583,8 @@
 	DDXMLNotZombieAssert();
 #endif
 	
-	[DDXMLNode removeAllNamespacesFromNode:(xmlNodePtr)genericPtr];
+    Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+	[type removeAllNamespacesFromNode:(xmlNodePtr)genericPtr];
 	
 	NSUInteger i;
 	for (i = 0; i < [namespaces count]; i++)
@@ -770,7 +782,8 @@
 		{
 			if (i == index)
 			{
-				[DDXMLNode removeChild:child];
+                Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+				[type removeChild:child];
 				return;
 			}
 			
@@ -785,8 +798,9 @@
 #if DDXML_DEBUG_MEMORY_ISSUES
 	DDXMLNotZombieAssert();
 #endif
-	
-	[DDXMLNode removeAllChildrenFromNode:(xmlNodePtr)genericPtr];
+    
+	Class type = [[self class] replacementClassForClass:[DDXMLNode class]];
+	[type removeAllChildrenFromNode:(xmlNodePtr)genericPtr];
 	
 	NSUInteger i;
 	for (i = 0; i < [children count]; i++)
