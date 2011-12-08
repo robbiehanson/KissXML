@@ -21,13 +21,18 @@
 
 @implementation DDXMLDocument
 
++ (Class)replacementClassForClass:(Class)currentClass {
+    return currentClass;
+}
+
 /**
  * Returns a DDXML wrapper object for the given primitive node.
  * The given node MUST be non-NULL and of the proper type.
 **/
 + (id)nodeWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)owner
 {
-	return [[[DDXMLDocument alloc] initWithDocPrimitive:doc owner:owner] autorelease];
+    Class type = [[self class] replacementClassForClass:[DDXMLDocument class]];
+	return [[[type alloc] initWithDocPrimitive:doc owner:owner] autorelease];
 }
 
 - (id)initWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)inOwner
@@ -116,8 +121,10 @@
 	
 	xmlNodePtr rootNode = xmlDocGetRootElement(doc);
 	
-	if (rootNode != NULL)
-		return [DDXMLElement nodeWithElementPrimitive:rootNode owner:self];
+	if (rootNode != NULL){
+		Class type = [[self class] replacementClassForClass:[DDXMLElement class]];
+        return [type nodeWithElementPrimitive:rootNode owner:self];
+    }
 	else
 		return nil;
 }
