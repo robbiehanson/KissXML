@@ -4,6 +4,10 @@
 #import <libxml/xpath.h>
 #import <libxml/xpathInternals.h>
 
+#if ! __has_feature(objc_arc)
+#warning This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
+#endif
+
 /**
  * Welcome to KissXML.
  * 
@@ -76,17 +80,17 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 
 + (id)elementWithName:(NSString *)name
 {
-	return [[[DDXMLElement alloc] initWithName:name] autorelease];
+	return [[DDXMLElement alloc] initWithName:name];
 }
 
 + (id)elementWithName:(NSString *)name stringValue:(NSString *)string
 {
-	return [[[DDXMLElement alloc] initWithName:name stringValue:string] autorelease];
+	return [[DDXMLElement alloc] initWithName:name stringValue:string];
 }
 
 + (id)elementWithName:(NSString *)name children:(NSArray *)children attributes:(NSArray *)attributes
 {
-	DDXMLElement *result = [[[DDXMLElement alloc] initWithName:name] autorelease];
+	DDXMLElement *result = [[DDXMLElement alloc] initWithName:name];
 	[result setChildren:children];
 	[result setAttributes:attributes];
 	
@@ -95,7 +99,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 
 + (id)elementWithName:(NSString *)name URI:(NSString *)URI
 {
-	return [[[DDXMLElement alloc] initWithName:name URI:URI] autorelease];
+	return [[DDXMLElement alloc] initWithName:name URI:URI];
 }
 
 + (id)attributeWithName:(NSString *)name stringValue:(NSString *)stringValue
@@ -104,7 +108,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (attr == NULL) return nil;
 	
-	return [[[DDXMLAttributeNode alloc] initWithAttrPrimitive:attr owner:nil] autorelease];
+	return [[DDXMLAttributeNode alloc] initWithAttrPrimitive:attr owner:nil];
 }
 
 + (id)attributeWithName:(NSString *)name URI:(NSString *)URI stringValue:(NSString *)stringValue
@@ -116,7 +120,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	DDXMLAttributeNode *result = [[DDXMLAttributeNode alloc] initWithAttrPrimitive:attr owner:nil];
 	[result setURI:URI];
 	
-	return [result autorelease];
+	return result;
 }
 
 + (id)namespaceWithName:(NSString *)name stringValue:(NSString *)stringValue
@@ -128,7 +132,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (ns == NULL) return nil;
 	
-	return [[[DDXMLNamespaceNode alloc] initWithNsPrimitive:ns nsParent:NULL owner:nil] autorelease];
+	return [[DDXMLNamespaceNode alloc] initWithNsPrimitive:ns nsParent:NULL owner:nil];
 }
 
 + (id)processingInstructionWithName:(NSString *)name stringValue:(NSString *)stringValue
@@ -137,7 +141,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (procInst == NULL) return nil;
 	
-	return [[[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)procInst owner:nil] autorelease];
+	return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)procInst owner:nil];
 }
 
 + (id)commentWithStringValue:(NSString *)stringValue
@@ -146,7 +150,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (comment == NULL) return nil;
 	
-	return [[[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)comment owner:nil] autorelease];
+	return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)comment owner:nil];
 }
 
 + (id)textWithStringValue:(NSString *)stringValue
@@ -155,7 +159,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	if (text == NULL) return nil;
 	
-	return [[[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)text owner:nil] autorelease];
+	return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)text owner:nil];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -194,7 +198,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 **/
 + (id)nodeWithPrimitive:(xmlKindPtr)kindPtr owner:(DDXMLNode *)owner
 {
-	return [[[DDXMLNode alloc] initWithPrimitive:kindPtr owner:owner] autorelease];
+	return [[DDXMLNode alloc] initWithPrimitive:kindPtr owner:owner];
 }
 
 /**
@@ -206,7 +210,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	if ((self = [super init]))
 	{
 		genericPtr = kindPtr;
-		owner = [inOwner retain];
+		owner = inOwner;
 		
 	#if DDXML_DEBUG_MEMORY_ISSUES
 		MarkBirth(genericPtr, self);
@@ -229,7 +233,6 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	}
 	else
 	{
-		[self release];
 		return [[DDXMLInvalidNode alloc] init];
 	}
 }
@@ -289,9 +292,6 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 			NSAssert1(NO, @"Cannot free unknown node type: %i", genericPtr->type);
 		}
 	}
-	
-	[owner release];
-	[super dealloc];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -643,7 +643,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		child = child->next;
 	}
 	
-	return [[result copy] autorelease];
+	return [result copy];
 }
 
 /**
@@ -863,7 +863,6 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		{
 			[[self class] detachChild:(xmlNodePtr)node];
 			
-			[owner release];
 			owner = nil;
 		}
 	}
@@ -928,7 +927,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		node = (xmlStdPtr)node->parent;
 	}
 	
-	return [[result copy] autorelease];
+	return [result copy];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1183,11 +1182,11 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	else
 	{
 		NSMutableString *resTmp = [NSMutableString stringWithUTF8String:(const char *)bufferPtr->content];
-		CFStringTrimWhitespace((CFMutableStringRef)resTmp);
+		CFStringTrimWhitespace((__bridge CFMutableStringRef)resTmp);
 		
 		xmlBufferFree(bufferPtr);
 		
-		return [[resTmp copy] autorelease];
+		return [resTmp copy];
 	}
 }
 
@@ -2184,7 +2183,7 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 **/
 + (id)nodeWithNsPrimitive:(xmlNsPtr)ns nsParent:(xmlNodePtr)parent owner:(DDXMLNode *)owner
 {
-	return [[[DDXMLNamespaceNode alloc] initWithNsPrimitive:ns nsParent:parent owner:owner] autorelease];
+	return [[DDXMLNamespaceNode alloc] initWithNsPrimitive:ns nsParent:parent owner:owner];
 }
 
 /**
@@ -2213,7 +2212,6 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	// Promote initializers which use proper parameter types to enable compiler to catch more mistakes.
 	NSAssert(NO, @"Use initWithNsPrimitive:nsParent:owner:");
 	
-	[self release];
 	return nil;
 }
 
@@ -2419,9 +2417,7 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	{
 		[DDXMLNode detachNamespace:(xmlNsPtr)genericPtr fromNode:nsParentPtr];
 		
-		[owner release];
 		owner = nil;
-		
 		nsParentPtr = NULL;
 	}
 }
@@ -2521,7 +2517,7 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 
 + (id)nodeWithAttrPrimitive:(xmlAttrPtr)attr owner:(DDXMLNode *)owner
 {
-	return [[[DDXMLAttributeNode alloc] initWithAttrPrimitive:attr owner:owner] autorelease];
+	return [[DDXMLAttributeNode alloc] initWithAttrPrimitive:attr owner:owner];
 }
 
 - (id)initWithAttrPrimitive:(xmlAttrPtr)attr owner:(DDXMLNode *)inOwner
@@ -2543,14 +2539,12 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 	// Promote initializers which use proper parameter types to enable compiler to catch more mistakes.
 	NSAssert(NO, @"Use initWithAttrPrimitive:nsParent:owner:");
 	
-	[self release];
 	return nil;
 }
 
 - (void)dealloc
 {
 	if (attrNsPtr) xmlFreeNs(attrNsPtr);
-	[super dealloc];
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -2672,7 +2666,6 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 			attr->ns = attrNsPtr;
 		}
 		
-		[owner release];
 		owner = nil;
 	}
 }
