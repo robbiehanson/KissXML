@@ -1,5 +1,6 @@
 #import "DDXMLPrivate.h"
 #import "NSString+DDXML.h"
+#import "Additions/CTidy.h"
 
 #if ! __has_feature(objc_arc)
 #warning This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
@@ -83,13 +84,25 @@
 		
 		return nil;
 	}
-	
+
+#if TARGET_OS_IPHONE
+	if (mask & NSXMLDocumentTidyHTML)
+	{
+		data = [[CTidy tidy] tidyData:data inputFormat:TidyFormat_HTML outputFormat:TidyFormat_XHTML diagnostics:NULL error:&theError];
+    }
+	else if (mask & NSXMLDocumentTidyXML)
+	{
+		data = [[CTidy tidy] tidyData:data inputFormat:TidyFormat_XML outputFormat:TidyFormat_XML diagnostics:NULL error:&theError];
+		}
+#endif
+
 	// Even though xmlKeepBlanksDefault(0) is called in DDXMLNode's initialize method,
 	// it has been documented that this call seems to get reset on the iPhone:
 	// http://code.google.com/p/kissxml/issues/detail?id=8
 	// 
 	// Therefore, we call it again here just to be safe.
 	xmlKeepBlanksDefault(0);
+    
 	
 	xmlDocPtr doc = xmlParseMemory([data bytes], [data length]);
 	if (doc == NULL)
