@@ -27,8 +27,6 @@
 //  OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#ifdef TOUCHXMLUSETIDY
-
 #import "CTidy.h"
 
 @interface CTidy ()
@@ -40,7 +38,7 @@
 
 + (CTidy *)tidy
 {
-return([[[self alloc] init] autorelease]);
+return([[self alloc] init]);
 }
 
 - (NSData *)tidyData:(NSData *)inData inputFormat:(CTidyFormat)inInputFormat outputFormat:(CTidyFormat)inOutputFormat diagnostics:(NSString **)outDiagnostics error:(NSError **)outError
@@ -126,7 +124,7 @@ tidyBufFree(&theOutputBuffer);
 if (outDiagnostics && theErrorBuffer.bp != NULL)
 	{
 	NSData *theErrorData = [NSData dataWithBytes:theErrorBuffer.bp length:theErrorBuffer.size];
-	*outDiagnostics = [[[NSString alloc] initWithData:theErrorData encoding:NSUTF8StringEncoding] autorelease];
+	*outDiagnostics = [[NSString alloc] initWithData:theErrorData encoding:NSUTF8StringEncoding];
 	}
 tidyBufFree(&theErrorBuffer);
 
@@ -213,7 +211,7 @@ NSString *theString = [NSString stringWithUTF8String:[theOutputBuffer bytes]];
 if (outDiagnostics && theErrorBuffer.bp != NULL)
 	{
 	NSData *theErrorData = [NSData dataWithBytes:theErrorBuffer.bp length:theErrorBuffer.size];
-	*outDiagnostics = [[[NSString alloc] initWithData:theErrorData encoding:NSUTF8StringEncoding] autorelease];
+        *outDiagnostics = [[NSString alloc] initWithData:theErrorData encoding:NSUTF8StringEncoding];
 	}
 tidyBufFree(&theErrorBuffer);
 
@@ -229,4 +227,3 @@ return(theString);
 
 @end
 
-#endif /* TOUCHXMLUSETIDY */

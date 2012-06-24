@@ -11,6 +11,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		B482F7E715967E1200E1A642 /* CTidy.m in Sources */ = {isa = PBXBuildFile; fileRef = B482F7E615967E1200E1A642 /* CTidy.m */; };
 		DC54426E0E8F33E100013051 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = DC54426D0E8F33E100013051 /* AppDelegate.m */; };
 		DC5442710E8F340800013051 /* DDXMLTesting.m in Sources */ = {isa = PBXBuildFile; fileRef = DC5442700E8F340800013051 /* DDXMLTesting.m */; };
 		DCC05A4D1361DB8200993C2A /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = DCC05A401361DB8200993C2A /* DDXMLElementAdditions.m */; };
@@ -31,6 +32,8 @@
 		32CA4F630368D1EE00C91783 /* KissXML_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KissXML_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* KissXML.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KissXML.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		B482F7E515967E1200E1A642 /* CTidy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTidy.h; sourceTree = "<group>"; };
+		B482F7E615967E1200E1A642 /* CTidy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTidy.m; sourceTree = "<group>"; };
 		DC54426C0E8F33E100013051 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		DC54426D0E8F33E100013051 /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		DC54426F0E8F340800013051 /* DDXMLTesting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLTesting.h; sourceTree = "<group>"; };
@@ -178,6 +181,8 @@
 		DCC05A4B1361DB8200993C2A /* Private */ = {
 			isa = PBXGroup;
 			children = (
+				B482F7E515967E1200E1A642 /* CTidy.h */,
+				B482F7E615967E1200E1A642 /* CTidy.m */,
 				DCC05A4C1361DB8200993C2A /* DDXMLPrivate.h */,
 			);
 			path = Private;
@@ -210,7 +215,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0450;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "KissXML" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -253,6 +258,7 @@
 				DCC05A4F1361DB8200993C2A /* DDXMLDocument.m in Sources */,
 				DCC05A501361DB8200993C2A /* DDXMLElement.m in Sources */,
 				DCC05A511361DB8200993C2A /* DDXMLNode.m in Sources */,
+				B482F7E715967E1200E1A642 /* CTidy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,6 +322,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -331,6 +338,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;

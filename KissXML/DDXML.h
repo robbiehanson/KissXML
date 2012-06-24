@@ -16,13 +16,14 @@
  * https://github.com/robbiehanson/KissXML/wiki/Reference
 **/
 
+#define DDXML_FALLBACK_ON_HTML 1
+#define DDXML_DROPIN_IOS       1
+
 #import "DDXMLNode.h"
 #import "DDXMLElement.h"
 #import "DDXMLDocument.h"
 
-
-
-#if TARGET_OS_IPHONE && 0 // Disabled by default
+#if TARGET_OS_IPHONE && DDXML_DROPIN_IOS
 
 #define NSXMLDocumentTidyXML DDXMLDocumentTidyXML
 #define NSXMLDocumentTidyHTML DDXMLDocumentTidyHTML
