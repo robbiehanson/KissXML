@@ -90,7 +90,7 @@
 #if TARGET_OS_IPHONE
     if (mask & DDXMLDocumentTidyHTML)
     {
-        data = [[CTidy tidy] tidyData:data inputFormat:TidyFormat_HTML outputFormat:TidyFormat_XHTML diagnostics:NULL error:error];
+        data = [[CTidy tidy] tidyData:data inputFormat:TidyFormat_HTML outputFormat:TidyFormat_XML diagnostics:NULL error:error];
     }
     else if (mask & DDXMLDocumentTidyXML)
     {
