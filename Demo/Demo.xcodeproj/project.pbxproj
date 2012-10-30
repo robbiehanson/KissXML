@@ -1,0 +1,387 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B435F9B315900EA10025CC49 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B435F9B215900EA10025CC49 /* UIKit.framework */; };
+		B435F9B515900EA10025CC49 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B435F9B415900EA10025CC49 /* Foundation.framework */; };
+		B435F9B715900EA10025CC49 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B435F9B615900EA10025CC49 /* CoreGraphics.framework */; };
+		B435F9BF15900EA10025CC49 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B435F9BE15900EA10025CC49 /* main.m */; };
+		B49E9AF0163F39010007E1F5 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = B49E9AE1163F39010007E1F5 /* DDXMLElementAdditions.m */; };
+		B49E9AF1163F39010007E1F5 /* NSString+DDXML.m in Sources */ = {isa = PBXBuildFile; fileRef = B49E9AE4163F39010007E1F5 /* NSString+DDXML.m */; };
+		B49E9AF2163F39010007E1F5 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = B49E9AE7163F39010007E1F5 /* DDXMLDocument.m */; };
+		B49E9AF3163F39010007E1F5 /* DDXMLElement.m in Sources */ = {isa = PBXBuildFile; fileRef = B49E9AE9163F39010007E1F5 /* DDXMLElement.m */; };
+		B49E9AF4163F39010007E1F5 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = B49E9AEB163F39010007E1F5 /* DDXMLNode.m */; };
+		B49E9AF5163F39010007E1F5 /* CTidy.m in Sources */ = {isa = PBXBuildFile; fileRef = B49E9AEE163F39010007E1F5 /* CTidy.m */; };
+		B49E9AF9163F3A610007E1F5 /* books.xml in Resources */ = {isa = PBXBuildFile; fileRef = B49E9AF8163F3A610007E1F5 /* books.xml */; };
+		B49E9B5B163FDD9D0007E1F5 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B49E9B5A163FDD9D0007E1F5 /* libxml2.dylib */; };
+		B49E9B5D163FDDAE0007E1F5 /* libtidy.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B49E9B5C163FDDAE0007E1F5 /* libtidy.dylib */; };
+		B49E9B64163FE30C0007E1F5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B49E9B63163FE30C0007E1F5 /* InfoPlist.strings */; };
+		B49E9B6B163FE31E0007E1F5 /* KissAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B49E9B66163FE31E0007E1F5 /* KissAppDelegate.m */; };
+		B49E9B6C163FE31E0007E1F5 /* KissViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = B49E9B67163FE31E0007E1F5 /* KissViewController_iPad.xib */; };
+		B49E9B6D163FE31E0007E1F5 /* KissViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = B49E9B68163FE31E0007E1F5 /* KissViewController_iPhone.xib */; };
+		B49E9B6E163FE31E0007E1F5 /* KissViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B49E9B6A163FE31E0007E1F5 /* KissViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		B435F9B015900EA10025CC49 /* Demo-IOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Demo-IOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B435F9B215900EA10025CC49 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		B435F9B415900EA10025CC49 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		B435F9B615900EA10025CC49 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = Library/Frameworks/CoreGraphics.framework; sourceTree = DEVELOPER_DIR; };
+		B435F9BA15900EA10025CC49 /* Demo-IOS-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Demo-IOS-Info.plist"; sourceTree = "<group>"; };
+		B435F9BE15900EA10025CC49 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		B435F9C015900EA10025CC49 /* Demo-IOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Demo-IOS-Prefix.pch"; sourceTree = "<group>"; };
+		B49E9AE0163F39010007E1F5 /* DDXMLElementAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElementAdditions.h; sourceTree = "<group>"; };
+		B49E9AE1163F39010007E1F5 /* DDXMLElementAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElementAdditions.m; sourceTree = "<group>"; };
+		B49E9AE3163F39010007E1F5 /* NSString+DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DDXML.h"; sourceTree = "<group>"; };
+		B49E9AE4163F39010007E1F5 /* NSString+DDXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DDXML.m"; sourceTree = "<group>"; };
+		B49E9AE5163F39010007E1F5 /* DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXML.h; sourceTree = "<group>"; };
+		B49E9AE6163F39010007E1F5 /* DDXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLDocument.h; sourceTree = "<group>"; };
+		B49E9AE7163F39010007E1F5 /* DDXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLDocument.m; sourceTree = "<group>"; };
+		B49E9AE8163F39010007E1F5 /* DDXMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElement.h; sourceTree = "<group>"; };
+		B49E9AE9163F39010007E1F5 /* DDXMLElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLElement.m; sourceTree = "<group>"; };
+		B49E9AEA163F39010007E1F5 /* DDXMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLNode.h; sourceTree = "<group>"; };
+		B49E9AEB163F39010007E1F5 /* DDXMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLNode.m; sourceTree = "<group>"; };
+		B49E9AED163F39010007E1F5 /* CTidy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTidy.h; sourceTree = "<group>"; };
+		B49E9AEE163F39010007E1F5 /* CTidy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTidy.m; sourceTree = "<group>"; };
+		B49E9AEF163F39010007E1F5 /* DDXMLPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLPrivate.h; sourceTree = "<group>"; };
+		B49E9AF8163F3A610007E1F5 /* books.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = books.xml; sourceTree = "<group>"; };
+		B49E9B5A163FDD9D0007E1F5 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/usr/lib/libxml2.dylib; sourceTree = DEVELOPER_DIR; };
+		B49E9B5C163FDDAE0007E1F5 /* libtidy.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libtidy.dylib; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS6.0.sdk/usr/lib/libtidy.dylib; sourceTree = DEVELOPER_DIR; };
+		B49E9B63163FE30C0007E1F5 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
+		B49E9B65163FE31E0007E1F5 /* KissAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KissAppDelegate.h; sourceTree = "<group>"; };
+		B49E9B66163FE31E0007E1F5 /* KissAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KissAppDelegate.m; sourceTree = "<group>"; };
+		B49E9B67163FE31E0007E1F5 /* KissViewController_iPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KissViewController_iPad.xib; sourceTree = "<group>"; };
+		B49E9B68163FE31E0007E1F5 /* KissViewController_iPhone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = KissViewController_iPhone.xib; sourceTree = "<group>"; };
+		B49E9B69163FE31E0007E1F5 /* KissViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KissViewController.h; sourceTree = "<group>"; };
+		B49E9B6A163FE31E0007E1F5 /* KissViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KissViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		B435F9AD15900EA10025CC49 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B49E9B5D163FDDAE0007E1F5 /* libtidy.dylib in Frameworks */,
+				B49E9B5B163FDD9D0007E1F5 /* libxml2.dylib in Frameworks */,
+				B435F9B315900EA10025CC49 /* UIKit.framework in Frameworks */,
+				B435F9B515900EA10025CC49 /* Foundation.framework in Frameworks */,
+				B435F9B715900EA10025CC49 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		B435F94F159005F30025CC49 = {
+			isa = PBXGroup;
+			children = (
+				B49E9ADE163F39010007E1F5 /* KissXML */,
+				B435F9B815900EA10025CC49 /* Demo-IOS */,
+				B435F98B15900B200025CC49 /* Frameworks */,
+				B435F95B159005F30025CC49 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		B435F95B159005F30025CC49 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				B435F9B015900EA10025CC49 /* Demo-IOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		B435F98B15900B200025CC49 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B49E9B5C163FDDAE0007E1F5 /* libtidy.dylib */,
+				B49E9B5A163FDD9D0007E1F5 /* libxml2.dylib */,
+				B435F9B215900EA10025CC49 /* UIKit.framework */,
+				B435F9B415900EA10025CC49 /* Foundation.framework */,
+				B435F9B615900EA10025CC49 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		B435F9B815900EA10025CC49 /* Demo-IOS */ = {
+			isa = PBXGroup;
+			children = (
+				B49E9B65163FE31E0007E1F5 /* KissAppDelegate.h */,
+				B49E9B66163FE31E0007E1F5 /* KissAppDelegate.m */,
+				B49E9B67163FE31E0007E1F5 /* KissViewController_iPad.xib */,
+				B49E9B68163FE31E0007E1F5 /* KissViewController_iPhone.xib */,
+				B49E9B69163FE31E0007E1F5 /* KissViewController.h */,
+				B49E9B6A163FE31E0007E1F5 /* KissViewController.m */,
+				B435F9B915900EA10025CC49 /* Supporting Files */,
+			);
+			path = "Demo-IOS";
+			sourceTree = "<group>";
+		};
+		B435F9B915900EA10025CC49 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				B49E9B63163FE30C0007E1F5 /* InfoPlist.strings */,
+				B49E9AF8163F3A610007E1F5 /* books.xml */,
+				B435F9BA15900EA10025CC49 /* Demo-IOS-Info.plist */,
+				B435F9BE15900EA10025CC49 /* main.m */,
+				B435F9C015900EA10025CC49 /* Demo-IOS-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		B49E9ADE163F39010007E1F5 /* KissXML */ = {
+			isa = PBXGroup;
+			children = (
+				B49E9ADF163F39010007E1F5 /* Additions */,
+				B49E9AE2163F39010007E1F5 /* Categories */,
+				B49E9AE5163F39010007E1F5 /* DDXML.h */,
+				B49E9AE6163F39010007E1F5 /* DDXMLDocument.h */,
+				B49E9AE7163F39010007E1F5 /* DDXMLDocument.m */,
+				B49E9AE8163F39010007E1F5 /* DDXMLElement.h */,
+				B49E9AE9163F39010007E1F5 /* DDXMLElement.m */,
+				B49E9AEA163F39010007E1F5 /* DDXMLNode.h */,
+				B49E9AEB163F39010007E1F5 /* DDXMLNode.m */,
+				B49E9AEC163F39010007E1F5 /* Private */,
+			);
+			name = KissXML;
+			path = ../KissXML;
+			sourceTree = "<group>";
+		};
+		B49E9ADF163F39010007E1F5 /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				B49E9AE0163F39010007E1F5 /* DDXMLElementAdditions.h */,
+				B49E9AE1163F39010007E1F5 /* DDXMLElementAdditions.m */,
+			);
+			path = Additions;
+			sourceTree = "<group>";
+		};
+		B49E9AE2163F39010007E1F5 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				B49E9AE3163F39010007E1F5 /* NSString+DDXML.h */,
+				B49E9AE4163F39010007E1F5 /* NSString+DDXML.m */,
+			);
+			path = Categories;
+			sourceTree = "<group>";
+		};
+		B49E9AEC163F39010007E1F5 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				B49E9AED163F39010007E1F5 /* CTidy.h */,
+				B49E9AEE163F39010007E1F5 /* CTidy.m */,
+				B49E9AEF163F39010007E1F5 /* DDXMLPrivate.h */,
+			);
+			path = Private;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		B435F9AF15900EA10025CC49 /* Demo-IOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B435F9CD15900EA10025CC49 /* Build configuration list for PBXNativeTarget "Demo-IOS" */;
+			buildPhases = (
+				B435F9AC15900EA10025CC49 /* Sources */,
+				B435F9AD15900EA10025CC49 /* Frameworks */,
+				B435F9AE15900EA10025CC49 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Demo-IOS";
+			productName = "Demo-IOS";
+			productReference = B435F9B015900EA10025CC49 /* Demo-IOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		B435F951159005F30025CC49 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = sundown;
+			};
+			buildConfigurationList = B435F954159005F30025CC49 /* Build configuration list for PBXProject "Demo" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = B435F94F159005F30025CC49;
+			productRefGroup = B435F95B159005F30025CC49 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				B435F9AF15900EA10025CC49 /* Demo-IOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		B435F9AE15900EA10025CC49 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B49E9AF9163F3A610007E1F5 /* books.xml in Resources */,
+				B49E9B64163FE30C0007E1F5 /* InfoPlist.strings in Resources */,
+				B49E9B6C163FE31E0007E1F5 /* KissViewController_iPad.xib in Resources */,
+				B49E9B6D163FE31E0007E1F5 /* KissViewController_iPhone.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		B435F9AC15900EA10025CC49 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B435F9BF15900EA10025CC49 /* main.m in Sources */,
+				B49E9AF0163F39010007E1F5 /* DDXMLElementAdditions.m in Sources */,
+				B49E9AF1163F39010007E1F5 /* NSString+DDXML.m in Sources */,
+				B49E9AF2163F39010007E1F5 /* DDXMLDocument.m in Sources */,
+				B49E9AF3163F39010007E1F5 /* DDXMLElement.m in Sources */,
+				B49E9AF4163F39010007E1F5 /* DDXMLNode.m in Sources */,
+				B49E9AF5163F39010007E1F5 /* CTidy.m in Sources */,
+				B49E9B6B163FE31E0007E1F5 /* KissAppDelegate.m in Sources */,
+				B49E9B6E163FE31E0007E1F5 /* KissViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		B435F95C159005F30025CC49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN_OBJCPP_ARC_ABI = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+					/usr/include/tidy,
+				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				ONLY_ACTIVE_ARCH = NO;
+				SDKROOT = macosx10.7;
+			};
+			name = Debug;
+		};
+		B435F95D159005F30025CC49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_WARN_OBJCPP_ARC_ABI = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					/usr/include/libxml2,
+					/usr/include/tidy,
+				);
+				MACOSX_DEPLOYMENT_TARGET = "";
+				SDKROOT = macosx10.7;
+			};
+			name = Release;
+		};
+		B435F9CE15900EA10025CC49 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode45-DP1.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Demo-IOS/Demo-IOS-Prefix.pch";
+				INFOPLIST_FILE = "Demo-IOS/Demo-IOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		B435F9CF15900EA10025CC49 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SYSTEM_APPS_DIR)/Xcode45-DP1.app/Contents/Developer/Library/Frameworks\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Demo-IOS/Demo-IOS-Prefix.pch";
+				INFOPLIST_FILE = "Demo-IOS/Demo-IOS-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B435F954159005F30025CC49 /* Build configuration list for PBXProject "Demo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B435F95C159005F30025CC49 /* Debug */,
+				B435F95D159005F30025CC49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		B435F9CD15900EA10025CC49 /* Build configuration list for PBXNativeTarget "Demo-IOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B435F9CE15900EA10025CC49 /* Debug */,
+				B435F9CF15900EA10025CC49 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = B435F951159005F30025CC49 /* Project object */;
+}
