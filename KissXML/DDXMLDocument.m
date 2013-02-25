@@ -91,10 +91,13 @@
 	// Therefore, we call it again here just to be safe.
 	xmlKeepBlanksDefault(0);
 	
+	[DDXMLNode installErrorHandlersInThread];
 	xmlDocPtr doc = xmlParseMemory([data bytes], [data length]);
 	if (doc == NULL)
 	{
-		if (error) *error = [NSError errorWithDomain:@"DDXMLErrorDomain" code:1 userInfo:nil];
+		NSError *lastError = [DDXMLNode lastError];
+		NSDictionary *userInfo = lastError ? [NSDictionary dictionaryWithObjectsAndKeys:lastError, NSUnderlyingErrorKey, nil] : nil;
+		if (error) *error = [NSError errorWithDomain:@"DDXMLErrorDomain" code:1 userInfo:userInfo];
 		
 		return nil;
 	}
