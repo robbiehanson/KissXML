@@ -153,17 +153,17 @@
 			
 			if (uri == nil)
 			{
-				match = xmlStrEqual(child->name, xmlName);
+				match = (BOOL)xmlStrEqual(child->name, xmlName);
 			}
 			else
 			{
-				BOOL nameMatch      = xmlStrEqual(child->name, xmlName);
-				BOOL localNameMatch = xmlStrEqual(child->name, xmlLocalName);
+				BOOL nameMatch      = (BOOL)xmlStrEqual(child->name, xmlName);
+				BOOL localNameMatch = (BOOL)xmlStrEqual(child->name, xmlLocalName);
 				
 				BOOL uriMatch = NO;
 				if (child->ns)
 				{
-					uriMatch = xmlStrEqual(child->ns->href, xmlUri);
+					uriMatch = (BOOL)xmlStrEqual(child->ns->href, xmlUri);
 				}
 				
 				if (hasPrefix)
@@ -247,7 +247,6 @@
 	}
 	else
 	{
-		NSString *prefix;
 		NSString *realLocalName;
 		
 		[DDXMLNode getPrefix:&prefix localName:&realLocalName forName:localName];
