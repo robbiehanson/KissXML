@@ -1242,7 +1242,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		}
 	}
 	else {
-		xmlNodePtr rootNode = doc->children;
+		xmlNodePtr rootNode = xmlDocGetRootElement(doc);
 		if(rootNode != NULL)
 		{
 			xmlNsPtr ns = rootNode->nsDef;
