@@ -150,6 +150,11 @@ enum {
 #pragma mark --- XPath/XQuery ---
 
 - (NSArray *)nodesForXPath:(NSString *)xpath error:(NSError **)error;
+
+// This is an extension over NSXMLNode.
+// It is required if you are using XPath with documents with default namespaces.
+- (NSArray *)nodesForXPath:(NSString *)xpath namespaceMappings:(NSDictionary*)namespaceMappings error:(NSError **)error;
+
 //- (NSArray *)objectsForXQuery:(NSString *)xquery constants:(NSDictionary *)constants error:(NSError **)error;
 //- (NSArray *)objectsForXQuery:(NSString *)xquery error:(NSError **)error;
 
