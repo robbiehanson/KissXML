@@ -200,6 +200,7 @@ NS_INLINE BOOL IsXmlNsPtr(void *kindPtr)
 BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper);
 
 + (NSError *)lastError;
++ (void)installErrorHandlersInThread;
 
 @end
 
