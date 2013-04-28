@@ -1966,8 +1966,6 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 	}
 	else
 	{
-		xmlError lastError;
-		
 		int errCode = error->code;
 		NSString *errMsg = [[NSString stringWithFormat:@"%s", error->message] stringByTrimming];
 		
