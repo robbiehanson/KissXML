@@ -60,7 +60,7 @@
 {
 	// Note: Make every guarantee that genericPtr is not null
 	
-	xmlNodePtr node = xmlNewNode(NULL, [name xmlChar]);
+	xmlNodePtr node = xmlNewNode(NULL, [name dd_xmlChar]);
 	if (node == NULL)
 	{
 		return nil;
@@ -73,7 +73,7 @@
 {
 	// Note: Make every guarantee that genericPtr is not null
 	
-	xmlNodePtr node = xmlNewNode(NULL, [name xmlChar]);
+	xmlNodePtr node = xmlNewNode(NULL, [name dd_xmlChar]);
 	if (node == NULL)
 	{
 		return nil;
@@ -89,7 +89,7 @@
 {
 	// Note: Make every guarantee that genericPtr is not null
 	
-	xmlNodePtr node = xmlNewNode(NULL, [name xmlChar]);
+	xmlNodePtr node = xmlNewNode(NULL, [name dd_xmlChar]);
 	if (node == NULL)
 	{
 		return nil;
@@ -140,9 +140,9 @@
 	
 	BOOL hasPrefix = [prefix length] > 0;
 	
-	const xmlChar *xmlName      = [name xmlChar];
-	const xmlChar *xmlLocalName = [localName xmlChar];
-	const xmlChar *xmlUri       = [uri xmlChar];
+	const xmlChar *xmlName      = [name dd_xmlChar];
+	const xmlChar *xmlLocalName = [localName dd_xmlChar];
+	const xmlChar *xmlUri       = [uri dd_xmlChar];
 	
 	xmlNodePtr child = node->children;
 	while (child)
@@ -216,7 +216,7 @@
 		// Note: We use xmlSearchNs instead of resolveNamespaceForName: because
 		// we want to avoid creating wrapper objects when possible.
 		
-		xmlNsPtr ns = xmlSearchNs(node->doc, node, [prefix xmlChar]);
+		xmlNsPtr ns = xmlSearchNs(node->doc, node, [prefix dd_xmlChar]);
 		if (ns)
 		{
 			NSString *uri = [NSString stringWithUTF8String:((const char *)ns->href)];
@@ -267,7 +267,7 @@
 	xmlAttrPtr attr = ((xmlNodePtr)genericPtr)->properties;
 	if (attr)
 	{
-		const xmlChar *xmlName = [name xmlChar];
+		const xmlChar *xmlName = [name dd_xmlChar];
 		do
 		{
 			if (xmlStrEqual(attr->name, xmlName))
@@ -289,7 +289,7 @@
 	xmlAttrPtr attr = ((xmlNodePtr)genericPtr)->properties;
 	if (attr)
 	{
-		const xmlChar *xmlName = [name xmlChar];
+		const xmlChar *xmlName = [name dd_xmlChar];
 		do
 		{
 			if (xmlStrEqual(attr->name, xmlName))
@@ -363,7 +363,7 @@
 	xmlAttrPtr attr = ((xmlNodePtr)genericPtr)->properties;
 	if (attr)
 	{
-		const xmlChar *xmlName = [name xmlChar];
+		const xmlChar *xmlName = [name dd_xmlChar];
 		do
 		{
 			if (attr->ns && attr->ns->prefix)
@@ -425,7 +425,7 @@
 	xmlNodePtr node = (xmlNodePtr)genericPtr;
 	
 	// If name is nil or the empty string, the user is wishing to remove the default namespace
-	const xmlChar *xmlName = [name length] > 0 ? [name xmlChar] : NULL;
+	const xmlChar *xmlName = [name length] > 0 ? [name dd_xmlChar] : NULL;
 	
 	xmlNsPtr ns = node->nsDef;
 	while (ns != NULL)
@@ -550,7 +550,7 @@
 		xmlNsPtr ns = ((xmlNodePtr)genericPtr)->nsDef;
 		if (ns)
 		{
-			const xmlChar *xmlPrefix = [prefix xmlChar];
+			const xmlChar *xmlPrefix = [prefix dd_xmlChar];
 			do
 			{
 				if (xmlStrEqual(ns->prefix, xmlPrefix))
@@ -596,7 +596,7 @@
 	xmlNsPtr ns = nodePtr->nsDef;
 	if (ns)
 	{
-		const xmlChar *xmlPrefix = [prefix xmlChar];
+		const xmlChar *xmlPrefix = [prefix dd_xmlChar];
 		do
 		{
 			if (xmlStrEqual(ns->prefix, xmlPrefix))
@@ -653,7 +653,7 @@
 	xmlNsPtr ns = nodePtr->nsDef;
 	if (ns)
 	{
-		const xmlChar *xmlUri = [uri xmlChar];
+		const xmlChar *xmlUri = [uri dd_xmlChar];
 		do
 		{
 			if (xmlStrEqual(ns->href, xmlUri))
