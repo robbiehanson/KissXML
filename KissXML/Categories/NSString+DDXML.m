@@ -6,7 +6,7 @@
 
 @implementation NSString (DDXML)
 
-- (const xmlChar *)xmlChar
+- (const xmlChar *)dd_xmlChar
 {
 	return (const xmlChar *)[self UTF8String];
 }
@@ -17,7 +17,7 @@
 	return [self stringByTrimmingSpaces];
 }
 #else
-- (NSString *)stringByTrimming
+- (NSString *)dd_stringByTrimming
 {
 	NSMutableString *mStr = [self mutableCopy];
 	CFStringTrimWhitespace((__bridge CFMutableStringRef)mStr);
@@ -29,3 +29,21 @@
 #endif
 
 @end
+
+#ifndef KISS_XML_EXCLUDE_DEPRECATED
+
+@implementation NSString (DDXMLDeprecated)
+
+- (const xmlChar *)xmlChar
+{
+	return [self dd_xmlChar];
+}
+
+- (NSString *)stringByTrimming
+{
+    return [self dd_stringByTrimming];
+}
+
+@end
+
+#endif
