@@ -16,13 +16,17 @@
  * https://github.com/robbiehanson/KissXML/wiki/Reference
 **/
 
+#define DDXML_FALLBACK_ON_HTML 1
+#define DDXML_DROPIN_IOS       1
+
 #import "DDXMLNode.h"
 #import "DDXMLElement.h"
 #import "DDXMLDocument.h"
 
+#if TARGET_OS_IPHONE && DDXML_DROPIN_IOS
 
-
-#if TARGET_OS_IPHONE && 0 // Disabled by default
+#define NSXMLDocumentTidyXML DDXMLDocumentTidyXML
+#define NSXMLDocumentTidyHTML DDXMLDocumentTidyHTML
 
 // Since KissXML is a drop in replacement for NSXML,
 // it may be desireable (when writing cross-platform code to be used on both Mac OS X and iOS)
