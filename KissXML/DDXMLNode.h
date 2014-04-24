@@ -152,5 +152,5 @@ enum {
 - (NSArray *)nodesForXPath:(NSString *)xpath error:(NSError **)error;
 //- (NSArray *)objectsForXQuery:(NSString *)xquery constants:(NSDictionary *)constants error:(NSError **)error;
 //- (NSArray *)objectsForXQuery:(NSString *)xquery error:(NSError **)error;
-
++ (void)installErrorHandlersInThread;
 @end

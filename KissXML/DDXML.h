@@ -20,14 +20,13 @@
 #import "DDXMLElement.h"
 #import "DDXMLDocument.h"
 
-
-
-#if TARGET_OS_IPHONE && 0 // Disabled by default
-
+#ifdef PAPERS_APP_IOS
+#define NSXMLDocumentTidyXML DDXMLDocumentTidyXML
+#define NSXMLDocumentTidyHTML DDXMLDocumentTidyHTML
 // Since KissXML is a drop in replacement for NSXML,
 // it may be desireable (when writing cross-platform code to be used on both Mac OS X and iOS)
 // to use the NSXML prefixes instead of the DDXML prefix.
-// 
+//
 // This way, on Mac OS X it uses NSXML, and on iOS it uses KissXML.
 
 #ifndef NSXMLNode

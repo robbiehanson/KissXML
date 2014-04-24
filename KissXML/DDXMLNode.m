@@ -43,7 +43,12 @@ static void MarkBirth(void *xmlPtr, DDXMLNode *wrapper);
 static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 
 #endif
-
++ (void)installErrorHandlersInThread
+{
+	// Redirect error output to our own function (don't clog up the console)
+	initGenericErrorDefaultFunc(NULL);
+	xmlSetStructuredErrorFunc(NULL, MyErrorHandler);
+}
 /**
  * From Apple's Documentation:
  * 
@@ -59,9 +64,6 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		
-		// Redirect error output to our own function (don't clog up the console)
-		initGenericErrorDefaultFunc(NULL);
-		xmlSetStructuredErrorFunc(NULL, MyErrorHandler);
 		
 		// Tell libxml not to keep ignorable whitespace (such as node indentation, formatting, etc).
 		// NSXML ignores such whitespace.
@@ -1200,7 +1202,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 #if DDXML_DEBUG_MEMORY_ISSUES
 	DDXMLNotZombieAssert();
 #endif
-	
+	[[self class] installErrorHandlersInThread];
+
 	xmlXPathContextPtr xpathCtx;
 	xmlXPathObjectPtr xpathObj;
 	
@@ -1945,23 +1948,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 **/
 + (NSError *)lastError
 {
-	NSValue *lastErrorValue = [[[NSThread currentThread] threadDictionary] objectForKey:DDLastErrorKey];
-	if(lastErrorValue)
-	{
-		xmlError lastError;
-		[lastErrorValue getValue:&lastError];
-		
-		int errCode = lastError.code;
-		NSString *errMsg = [[NSString stringWithFormat:@"%s", lastError.message] stringByTrimming];
-		
-		NSDictionary *info = [NSDictionary dictionaryWithObject:errMsg forKey:NSLocalizedDescriptionKey];
-			
-		return [NSError errorWithDomain:@"DDXMLErrorDomain" code:errCode userInfo:info];
-	}
-	else
-	{
-		return nil;
-	}
+        return [[[NSThread currentThread] threadDictionary] objectForKey:DDLastErrorKey];
 }
 
 static void MyErrorHandler(void * userData, xmlErrorPtr error)
@@ -1978,9 +1965,11 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 	}
 	else
 	{
-		NSValue *errorValue = [NSValue valueWithBytes:error objCType:@encode(xmlError)];
-		
-		[[[NSThread currentThread] threadDictionary] setObject:errorValue forKey:DDLastErrorKey];
+		int errCode = error->code;
+                NSString *errMsg = [[NSString stringWithFormat:@"%s", error->message] stringByTrimming];
+                NSDictionary *info = [NSDictionary dictionaryWithObject:errMsg forKey:NSLocalizedDescriptionKey];
+                NSError *errorObject = [NSError errorWithDomain:@"libxml2" code:errCode userInfo:info];
+                [[[NSThread currentThread] threadDictionary] setObject:errorObject forKey:DDLastErrorKey];
 	}
 }
 

@@ -31,75 +31,95 @@
 **/
 + (id)nodeWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)owner
 {
-	return [[DDXMLDocument alloc] initWithDocPrimitive:doc owner:owner];
+        return [[DDXMLDocument alloc] initWithDocPrimitive:doc owner:owner];
 }
 
 - (id)initWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)inOwner
 {
-	self = [super initWithPrimitive:(xmlKindPtr)doc owner:inOwner];
-	return self;
+        self = [super initWithPrimitive:(xmlKindPtr)doc owner:inOwner];
+        return self;
 }
 
 + (id)nodeWithPrimitive:(xmlKindPtr)kindPtr owner:(DDXMLNode *)owner
 {
-	// Promote initializers which use proper parameter types to enable compiler to catch more mistakes
-	NSAssert(NO, @"Use nodeWithDocPrimitive:owner:");
-	
-	return nil;
+        // Promote initializers which use proper parameter types to enable compiler to catch more mistakes
+        NSAssert(NO, @"Use nodeWithDocPrimitive:owner:");
+
+        return nil;
 }
 
 - (id)initWithPrimitive:(xmlKindPtr)kindPtr owner:(DDXMLNode *)inOwner
 {
-	// Promote initializers which use proper parameter types to enable compiler to catch more mistakes.
-	NSAssert(NO, @"Use initWithDocPrimitive:owner:");
-	
-	return nil;
+        // Promote initializers which use proper parameter types to enable compiler to catch more mistakes.
+        NSAssert(NO, @"Use initWithDocPrimitive:owner:");
+
+        return nil;
 }
 
 /**
  * Initializes and returns a DDXMLDocument object created from an NSData object.
- * 
+ *
  * Returns an initialized DDXMLDocument object, or nil if initialization fails
  * because of parsing errors or other reasons.
 **/
 - (id)initWithXMLString:(NSString *)string options:(NSUInteger)mask error:(NSError **)error
 {
-	return [self initWithData:[string dataUsingEncoding:NSUTF8StringEncoding]
-	                  options:mask
-	                    error:error];
+        return [self initWithData:[string dataUsingEncoding:NSUTF8StringEncoding]
+                          options:mask
+                            error:error];
 }
 
 /**
  * Initializes and returns a DDXMLDocument object created from an NSData object.
- * 
+ *
  * Returns an initialized DDXMLDocument object, or nil if initialization fails
  * because of parsing errors or other reasons.
 **/
 - (id)initWithData:(NSData *)data options:(NSUInteger)mask error:(NSError **)error
 {
-	if (data == nil || [data length] == 0)
-	{
-		if (error) *error = [NSError errorWithDomain:@"DDXMLErrorDomain" code:0 userInfo:nil];
-		
-		return nil;
-	}
-	
-	// Even though xmlKeepBlanksDefault(0) is called in DDXMLNode's initialize method,
-	// it has been documented that this call seems to get reset on the iPhone:
-	// http://code.google.com/p/kissxml/issues/detail?id=8
-	// 
-	// Therefore, we call it again here just to be safe.
-	xmlKeepBlanksDefault(0);
-	
-	xmlDocPtr doc = xmlParseMemory([data bytes], (int)[data length]);
-	if (doc == NULL)
-	{
-		if (error) *error = [NSError errorWithDomain:@"DDXMLErrorDomain" code:1 userInfo:nil];
-		
-		return nil;
-	}
-	
-	return [self initWithDocPrimitive:doc owner:nil];
+        if (data == nil || [data length] == 0)
+        {
+                if (error) *error = [NSError errorWithDomain:@"DDXMLErrorDomain" code:0 userInfo:nil];
+
+                return nil;
+        }
+        #ifdef PAPERS_APP_IOS
+            if (mask & DDXMLDocumentTidyHTML)
+            {
+                data = [[CTidy tidy] tidyData:data inputFormat:CTidyFormatHTML
+                                 outputFormat:CTidyFormatXML
+                                     encoding:@"UTF8"
+                                  diagnostics:NULL error:error];
+            }
+            else if (mask & DDXMLDocumentTidyXML)
+            {
+                data = [[CTidy tidy] tidyData:data inputFormat:CTidyFormatXML
+                                 outputFormat:CTidyFormatXML
+                                     encoding:@"UTF8"
+                                  diagnostics:NULL error:error];
+
+            }
+            if(!data) {
+              return nil;
+            }
+        #endif
+        // Even though xmlKeepBlanksDefault(0) is called in DDXMLNode's initialize method,
+        // it has been documented that this call seems to get reset on the iPhone:
+        // http://code.google.com/p/kissxml/issues/detail?id=8
+        //
+        // Therefore, we call it again here just to be safe.
+        xmlKeepBlanksDefault(0);
+        [DDXMLNode installErrorHandlersInThread];
+        xmlDocPtr doc = xmlParseMemory([data bytes], (int)[data length]);
+        if (doc == NULL)
+        {
+              NSError *lastError = [DDXMLNode lastError];
+              NSDictionary *userInfo = lastError ? [NSDictionary dictionaryWithObjectsAndKeys:lastError, NSUnderlyingErrorKey, nil] : nil;
+              if (error) *error = [NSError errorWithDomain:@"DDXMLErrorDomain" code:1 userInfo:userInfo];
+              return nil;
+        }
+
+        return [self initWithDocPrimitive:doc owner:nil];
 }
 
 /**

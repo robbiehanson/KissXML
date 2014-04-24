@@ -28,6 +28,11 @@ enum {
 };
 typedef NSUInteger DDXMLDocumentContentKind;
 
+enum {
+    DDXMLDocumentTidyHTML = 1UL << 9,
+    DDXMLDocumentTidyXML = 1UL << 10,
+};
+
 @interface DDXMLDocument : DDXMLNode
 {
 }
