@@ -20,13 +20,6 @@
 #import "DDXMLElement.h"
 #import "DDXMLDocument.h"
 
-#ifdef PAPERS_APP_IOS
-#define MTXMLDocumentTidyXML DDXMLDocumentTidyXML
-#define MTXMLDocumentTidyHTML DDXMLDocumentTidyHTML
-#else
-#define MTXMLDocumentTidyXML NSXMLDocumentTidyXML
-#define MTXMLDocumentTidyHTML NSXMLDocumentTidyHTML
-#endif 
 
 // Since KissXML is a drop in replacement for NSXML,
 // it may be desireable (when writing cross-platform code to be used on both Mac OS X and iOS)
