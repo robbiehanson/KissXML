@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "DDXMLElement.h"
 #import "DDXMLNode.h"
+#import <libxml/parser.h>
+#import <libxml/HTMLparser.h>
 
 /**
  * Welcome to KissXML.
@@ -27,6 +29,11 @@ enum {
 	DDXMLDocumentTextKind
 };
 typedef NSUInteger DDXMLDocumentContentKind;
+
+enum {
+    DDXMLDocumentTidyHTML = 1UL << 9,
+    DDXMLDocumentTidyXML = 1UL << 10,
+};
 
 @interface DDXMLDocument : DDXMLNode
 {

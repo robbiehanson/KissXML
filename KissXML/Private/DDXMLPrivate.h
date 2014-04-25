@@ -92,7 +92,16 @@ NS_INLINE BOOL IsXmlNodePtr(void *kindPtr)
 
 NS_INLINE BOOL IsXmlDocPtr(void *kindPtr)
 {
-	return ((xmlKindPtr)kindPtr)->type == XML_DOCUMENT_NODE;
+#if DDXML_FALLBACK_ON_HTML
+	switch (((xmlKindPtr)kindPtr)->type)
+	{
+		case XML_DOCUMENT_NODE      :
+		case XML_HTML_DOCUMENT_NODE : return YES;
+		default                     : return NO;
+	}
+#else
+    return ((xmlKindPtr)kindPtr)->type == XML_DOCUMENT_NODE;
+#endif
 }
 
 NS_INLINE BOOL IsXmlDtdPtr(void *kindPtr)
@@ -200,7 +209,7 @@ NS_INLINE BOOL IsXmlNsPtr(void *kindPtr)
 BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper);
 
 + (NSError *)lastError;
-
++ (void)installErrorHandlersInThread;
 @end
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

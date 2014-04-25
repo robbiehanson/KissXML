@@ -43,7 +43,12 @@ static void MarkBirth(void *xmlPtr, DDXMLNode *wrapper);
 static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 
 #endif
-
++ (void)installErrorHandlersInThread
+{
+	// Redirect error output to our own function (don't clog up the console)
+	initGenericErrorDefaultFunc(NULL);
+	xmlSetStructuredErrorFunc(NULL, MyErrorHandler);
+}
 /**
  * From Apple's Documentation:
  * 
@@ -59,9 +64,6 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		
-		// Redirect error output to our own function (don't clog up the console)
-		initGenericErrorDefaultFunc(NULL);
-		xmlSetStructuredErrorFunc(NULL, MyErrorHandler);
 		
 		// Tell libxml not to keep ignorable whitespace (such as node indentation, formatting, etc).
 		// NSXML ignores such whitespace.
@@ -422,7 +424,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	}
 	
 	NSString *name = [NSString stringWithUTF8String:(const char *)xmlName];
-	
+	if ([name isEqualToString:@"text"]) return nil; // If node is a textnode NSXMLDocument return <nil>, also what the Mac expects, KissXML returns 'text'
+
 	if (IsXmlNodePtr(genericPtr))
 	{
 		xmlNodePtr node = (xmlNodePtr)genericPtr;
@@ -698,8 +701,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the previous DDXMLNode object that is a sibling node to the receiver.
  * 
- * This object will have an index value that is one less than the receiverÕs.
- * If there are no more previous siblings (that is, other child nodes of the receiverÕs parent) the method returns nil.
+ * This object will have an index value that is one less than the receiverï¿½s.
+ * If there are no more previous siblings (that is, other child nodes of the receiverï¿½s parent) the method returns nil.
 **/
 - (DDXMLNode *)previousSibling
 {
@@ -720,8 +723,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the next DDXMLNode object that is a sibling node to the receiver.
  * 
- * This object will have an index value that is one more than the receiverÕs.
- * If there are no more subsequent siblings (that is, other child nodes of the receiverÕs parent) the
+ * This object will have an index value that is one more than the receiverï¿½s.
+ * If there are no more subsequent siblings (that is, other child nodes of the receiverï¿½s parent) the
  * method returns nil.
 **/
 - (DDXMLNode *)nextSibling
@@ -743,7 +746,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the previous DDXMLNode object in document order.
  * 
- * You use this method to ÒwalkÓ backward through the tree structure representing an XML document or document section.
+ * You use this method to ï¿½walkï¿½ backward through the tree structure representing an XML document or document section.
  * (Use nextNode to traverse the tree in the opposite direction.) Document order is the natural order that XML
  * constructs appear in markup text. If you send this message to the first node in the tree (that is, the root element),
  * nil is returned. DDXMLNode bypasses namespace and attribute nodes when it traverses a tree in document order.
@@ -797,7 +800,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the next DDXMLNode object in document order.
  * 
- * You use this method to ÒwalkÓ forward through the tree structure representing an XML document or document section.
+ * You use this method to ï¿½walkï¿½ forward through the tree structure representing an XML document or document section.
  * (Use previousNode to traverse the tree in the opposite direction.) Document order is the natural order that XML
  * constructs appear in markup text. If you send this message to the last node in the tree, nil is returned.
  * DDXMLNode bypasses namespace and attribute nodes when it traverses a tree in document order.
@@ -938,7 +941,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
  * Returns the local name of the receiver.
  * 
  * The local name is the part of a node name that follows a namespace-qualifying colon or the full name if
- * there is no colon. For example, ÒchapterÓ is the local name in the qualified name Òacme:chapterÓ.
+ * there is no colon. For example, ï¿½chapterï¿½ is the local name in the qualified name ï¿½acme:chapterï¿½.
 **/
 - (NSString *)localName
 {
@@ -950,11 +953,11 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 }
 
 /**
- * Returns the prefix of the receiverÕs name.
+ * Returns the prefix of the receiverï¿½s name.
  * 
  * The prefix is the part of a namespace-qualified name that precedes the colon.
- * For example, ÒacmeÓ is the local name in the qualified name Òacme:chapterÓ.
- * This method returns an empty string if the receiverÕs name is not qualified by a namespace.
+ * For example, ï¿½acmeï¿½ is the local name in the qualified name ï¿½acme:chapterï¿½.
+ * This method returns an empty string if the receiverï¿½s name is not qualified by a namespace.
 **/
 - (NSString *)prefix
 {
@@ -1000,7 +1003,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the URI associated with the receiver.
  * 
- * A nodeÕs URI is derived from its namespace or a documentÕs URI; for documents, the URI comes either from the
+ * A nodeï¿½s URI is derived from its namespace or a documentï¿½s URI; for documents, the URI comes either from the
  * parsed XML or is explicitly set. You cannot change the URI for a particular node other for than a namespace
  * or document node.
 **/
@@ -1199,7 +1202,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 #if DDXML_DEBUG_MEMORY_ISSUES
 	DDXMLNotZombieAssert();
 #endif
-	
+	[[self class] installErrorHandlersInThread];
+
 	xmlXPathContextPtr xpathCtx;
 	xmlXPathObjectPtr xpathObj;
 	
@@ -1944,23 +1948,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 **/
 + (NSError *)lastError
 {
-	NSValue *lastErrorValue = [[[NSThread currentThread] threadDictionary] objectForKey:DDLastErrorKey];
-	if(lastErrorValue)
-	{
-		xmlError lastError;
-		[lastErrorValue getValue:&lastError];
-		
-		int errCode = lastError.code;
-		NSString *errMsg = [[NSString stringWithFormat:@"%s", lastError.message] stringByTrimming];
-		
-		NSDictionary *info = [NSDictionary dictionaryWithObject:errMsg forKey:NSLocalizedDescriptionKey];
-			
-		return [NSError errorWithDomain:@"DDXMLErrorDomain" code:errCode userInfo:info];
-	}
-	else
-	{
-		return nil;
-	}
+        return [[[NSThread currentThread] threadDictionary] objectForKey:DDLastErrorKey];
 }
 
 static void MyErrorHandler(void * userData, xmlErrorPtr error)
@@ -1977,9 +1965,11 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 	}
 	else
 	{
-		NSValue *errorValue = [NSValue valueWithBytes:error objCType:@encode(xmlError)];
-		
-		[[[NSThread currentThread] threadDictionary] setObject:errorValue forKey:DDLastErrorKey];
+		int errCode = error->code;
+                NSString *errMsg = [[NSString stringWithFormat:@"%s", error->message] stringByTrimming];
+                NSDictionary *info = [NSDictionary dictionaryWithObject:errMsg forKey:NSLocalizedDescriptionKey];
+                NSError *errorObject = [NSError errorWithDomain:@"libxml2" code:errCode userInfo:info];
+                [[[NSThread currentThread] threadDictionary] setObject:errorObject forKey:DDLastErrorKey];
 	}
 }
 
