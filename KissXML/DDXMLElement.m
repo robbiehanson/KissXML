@@ -247,12 +247,12 @@
 	}
 	else
 	{
-		NSString *prefix;
+		NSString *anotherPrefix;
 		NSString *realLocalName;
 		
-		[DDXMLNode getPrefix:&prefix localName:&realLocalName forName:localName];
+		[DDXMLNode getPrefix:&anotherPrefix localName:&realLocalName forName:localName];
 		
-		return [self _elementsForName:localName localName:realLocalName prefix:prefix uri:uri];
+		return [self _elementsForName:localName localName:realLocalName prefix:anotherPrefix uri:uri];
 	}
 }
 
