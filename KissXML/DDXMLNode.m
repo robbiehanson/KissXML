@@ -88,6 +88,11 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	return [[DDXMLElement alloc] initWithName:name stringValue:string];
 }
 
++ (id)elementWithName:(NSString *)name cdata:(NSString *)cdata
+{
+	return [[DDXMLElement alloc] initWithName:name cdata:cdata];
+}
+
 + (id)elementWithName:(NSString *)name children:(NSArray *)children attributes:(NSArray *)attributes
 {
 	DDXMLElement *result = [[DDXMLElement alloc] initWithName:name];

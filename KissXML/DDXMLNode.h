@@ -75,6 +75,8 @@ enum {
 
 + (id)elementWithName:(NSString *)name stringValue:(NSString *)string;
 
++ (id)elementWithName:(NSString *)name cdata:(NSString *)cdata;
+
 + (id)elementWithName:(NSString *)name children:(NSArray *)children attributes:(NSArray *)attributes;
 
 + (id)attributeWithName:(NSString *)name stringValue:(NSString *)stringValue;

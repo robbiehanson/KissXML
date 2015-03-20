@@ -101,6 +101,23 @@
 	return result;
 }
 
+- (id)initWithName:(NSString *)name cdata:(NSString *)cdata
+{
+	xmlNodePtr node = xmlNewNode(NULL, [name xmlChar]);
+	if (node == NULL)
+	{
+		return nil;
+	}
+
+	const char * content = cdata.UTF8String;
+	xmlNodePtr cdataNode = xmlNewCDataBlock(node->doc, BAD_CAST content, (int)strlen(content));
+	xmlAddChild(node, cdataNode);
+
+	DDXMLElement *result = [self initWithElementPrimitive:node owner:nil];
+
+	return result;
+}
+
 - (id)initWithXMLString:(NSString *)string error:(NSError **)error
 {
 	DDXMLDocument *doc = [[DDXMLDocument alloc] initWithXMLString:string options:0 error:error];
