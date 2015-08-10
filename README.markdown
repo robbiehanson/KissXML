@@ -15,6 +15,16 @@ KissXML was inspired by the TouchXML project, but was created to add full suppor
 **[Get started using KissXML](https://github.com/robbiehanson/KissXML/wiki/GettingStarted)**<br/>
 **[Learn more about KissXML](https://github.com/robbiehanson/KissXML/wiki)**<br/>
 
+### Carthage
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
+KissXML is fully Carthage compatible. To include it, build you project with Carthage, then drag **./Carthage/Build/iOS/KissXML.framework** into you project and add this import:
+
+```objectivec
+#import <KissXML/KissXML.h>
+```
+
+
 <br/>
 Can't find the answer to your question in any of the [wiki](https://github.com/robbiehanson/KissXML/wiki) articles? Try the **[mailing list](http://groups.google.com/group/kissxml)**.
 <br/>
