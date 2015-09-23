@@ -2,4 +2,4 @@ language: objective-c
 osx_image: xcode7
 
 script:
-  - pod spec lint KissXML.podspec --verbose
+  - xctool -workspace KissXML.xcworkspace -scheme KissXMLTests -sdk macosx -arch x86_64 test
