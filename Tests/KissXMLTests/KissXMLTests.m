@@ -1974,29 +1974,29 @@ static DDAssertionHandler *ddAssertionHandler;
     {
         NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
         
-        NSXMLNode *nsNode = [[NSXMLNode alloc] init];
+        NSXMLNode *nsNode = [[NSXMLNode alloc] initWithKind:NSXMLInvalidKind];
         DDXMLNode *ddNode = [[DDXMLNode alloc] init];
         
         XCTAssert([NSStringFromClass([ddNode class]) isEqualToString:@"DDXMLInvalidNode"], @"Failed test 0");
-        XCTAssert([NSStringFromClass([nsNode class]) isEqualToString:@"_NSXMLPlaceholderNode"], @"Failed test 0a");
+        XCTAssert([NSStringFromClass([nsNode class]) isEqualToString:@"NSXMLNode"], @"Failed test 0a");
         
-        // _NSXMLPlaceholderNode does not recognize these selectors
-        //NSXMLNodeKind nsKind = [nsNode kind];
-        //XCTAssert(nsKind == NSXMLInvalidKind, @"Failed CHECK 1a");
+        NSXMLNodeKind nsKind = [nsNode kind];
+        XCTAssert(nsKind == NSXMLInvalidKind, @"Failed CHECK 1a");
         
         DDXMLNodeKind ddKind = [ddNode kind];
         XCTAssert(ddKind == DDXMLInvalidKind, @"Failed test 1a");
         
         // _NSXMLPlaceholderNode does not recognize these selectors
-        //NSString *nsName = [nsNode name];
+        NSString *nsName = [nsNode name];
         NSString *ddName = [ddNode name];
         
         XCTAssert(ddName == nil, @"Failed test 2 - dd(%@)", ddName);
+        XCTAssert(nsName == nil, @"Failed test 2a - dd(%@)", ddName);
         
-        //NSString *nsDesc = [nsNode description];
-        //NSString *ddDesc = [ddNode description];
+        NSString *nsDesc = [nsNode description];
+        NSString *ddDesc = [ddNode description];
         
-        //XCTAssert(nsDesc && [nsDesc isEqualToString:ddDesc], @"Failed test 3 - ns(%@) dd(%@)", nsDesc, ddDesc);
+        XCTAssert(nsDesc && [nsDesc isEqualToString:ddDesc], @"Failed test 3 - ns(%@) dd(%@)", nsDesc, ddDesc);
     }}
 
 @end
