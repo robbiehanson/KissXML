@@ -3,5 +3,11 @@ use_frameworks!
 
 
 target 'KissXMLTests', :exclusive => true do
+  platform :osx, "10.8"
+  pod "KissXML", :path => "../"
+end
+
+target 'KissXMLTests_iOS', :exclusive => true do
+  platform :ios, "8.0"
   pod "KissXML", :path => "../"
 end
