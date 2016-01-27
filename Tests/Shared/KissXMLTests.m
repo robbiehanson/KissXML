@@ -1972,6 +1972,7 @@ static DDAssertionHandler *ddAssertionHandler;
 
 - (void)testInvalidNode { @autoreleasepool
     {
+#if !(TARGET_OS_IPHONE) // This test won't compile for iOS targets due to initWithKind:
         NSLog(@"Starting %@...", NSStringFromSelector(_cmd));
         
         NSXMLNode *nsNode = [[NSXMLNode alloc] initWithKind:NSXMLInvalidKind];
@@ -1997,6 +1998,7 @@ static DDAssertionHandler *ddAssertionHandler;
         NSString *ddDesc = [ddNode description];
         
         XCTAssert(nsDesc && [nsDesc isEqualToString:ddDesc], @"Failed test 3 - ns(%@) dd(%@)", nsDesc, ddDesc);
+#endif
     }}
 
 @end
