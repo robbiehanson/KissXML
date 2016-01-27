@@ -2,9 +2,9 @@ language: objective-c
 osx_image: xcode7.2
 
 script:
-  - pod install --project-directory=/Tests/Mac
-  - pod install --project-directory=/Tests/iOS
-  - pod install --project-directory=/Tests/Swift
+  - pod install --project-directory=./Tests/Mac
+  - pod install --project-directory=./Tests/iOS
+  - pod install --project-directory=./Tests/Swift
   - xctool -workspace ./Tests/Mac/KissXML.xcworkspace -scheme KissXMLTests -sdk macosx -arch x86_64 test
   - xctool -workspace ./Tests/iOS/KissXML.xcworkspace -scheme KissXMLTests -sdk iphonesimulator -arch i386 test
   - xctool -workspace ./Tests/Swift/KissXML.xcworkspace -scheme KissXMLSwiftTests -sdk macosx -arch x86_64 test

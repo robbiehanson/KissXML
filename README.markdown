@@ -30,5 +30,5 @@ Love the project? Wanna buy me a coffee? (or a beer :D) [![donation](http://www.
 
 ## Changelog
 
-* 5.1.0 - Jan 26 2016 - Enable Swift support via `libxml/module.modulemap` and `DDXML_LIBXML_MODULE_ENABLED` macro.
+* 5.0.2 - Jan 26 2016 - Enable Swift support via `libxml/module.modulemap` and `DDXML_LIBXML_MODULE_ENABLED` macro. You can use the `KissXML/libxml_module` CocoaPods subspec to enable this feature. 
 * 5.0.1 - Jan 21 2016 - Run tests on iOS and Mac targets. 
