@@ -8,7 +8,7 @@
 
 import Foundation
 
-#if os(iOS) && DDXML_NS_DECLARATIONS_ENABLED
+#if os(iOS)
     public typealias  NSXMLNode = DDXMLNode
     public typealias  NSXMLElement = DDXMLElement
     public typealias  NSXMLDocument = DDXMLDocument
