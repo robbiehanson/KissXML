@@ -26,6 +26,7 @@ Pod::Spec.new do |s|
   s.subspec 'libxml_module' do |ss|
     ss.dependency 'KissXML/Core'
     ss.ios.source_files  = 'KissXML/**/*.swift'
+    ss.ios.deployment_target = "8.0"
     ss.preserve_path = 'libxml/module.modulemap'
     ss.xcconfig     = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2 $(PODS_ROOT)/KissXML/libxml "$(PODS_ROOT)/../../../libxml"',
                         'CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES' => 'NO',
