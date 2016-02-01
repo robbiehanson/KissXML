@@ -25,7 +25,9 @@ class KissXMLSwiftTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         let node = DDXMLNode()
+        let apple = NSXMLNode()
         XCTAssertNotNil(node)
+        XCTAssertNotNil(apple)
     }
     
 }
