@@ -1196,6 +1196,11 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 
 - (NSArray *)nodesForXPath:(NSString *)xpath error:(NSError **)error
 {
+	return [self nodesForXPath:xpath namespaceMappings:nil error:error];
+}
+
+- (NSArray *)nodesForXPath:(NSString *)xpath namespaceMappings:namespaceMappings error:(NSError **)error
+{
 #if DDXML_DEBUG_MEMORY_ISSUES
 	DDXMLNotZombieAssert();
 #endif
@@ -1230,15 +1235,28 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	xpathCtx = xmlXPathNewContext(doc);
 	xpathCtx->node = (xmlNodePtr)genericPtr;
 		
-	xmlNodePtr rootNode = (doc)->children;
-	if(rootNode != NULL)
-	{
-		xmlNsPtr ns = rootNode->nsDef;
-		while(ns != NULL)
+	if (namespaceMappings) {
+		for (NSString* k in namespaceMappings) {
+			NSString* v = [namespaceMappings objectForKey:k];
+			xmlXPathRegisterNs(xpathCtx, [k xmlChar], [v xmlChar]);
+		}
+	}
+	else {
+		xmlNodePtr rootNode = xmlDocGetRootElement(doc);
+		if(rootNode != NULL)
 		{
-			xmlXPathRegisterNs(xpathCtx, ns->prefix, ns->href);
-			
-			ns = ns->next;
+			xmlNsPtr ns = rootNode->nsDef;
+			while(ns != NULL)
+			{
+				const xmlChar* prefix = ns->prefix;
+				if (!prefix || !*prefix)
+				{
+					prefix = rootNode->name;
+				}
+				xmlXPathRegisterNs(xpathCtx, prefix, ns->href);
+				
+				ns = ns->next;
+			}
 		}
 	}
 	
