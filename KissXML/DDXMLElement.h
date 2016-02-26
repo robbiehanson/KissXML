@@ -26,6 +26,7 @@
 - (id)initWithName:(NSString *)name;
 - (id)initWithName:(NSString *)name URI:(NSString *)URI;
 - (id)initWithName:(NSString *)name stringValue:(NSString *)string;
+- (id)initWithName:(NSString *)name cdata:(NSString *)cdata;
 - (id)initWithXMLString:(NSString *)string error:(NSError **)error;
 
 #pragma mark --- Elements by name ---
