@@ -6,8 +6,6 @@
 //  Copyright © 2016 co.pku. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 //! Project version number for KissXML.
 FOUNDATION_EXPORT double KissXMLVersionNumber;
 
