@@ -12,7 +12,7 @@
 		AB0E22881C7D97B3000445C7 /* KissXMLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0E22871C7D97B3000445C7 /* KissXMLTests.m */; };
 		AB0E22A21C7D97ED000445C7 /* DDXMLElementAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = AB0E22931C7D97ED000445C7 /* DDXMLElementAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB0E22A31C7D97ED000445C7 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0E22941C7D97ED000445C7 /* DDXMLElementAdditions.m */; };
-		AB0E22A41C7D97ED000445C7 /* NSString+DDXML.h in Headers */ = {isa = PBXBuildFile; fileRef = AB0E22961C7D97ED000445C7 /* NSString+DDXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AB0E22A41C7D97ED000445C7 /* NSString+DDXML.h in Headers */ = {isa = PBXBuildFile; fileRef = AB0E22961C7D97ED000445C7 /* NSString+DDXML.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		AB0E22A51C7D97ED000445C7 /* NSString+DDXML.m in Sources */ = {isa = PBXBuildFile; fileRef = AB0E22971C7D97ED000445C7 /* NSString+DDXML.m */; };
 		AB0E22A61C7D97ED000445C7 /* DDXML.h in Headers */ = {isa = PBXBuildFile; fileRef = AB0E22981C7D97ED000445C7 /* DDXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB0E22A81C7D97ED000445C7 /* DDXMLDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = AB0E229A1C7D97ED000445C7 /* DDXMLDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -160,10 +160,10 @@
 				AB0E22AA1C7D97ED000445C7 /* DDXMLElement.h in Headers */,
 				AB0E22A21C7D97ED000445C7 /* DDXMLElementAdditions.h in Headers */,
 				AB0E22A61C7D97ED000445C7 /* DDXML.h in Headers */,
-				AB0E22A41C7D97ED000445C7 /* NSString+DDXML.h in Headers */,
 				AB0E22AC1C7D97ED000445C7 /* DDXMLNode.h in Headers */,
 				AB0E22AE1C7D97ED000445C7 /* DDXMLPrivate.h in Headers */,
 				AB0E227C1C7D97B3000445C7 /* KissXML.h in Headers */,
+				AB0E22A41C7D97ED000445C7 /* NSString+DDXML.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

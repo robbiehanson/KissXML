@@ -20,6 +20,7 @@
 #import "DDXMLElement.h"
 #import "DDXMLDocument.h"
 #import "DDXMLPrivate.h"
+#import "DDXMLElementAdditions.h"
 
 #if TARGET_OS_IPHONE
 
