@@ -19,6 +19,7 @@
 #import "DDXMLNode.h"
 #import "DDXMLElement.h"
 #import "DDXMLDocument.h"
+#import "DDXMLPrivate.h"
 
 #if TARGET_OS_IPHONE
 
