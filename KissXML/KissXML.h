@@ -5,6 +5,7 @@
 //  Created by Nguyen Tuan on 2/24/16.
 //  Copyright © 2016 co.pku. All rights reserved.
 //
+#import <Foundation/Foundation.h>
 
 //! Project version number for KissXML.
 FOUNDATION_EXPORT double KissXMLVersionNumber;
