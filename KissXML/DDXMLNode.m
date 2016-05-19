@@ -1025,7 +1025,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	return nil;
 }
 
-+ (void)getHasPrefix:(BOOL *)hasPrefixPtr localName:(NSString **)localNamePtr forName:(NSString *)name
++ (void)getHasPrefix:(BOOL *)hasPrefixPtr localName:(NSString * __autoreleasing*)localNamePtr forName:(NSString *)name
 {
 	// This is a private/internal method
 	
@@ -1051,7 +1051,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	}
 }
 
-+ (void)getPrefix:(NSString **)prefixPtr localName:(NSString **)localNamePtr forName:(NSString *)name
++ (void)getPrefix:(NSString * __autoreleasing*)prefixPtr localName:(NSString * __autoreleasing*)localNamePtr forName:(NSString *)name
 {
 	// This is a private/internal method
 	
@@ -1194,7 +1194,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 #pragma mark XPath/XQuery
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-- (NSArray *)nodesForXPath:(NSString *)xpath error:(NSError **)error
+- (NSArray *)nodesForXPath:(NSString *)xpath error:(NSError * __autoreleasing*)error
 {
 #if DDXML_DEBUG_MEMORY_ISSUES
 	DDXMLNotZombieAssert();
@@ -2890,14 +2890,14 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper)
 
 // #pragma mark XPath/XQuery
 
-- (NSArray *)nodesForXPath:(NSString *)xpath error:(NSError **)error {
+- (NSArray *)nodesForXPath:(NSString *)xpath error:(NSError * __autoreleasing*)error {
 	return [NSArray array];
 }
 
-- (NSArray *)objectsForXQuery:(NSString *)xquery constants:(NSDictionary *)constants error:(NSError **)error {
+- (NSArray *)objectsForXQuery:(NSString *)xquery constants:(NSDictionary *)constants error:(NSError * __autoreleasing*)error {
 	return [NSArray array];
 }
-- (NSArray *)objectsForXQuery:(NSString *)xquery error:(NSError **)error {
+- (NSArray *)objectsForXQuery:(NSString *)xquery error:(NSError * __autoreleasing*)error {
 	return [NSArray array];
 }
 

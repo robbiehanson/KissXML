@@ -178,8 +178,8 @@ NS_INLINE BOOL IsXmlNsPtr(void *kindPtr)
 
 - (BOOL)_hasParent;
 
-+ (void)getHasPrefix:(BOOL *)hasPrefixPtr localName:(NSString **)localNamePtr forName:(NSString *)name;
-+ (void)getPrefix:(NSString **)prefixPtr localName:(NSString **)localNamePtr forName:(NSString *)name;
++ (void)getHasPrefix:(BOOL *)hasPrefixPtr localName:(NSString * __autoreleasing*)localNamePtr forName:(NSString *)name;
++ (void)getPrefix:(NSString * __autoreleasing*)prefixPtr localName:(NSString * __autoreleasing*)localNamePtr forName:(NSString *)name;
 
 + (void)recursiveStripDocPointersFromNode:(xmlNodePtr)node;
 

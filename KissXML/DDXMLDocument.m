@@ -62,7 +62,7 @@
  * Returns an initialized DDXMLDocument object, or nil if initialization fails
  * because of parsing errors or other reasons.
 **/
-- (id)initWithXMLString:(NSString *)string options:(NSUInteger)mask error:(NSError **)error
+- (id)initWithXMLString:(NSString *)string options:(NSUInteger)mask error:(NSError * __autoreleasing*)error
 {
 	return [self initWithData:[string dataUsingEncoding:NSUTF8StringEncoding]
 	                  options:mask
@@ -75,7 +75,7 @@
  * Returns an initialized DDXMLDocument object, or nil if initialization fails
  * because of parsing errors or other reasons.
 **/
-- (id)initWithData:(NSData *)data options:(NSUInteger)mask error:(NSError **)error
+- (id)initWithData:(NSData *)data options:(NSUInteger)mask error:(NSError * __autoreleasing*)error
 {
 	if (data == nil || [data length] == 0)
 	{

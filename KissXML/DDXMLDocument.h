@@ -32,9 +32,9 @@ typedef NSUInteger DDXMLDocumentContentKind;
 {
 }
 
-- (id)initWithXMLString:(NSString *)string options:(NSUInteger)mask error:(NSError **)error;
-//- (id)initWithContentsOfURL:(NSURL *)url options:(NSUInteger)mask error:(NSError **)error;
-- (id)initWithData:(NSData *)data options:(NSUInteger)mask error:(NSError **)error;
+- (id)initWithXMLString:(NSString *)string options:(NSUInteger)mask error:(NSError * __autoreleasing*)error;
+//- (id)initWithContentsOfURL:(NSURL *)url options:(NSUInteger)mask error:(NSError * __autoreleasing*)error;
+- (id)initWithData:(NSData *)data options:(NSUInteger)mask error:(NSError * __autoreleasing*)error;
 //- (id)initWithRootElement:(DDXMLElement *)element;
 
 //+ (Class)replacementClassForClass:(Class)cls;

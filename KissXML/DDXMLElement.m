@@ -101,7 +101,7 @@
 	return result;
 }
 
-- (id)initWithXMLString:(NSString *)string error:(NSError **)error
+- (id)initWithXMLString:(NSString *)string error:(NSError * __autoreleasing*)error
 {
 	DDXMLDocument *doc = [[DDXMLDocument alloc] initWithXMLString:string options:0 error:error];
 	if (doc == nil)
