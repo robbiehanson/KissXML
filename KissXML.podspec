@@ -9,6 +9,7 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
   s.default_subspecs = 'Standard'
+  s.module_map = 'libxml/module.modulemap'
 
   s.subspec 'Core' do |ss|
     ss.source_files = 'KissXML/**/*.{h,m}'
