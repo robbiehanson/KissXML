@@ -1,17 +1,5 @@
 #import <Foundation/Foundation.h>
 
-#if DDXML_LIBXML_MODULE_ENABLED
-#if TARGET_OS_IOS && TARGET_OS_EMBEDDED
-@import libxml;
-#elif TARGET_IPHONE_SIMULATOR
-@import libxmlSimu;
-#elif TARGET_OS_MAC
-@import libxmlMac;
-#endif
-#else
-#import <libxml/tree.h>
-#endif
-
 @class DDXMLDocument;
 
 /**
@@ -34,18 +22,18 @@
 
 enum {
 	DDXMLInvalidKind                = 0,
-	DDXMLDocumentKind               = XML_DOCUMENT_NODE,
-	DDXMLElementKind                = XML_ELEMENT_NODE,
-	DDXMLAttributeKind              = XML_ATTRIBUTE_NODE,
-	DDXMLNamespaceKind              = XML_NAMESPACE_DECL,
-	DDXMLProcessingInstructionKind  = XML_PI_NODE,
-	DDXMLCommentKind                = XML_COMMENT_NODE,
-	DDXMLTextKind                   = XML_TEXT_NODE,
-	DDXMLDTDKind                    = XML_DTD_NODE,
-	DDXMLEntityDeclarationKind      = XML_ENTITY_DECL,
-	DDXMLAttributeDeclarationKind   = XML_ATTRIBUTE_DECL,
-	DDXMLElementDeclarationKind     = XML_ELEMENT_DECL,
-	DDXMLNotationDeclarationKind    = XML_NOTATION_NODE
+	DDXMLDocumentKind,
+	DDXMLElementKind,
+	DDXMLAttributeKind,
+	DDXMLNamespaceKind,
+	DDXMLProcessingInstructionKind,
+	DDXMLCommentKind,
+	DDXMLTextKind,
+	DDXMLDTDKind,
+	DDXMLEntityDeclarationKind,
+	DDXMLAttributeDeclarationKind,
+	DDXMLElementDeclarationKind,
+	DDXMLNotationDeclarationKind
 };
 typedef NSUInteger DDXMLNodeKind;
 
@@ -57,20 +45,8 @@ enum {
 };
 
 
-//extern struct _xmlKind;
-
 
 @interface DDXMLNode : NSObject <NSCopying>
-{
-	// Every DDXML object is simply a wrapper around an underlying libxml node
-	struct _xmlKind *genericPtr;
-	
-	// Every libxml node resides somewhere within an xml tree heirarchy.
-	// We cannot free the tree heirarchy until all referencing nodes have been released.
-	// So all nodes retain a reference to the node that created them,
-	// and when the last reference is released the tree gets freed.
-	DDXMLNode *owner;
-}
 
 //- (id)initWithKind:(DDXMLNodeKind)kind;
 

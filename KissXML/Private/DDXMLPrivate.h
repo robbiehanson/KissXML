@@ -1,5 +1,5 @@
 #import "DDXML.h"
-
+#import <libxml/tree.h>
 
 // We can't rely solely on NSAssert, because many developers disable them for release builds.
 // Our API contract requires us to keep these assertions intact.
@@ -226,4 +226,18 @@ BOOL DDXMLIsZombie(void *xmlPtr, DDXMLNode *wrapper);
 + (id)nodeWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)owner;
 - (id)initWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)owner;
 
+@end
+
+@interface DDXMLNode ()
+{
+@public
+    // Every DDXML object is simply a wrapper around an underlying libxml node
+    struct _xmlKind *genericPtr;
+    
+    // Every libxml node resides somewhere within an xml tree heirarchy.
+    // We cannot free the tree heirarchy until all referencing nodes have been released.
+    // So all nodes retain a reference to the node that created them,
+    // and when the last reference is released the tree gets freed.
+    DDXMLNode *owner;
+}
 @end

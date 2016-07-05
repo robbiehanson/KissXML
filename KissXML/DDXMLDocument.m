@@ -111,7 +111,7 @@
 	DDXMLNotZombieAssert();
 #endif
 	
-	xmlDocPtr doc = (xmlDocPtr)genericPtr;
+	xmlDocPtr doc = (xmlDocPtr)self->genericPtr;
 	
 	// doc->children is a list containing possibly comments, DTDs, etc...
 	

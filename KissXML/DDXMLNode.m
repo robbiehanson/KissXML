@@ -4,6 +4,7 @@
 #import <libxml/xpath.h>
 #import <libxml/xpathInternals.h>
 
+
 #if ! __has_feature(objc_arc)
 #warning This file must be compiled with ARC. Use -fobjc-arc flag (or convert project to ARC).
 #endif
@@ -29,6 +30,7 @@
 @implementation DDXMLNode
 
 static void MyErrorHandler(void * userData, xmlErrorPtr error);
+static DDXMLNodeKind DDXMLNodeKindForXmlKind(xmlElementType type);
 
 #if DDXML_DEBUG_MEMORY_ISSUES
 
@@ -389,7 +391,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 #endif
 	
 	if (genericPtr != NULL)
-		return genericPtr->type;
+		return DDXMLNodeKindForXmlKind(genericPtr->type);
 	else
 		return DDXMLInvalidKind;
 }
@@ -1981,6 +1983,37 @@ static void MyErrorHandler(void * userData, xmlErrorPtr error)
 		
 		[[[NSThread currentThread] threadDictionary] setObject:errorValue forKey:DDLastErrorKey];
 	}
+}
+
+static DDXMLNodeKind DDXMLNodeKindForXmlKind(xmlElementType type) {
+    switch (type) {
+        case XML_DOCUMENT_NODE:
+            return DDXMLDocumentKind;
+        case XML_ELEMENT_NODE:
+            return DDXMLElementKind;
+        case XML_ATTRIBUTE_NODE:
+            return DDXMLAttributeKind;
+        case XML_NAMESPACE_DECL:
+            return DDXMLNamespaceKind;
+        case XML_PI_NODE:
+            return DDXMLProcessingInstructionKind;
+        case XML_COMMENT_NODE:
+            return DDXMLCommentKind;
+        case XML_TEXT_NODE:
+            return DDXMLTextKind;
+        case XML_DTD_NODE:
+            return DDXMLDTDKind;
+        case XML_ENTITY_DECL:
+            return DDXMLEntityDeclarationKind;
+        case XML_ATTRIBUTE_DECL:
+            return DDXMLAttributeDeclarationKind;
+        case XML_ELEMENT_DECL:
+            return DDXMLElementDeclarationKind;
+        case XML_NOTATION_NODE:
+            return DDXMLNotationDeclarationKind;
+        default:
+            return DDXMLInvalidKind;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
