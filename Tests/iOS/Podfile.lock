@@ -1,9 +1,7 @@
 PODS:
-  - KissXML (5.0.3):
-    - KissXML/Standard (= 5.0.3)
-  - KissXML/Core (5.0.3)
-  - KissXML/Standard (5.0.3):
-    - KissXML/Core
+  - KissXML (5.1.0):
+    - KissXML/Core (= 5.1.0)
+  - KissXML/Core (5.1.0)
 
 DEPENDENCIES:
   - KissXML (from `../../`)
@@ -13,6 +11,8 @@ EXTERNAL SOURCES:
     :path: "../../"
 
 SPEC CHECKSUMS:
-  KissXML: d3ca6571be0dd19555a65db19e3d2024409e08c4
+  KissXML: 9c362fc1f85b898e04af258553899b40caf7c213
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 1f4161d172f7cca508599c70997c48a6a4fe62a9
+
+COCOAPODS: 1.0.1

@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7EAE7CBE120114E888DEC1EB /* Pods_KissXMLTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 776C8AF05F09564EA2BACC3C /* Pods_KissXMLTests.framework */; };
+		5152071646030EA6E6FD4F7C /* Pods_KissXMLTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 375C7AABAE352F762C98A303 /* Pods_KissXMLTests.framework */; };
 		D92F89D21C582AEE008C1F90 /* KissXMLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D92F89D11C582AEE008C1F90 /* KissXMLTests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6CD410BEBB78AE67E7693281 /* Pods-KissXMLTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLTests/Pods-KissXMLTests.release.xcconfig"; sourceTree = "<group>"; };
-		776C8AF05F09564EA2BACC3C /* Pods_KissXMLTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KissXMLTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8B2106045DAAD04397F46F54 /* Pods-KissXMLTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLTests/Pods-KissXMLTests.debug.xcconfig"; sourceTree = "<group>"; };
+		118119B6ADBE0D1B53049C24 /* Pods-KissXMLTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLTests/Pods-KissXMLTests.debug.xcconfig"; sourceTree = "<group>"; };
+		375C7AABAE352F762C98A303 /* Pods_KissXMLTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KissXMLTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B6FADFA4F3C952CEB87FD8F8 /* Pods-KissXMLTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLTests/Pods-KissXMLTests.release.xcconfig"; sourceTree = "<group>"; };
 		D92F89CF1C582AEE008C1F90 /* KissXMLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KissXMLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D92F89D11C582AEE008C1F90 /* KissXMLTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = KissXMLTests.m; path = ../../Shared/KissXMLTests.m; sourceTree = "<group>"; };
 		D92F89D31C582AEE008C1F90 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -25,13 +25,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7EAE7CBE120114E888DEC1EB /* Pods_KissXMLTests.framework in Frameworks */,
+				5152071646030EA6E6FD4F7C /* Pods_KissXMLTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		77336FAB70E3EE954FF63735 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				375C7AABAE352F762C98A303 /* Pods_KissXMLTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D92F89D01C582AEE008C1F90 /* KissXMLTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -46,8 +54,8 @@
 			children = (
 				D92F89D01C582AEE008C1F90 /* KissXMLTests */,
 				D9AA72551C56EEF500002BEE /* Products */,
-				DC3B98914B7ABB3282831BC9 /* Pods */,
-				FBE7F6A7C39EDA2B3A99EF7A /* Frameworks */,
+				E18FECB466D758E0304EE6FD /* Pods */,
+				77336FAB70E3EE954FF63735 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,21 +67,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DC3B98914B7ABB3282831BC9 /* Pods */ = {
+		E18FECB466D758E0304EE6FD /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				8B2106045DAAD04397F46F54 /* Pods-KissXMLTests.debug.xcconfig */,
-				6CD410BEBB78AE67E7693281 /* Pods-KissXMLTests.release.xcconfig */,
+				118119B6ADBE0D1B53049C24 /* Pods-KissXMLTests.debug.xcconfig */,
+				B6FADFA4F3C952CEB87FD8F8 /* Pods-KissXMLTests.release.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		FBE7F6A7C39EDA2B3A99EF7A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				776C8AF05F09564EA2BACC3C /* Pods_KissXMLTests.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,12 +83,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D92F89D41C582AEE008C1F90 /* Build configuration list for PBXNativeTarget "KissXMLTests" */;
 			buildPhases = (
-				CD7C7EB0A173E857BF85BCF5 /* Check Pods Manifest.lock */,
+				2B9FDC8BF808217099BB7420 /* [CP] Check Pods Manifest.lock */,
 				D92F89CB1C582AEE008C1F90 /* Sources */,
 				D92F89CC1C582AEE008C1F90 /* Frameworks */,
 				D92F89CD1C582AEE008C1F90 /* Resources */,
-				47FF0286198C8184EC677C3F /* Embed Pods Frameworks */,
-				CC8EFF8CE23C5BE1EBB629FB /* Copy Pods Resources */,
+				796A1BB0D488DBA9C15D14DD /* [CP] Embed Pods Frameworks */,
+				506DF61E02F664DE0B44A546 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -141,29 +141,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		47FF0286198C8184EC677C3F /* Embed Pods Frameworks */ = {
+		2B9FDC8BF808217099BB7420 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KissXMLTests/Pods-KissXMLTests-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		CC8EFF8CE23C5BE1EBB629FB /* Copy Pods Resources */ = {
+		506DF61E02F664DE0B44A546 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -171,19 +171,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KissXMLTests/Pods-KissXMLTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CD7C7EB0A173E857BF85BCF5 /* Check Pods Manifest.lock */ = {
+		796A1BB0D488DBA9C15D14DD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KissXMLTests/Pods-KissXMLTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -202,7 +202,7 @@
 /* Begin XCBuildConfiguration section */
 		D92F89D51C582AEE008C1F90 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8B2106045DAAD04397F46F54 /* Pods-KissXMLTests.debug.xcconfig */;
+			baseConfigurationReference = 118119B6ADBE0D1B53049C24 /* Pods-KissXMLTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -250,7 +250,7 @@
 		};
 		D92F89D61C582AEE008C1F90 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6CD410BEBB78AE67E7693281 /* Pods-KissXMLTests.release.xcconfig */;
+			baseConfigurationReference = B6FADFA4F3C952CEB87FD8F8 /* Pods-KissXMLTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -293,12 +293,14 @@
 		D9AA724E1C56EE9D00002BEE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = iphoneos;
 			};
 			name = Debug;
 		};
 		D9AA724F1C56EE9D00002BEE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};

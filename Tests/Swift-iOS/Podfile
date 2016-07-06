@@ -3,6 +3,6 @@ use_frameworks!
 platform :ios, "8.0"
 
 
-target 'KissXMLSwiftTests', :exclusive => true do
-  pod "KissXML/libxml_module", :path => "../../"
+target 'KissXMLSwiftTests' do
+  pod "KissXML", :path => "../../"
 end

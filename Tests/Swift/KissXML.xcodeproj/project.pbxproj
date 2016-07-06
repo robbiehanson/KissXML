@@ -7,15 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		775AAB7B6708FE0EEF31D63C /* Pods_KissXMLSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7086B3E72D0408689CA93694 /* Pods_KissXMLSwiftTests.framework */; };
+		1FB55F4C9A619D81B2B6D5F9 /* Pods_KissXMLSwiftTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C05E6813A1A077F1A35E5F /* Pods_KissXMLSwiftTests.framework */; };
 		D9DB387C1C5845BA003E55FB /* KissXMLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9DB387B1C5845BA003E55FB /* KissXMLSwiftTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5C70BB7AE0E553D05BD5B28A /* Pods_KissXMLTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KissXMLTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7086B3E72D0408689CA93694 /* Pods_KissXMLSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KissXMLSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		803514BD5C8291F46DF497F8 /* Pods-KissXMLSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLSwiftTests/Pods-KissXMLSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
-		8B3609D8C44FA5211387ABFE /* Pods-KissXMLSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLSwiftTests/Pods-KissXMLSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
+		1D9F98E4E9274E7FE7236211 /* Pods-KissXMLSwiftTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLSwiftTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLSwiftTests/Pods-KissXMLSwiftTests.release.xcconfig"; sourceTree = "<group>"; };
+		45C05E6813A1A077F1A35E5F /* Pods_KissXMLSwiftTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KissXMLSwiftTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		489CB490979AD956670153FB /* Pods-KissXMLSwiftTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLSwiftTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLSwiftTests/Pods-KissXMLSwiftTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D9DB38791C5845BA003E55FB /* KissXMLSwiftTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KissXMLSwiftTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9DB387B1C5845BA003E55FB /* KissXMLSwiftTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KissXMLSwiftTests.swift; sourceTree = "<group>"; };
 		D9DB387D1C5845BA003E55FB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -26,20 +25,37 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				775AAB7B6708FE0EEF31D63C /* Pods_KissXMLSwiftTests.framework in Frameworks */,
+				1FB55F4C9A619D81B2B6D5F9 /* Pods_KissXMLSwiftTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CAF7F0EA91C35E08F4C76441 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				489CB490979AD956670153FB /* Pods-KissXMLSwiftTests.debug.xcconfig */,
+				1D9F98E4E9274E7FE7236211 /* Pods-KissXMLSwiftTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D88E11315861A1E4686DB829 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				45C05E6813A1A077F1A35E5F /* Pods_KissXMLSwiftTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D9AA72491C56EE9D00002BEE = {
 			isa = PBXGroup;
 			children = (
 				D9DB387A1C5845BA003E55FB /* KissXMLSwiftTests */,
 				D9AA72551C56EEF500002BEE /* Products */,
-				EC6C09DE893398DA001C5BFD /* Pods */,
-				FB53D0F8D20CA2E913D68E36 /* Frameworks */,
+				CAF7F0EA91C35E08F4C76441 /* Pods */,
+				D88E11315861A1E4686DB829 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -60,24 +76,6 @@
 			path = KissXMLSwiftTests;
 			sourceTree = "<group>";
 		};
-		EC6C09DE893398DA001C5BFD /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				803514BD5C8291F46DF497F8 /* Pods-KissXMLSwiftTests.debug.xcconfig */,
-				8B3609D8C44FA5211387ABFE /* Pods-KissXMLSwiftTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		FB53D0F8D20CA2E913D68E36 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				5C70BB7AE0E553D05BD5B28A /* Pods_KissXMLTests.framework */,
-				7086B3E72D0408689CA93694 /* Pods_KissXMLSwiftTests.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -85,12 +83,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D9DB38801C5845BA003E55FB /* Build configuration list for PBXNativeTarget "KissXMLSwiftTests" */;
 			buildPhases = (
-				8C7A38CAC09D1D11394F5EE7 /* Check Pods Manifest.lock */,
+				7F06356A51F464385261A193 /* [CP] Check Pods Manifest.lock */,
 				D9DB38751C5845BA003E55FB /* Sources */,
 				D9DB38761C5845BA003E55FB /* Frameworks */,
 				D9DB38771C5845BA003E55FB /* Resources */,
-				FA846C734F7CC9B5C27C861B /* Embed Pods Frameworks */,
-				233D7314C28033B7646DE855 /* Copy Pods Resources */,
+				B80AC4DC07455D15D9429DBB /* [CP] Embed Pods Frameworks */,
+				B93F80DD70215412261A5B21 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -143,29 +141,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		233D7314C28033B7646DE855 /* Copy Pods Resources */ = {
+		7F06356A51F464385261A193 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KissXMLSwiftTests/Pods-KissXMLSwiftTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8C7A38CAC09D1D11394F5EE7 /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -173,19 +156,34 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		FA846C734F7CC9B5C27C861B /* Embed Pods Frameworks */ = {
+		B80AC4DC07455D15D9429DBB /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KissXMLSwiftTests/Pods-KissXMLSwiftTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B93F80DD70215412261A5B21 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-KissXMLSwiftTests/Pods-KissXMLSwiftTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -218,7 +216,7 @@
 		};
 		D9DB387E1C5845BA003E55FB /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 803514BD5C8291F46DF497F8 /* Pods-KissXMLSwiftTests.debug.xcconfig */;
+			baseConfigurationReference = 489CB490979AD956670153FB /* Pods-KissXMLSwiftTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
@@ -275,7 +273,7 @@
 		};
 		D9DB387F1C5845BA003E55FB /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8B3609D8C44FA5211387ABFE /* Pods-KissXMLSwiftTests.release.xcconfig */;
+			baseConfigurationReference = 1D9F98E4E9274E7FE7236211 /* Pods-KissXMLSwiftTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";

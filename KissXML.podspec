@@ -11,7 +11,7 @@ Pod::Spec.new do |s|
   s.default_subspecs = 'Core'
 
   s.subspec 'Core' do |ss|
-    ss.source_files = 'KissXML/**/*.{h,m}'
+    ss.source_files = 'KissXML/**/*.{h,m,swift}'
     ss.private_header_files = 'KissXML/Private/**/*.h'
     ss.osx.exclude_files = 'KissXML/**/*.swift'
     ss.library      = 'xml2'

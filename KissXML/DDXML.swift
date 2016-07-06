@@ -8,7 +8,7 @@
 
 import Foundation
 
-#if os(iOS)
+#if os(iOS) || os(watchOS) || os(tvOS)
     public typealias  NSXMLNode = DDXMLNode
     public typealias  NSXMLElement = DDXMLElement
     public typealias  NSXMLDocument = DDXMLDocument
