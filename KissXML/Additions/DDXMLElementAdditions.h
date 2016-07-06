@@ -4,14 +4,15 @@
 // These methods are not part of the standard NSXML API.
 // But any developer working extensively with XML will likely appreciate them.
 
+NS_ASSUME_NONNULL_BEGIN
 @interface DDXMLElement (DDAdditions)
 
-+ (DDXMLElement *)elementWithName:(NSString *)name xmlns:(NSString *)ns;
++ (nullable DDXMLElement *)elementWithName:(NSString *)name xmlns:(NSString *)ns;
 
-- (DDXMLElement *)elementForName:(NSString *)name;
-- (DDXMLElement *)elementForName:(NSString *)name xmlns:(NSString *)xmlns;
+- (nullable DDXMLElement *)elementForName:(NSString *)name;
+- (nullable DDXMLElement *)elementForName:(NSString *)name xmlns:(NSString *)xmlns;
 
-- (NSString *)xmlns;
+- (nullable NSString *)xmlns;
 - (void)setXmlns:(NSString *)ns;
 
 - (NSString *)prettyXMLString;
@@ -19,6 +20,7 @@
 
 - (void)addAttributeWithName:(NSString *)name stringValue:(NSString *)string;
 
-- (NSDictionary *)attributesAsDictionary;
+- (NSDictionary<NSString*,NSString*> *)attributesAsDictionary;
 
 @end
+NS_ASSUME_NONNULL_END

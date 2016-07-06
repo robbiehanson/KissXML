@@ -2011,7 +2011,7 @@ static DDAssertionHandler *ddAssertionHandler;
 
 @synthesize shouldLogAssertionFailure;
 
-- (id)init
+- (instancetype)init
 {
     if ((self = [super init]))
     {

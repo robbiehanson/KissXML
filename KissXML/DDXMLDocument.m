@@ -29,18 +29,18 @@
  * Returns a DDXML wrapper object for the given primitive node.
  * The given node MUST be non-NULL and of the proper type.
 **/
-+ (id)nodeWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)owner
++ (instancetype)nodeWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)owner
 {
 	return [[DDXMLDocument alloc] initWithDocPrimitive:doc owner:owner];
 }
 
-- (id)initWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)inOwner
+- (instancetype)initWithDocPrimitive:(xmlDocPtr)doc owner:(DDXMLNode *)inOwner
 {
 	self = [super initWithPrimitive:(xmlKindPtr)doc owner:inOwner];
 	return self;
 }
 
-+ (id)nodeWithPrimitive:(xmlKindPtr)kindPtr owner:(DDXMLNode *)owner
++ (instancetype)nodeWithPrimitive:(xmlKindPtr)kindPtr owner:(DDXMLNode *)owner
 {
 	// Promote initializers which use proper parameter types to enable compiler to catch more mistakes
 	NSAssert(NO, @"Use nodeWithDocPrimitive:owner:");
@@ -48,7 +48,7 @@
 	return nil;
 }
 
-- (id)initWithPrimitive:(xmlKindPtr)kindPtr owner:(DDXMLNode *)inOwner
+- (instancetype)initWithPrimitive:(xmlKindPtr)kindPtr owner:(DDXMLNode *)inOwner
 {
 	// Promote initializers which use proper parameter types to enable compiler to catch more mistakes.
 	NSAssert(NO, @"Use initWithDocPrimitive:owner:");
@@ -62,7 +62,7 @@
  * Returns an initialized DDXMLDocument object, or nil if initialization fails
  * because of parsing errors or other reasons.
 **/
-- (id)initWithXMLString:(NSString *)string options:(NSUInteger)mask error:(NSError **)error
+- (instancetype)initWithXMLString:(NSString *)string options:(NSUInteger)mask error:(NSError **)error
 {
 	return [self initWithData:[string dataUsingEncoding:NSUTF8StringEncoding]
 	                  options:mask
@@ -75,7 +75,7 @@
  * Returns an initialized DDXMLDocument object, or nil if initialization fails
  * because of parsing errors or other reasons.
 **/
-- (id)initWithData:(NSData *)data options:(NSUInteger)mask error:(NSError **)error
+- (instancetype)initWithData:(NSData *)data options:(NSUInteger)mask error:(NSError **)error
 {
 	if (data == nil || [data length] == 0)
 	{
