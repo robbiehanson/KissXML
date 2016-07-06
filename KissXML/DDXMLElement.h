@@ -27,7 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithName:(NSString *)name;
 - (instancetype)initWithName:(NSString *)name URI:(nullable NSString *)URI;
 - (instancetype)initWithName:(NSString *)name stringValue:(nullable NSString *)string;
-- (nullable instancetype)initWithXMLString:(NSString *)string error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+- (nullable instancetype)initWithXMLString:(NSString *)string error:(NSError **)error;
 
 #pragma mark --- Elements by name ---
 
