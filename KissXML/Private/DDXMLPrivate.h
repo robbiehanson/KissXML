@@ -3,30 +3,30 @@
 
 // We can't rely solely on NSAssert, because many developers disable them for release builds.
 // Our API contract requires us to keep these assertions intact.
-#define DDXMLAssert(condition, desc, ...)                                                                 \
-  do{                                                                                                     \
-    if(!(condition)) {                                                                                    \
-      [[NSAssertionHandler currentHandler] handleFailureInMethod:_cmd                                     \
-                                                          object:self                                     \
-                                                            file:[NSString stringWithUTF8String:__FILE__] \
-                                                      lineNumber:__LINE__                                 \
-                                                     description:(desc), ##__VA_ARGS__];                  \
-    }                                                                                                     \
+#define DDXMLAssert(condition, desc, ...)                                                \
+  do{                                                                                    \
+    if(!(condition)) {                                                                   \
+      [[NSAssertionHandler currentHandler] handleFailureInMethod:_cmd                    \
+                                                          object:self                    \
+                                                            file:@__FILE__               \
+                                                      lineNumber:__LINE__                \
+                                                     description:(desc), ##__VA_ARGS__]; \
+    }                                                                                    \
   }while(NO)
 
 
 // Create assertion to ensure xml node is not a zombie.
 #if DDXML_DEBUG_MEMORY_ISSUES
-#define DDXMLNotZombieAssert()                                                                            \
-  do{                                                                                                     \
-    if(DDXMLIsZombie(genericPtr, self)) {                                                                      \
-      NSString *desc = @"XML node is a zombie - It's parent structure has been freed!";                   \
-      [[NSAssertionHandler currentHandler] handleFailureInMethod:_cmd                                     \
-                                                          object:self                                     \
-                                                            file:[NSString stringWithUTF8String:__FILE__] \
-                                                      lineNumber:__LINE__                                 \
-                                                     description:desc];                                   \
-    }                                                                                                     \
+#define DDXMLNotZombieAssert()                                                           \
+  do{                                                                                    \
+    if(DDXMLIsZombie(genericPtr, self)) {                                                \
+      NSString *desc = @"XML node is a zombie - It's parent structure has been freed!";  \
+      [[NSAssertionHandler currentHandler] handleFailureInMethod:_cmd                    \
+                                                          object:self                    \
+                                                            file:@__FILE__               \
+                                                      lineNumber:__LINE__                \
+                                                     description:desc];                  \
+    }                                                                                    \
   }while(NO)
 #endif
 
@@ -178,8 +178,8 @@ NS_INLINE BOOL IsXmlNsPtr(void *kindPtr)
 
 - (BOOL)_hasParent;
 
-+ (void)getHasPrefix:(BOOL *)hasPrefixPtr localName:(NSString **)localNamePtr forName:(NSString *)name;
-+ (void)getPrefix:(NSString **)prefixPtr localName:(NSString **)localNamePtr forName:(NSString *)name;
++ (void)getHasPrefix:(BOOL *)hasPrefixPtr localName:(NSString * __autoreleasing*)localNamePtr forName:(NSString *)name;
++ (void)getPrefix:(NSString * __autoreleasing*)prefixPtr localName:(NSString * __autoreleasing*)localNamePtr forName:(NSString *)name;
 
 + (void)recursiveStripDocPointersFromNode:(xmlNodePtr)node;
 
