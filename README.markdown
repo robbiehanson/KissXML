@@ -21,20 +21,29 @@ KissXML was inspired by the TouchXML project, but was created to add full suppor
 
 ### Getting Started
 
-The minimum deployment target is now iOS 8.0 / macOS 10.8 / tvOS 9.0 / watchOS 2.0.
+The minimum deployment target is iOS 6.0 / macOS 10.8 / tvOS 9.0 / watchOS 2.0.
 
 The easiest way to install `KissXML` is using CocoaPods.
 
 ```ruby
-use_frameworks!
 pod 'KissXML'
+```
+If you're using Swift you can enable mappings from DDXML to NSXML by using the `SwiftNSXML` subspec.
+
+```ruby
+use_frameworks!
+pod 'KissXML/SwiftNSXML'
 ```
 
 After `pod install` open your `.xcworkspace` and import:
 
-```
-import KissXML     // swift
-@import KissXML;   //objective-c
+```objc
+// Swift
+import KissXML     
+// Objective-C on iOS 8+ with `use_frameworks!`
+@import KissXML;   
+// Objective-C when integrated as a static library
+#import <KissXML/KissXML.h>  
 ```
 
 ### Learn More
