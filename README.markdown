@@ -15,7 +15,7 @@ That is, KissXML provides an API that follows "what-you-would-expect" rules from
 So feel free to do things like parallel processing of an xml document using blocks.
 It will "just work" so you can get back to designing the rest of your app.
 
-KissXML is a mature library used in thousands of products. It's also used in other libraries, such as [XMPPFramework](http://code.google.com/p/xmppframework/) (an objective-c library for real-time xml streaming). It's even used in hospital applications.
+KissXML is a mature library used in thousands of products. It's also used in other libraries, such as [XMPPFramework](https://github.com/robbiehanson/XMPPFramework) (an objective-c library for real-time xml streaming). It's even used in hospital applications.
 
 KissXML was inspired by the TouchXML project, but was created to add full support for generating XML as well as supporting the entire NSXML API.
 
