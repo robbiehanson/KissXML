@@ -4,5 +4,5 @@ platform :ios, "8.0"
 
 
 target 'KissXMLSwiftTests' do
-  pod "KissXML", :path => "../../"
+  pod "KissXML/SwiftNSXML", :path => "../../"
 end

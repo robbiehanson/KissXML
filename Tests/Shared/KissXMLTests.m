@@ -7,7 +7,7 @@
 //
 
 #import <XCTest/XCTest.h>
-@import KissXML;
+#import <KissXML/KissXML.h>
 
 @interface DDAssertionHandler : NSAssertionHandler
 {
