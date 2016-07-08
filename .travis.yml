@@ -1,6 +1,9 @@
 language: objective-c
 osx_image: xcode7.3
 
+install:
+  - gem install cocoapods -v 1.0.1 --no-rdoc --no-ri
+
 script:
   - pod install --project-directory=./Tests/Mac --no-repo-update
   - pod install --project-directory=./Tests/iOS --no-repo-update
