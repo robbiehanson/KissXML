@@ -59,6 +59,7 @@ Love the project? Wanna buy me a coffee? (or a beer :D) [![donation](http://www.
 
 ## Changelog
 
+* 5.1.2 - Jul 8 2016 - Better Swift generated interface cross-compatibility with NSXML by matching NSXML headers more closely, specifically by changing many set/get methods to properties.
 * 5.1.1 - Jul 7 2016 - Fixes issue when integrated as a static library. Min iOS version is back to 6.0. Moved DDXML->NSXML Swift mappings to `SwiftNSXML` subspec. Added test for static library integration.
 * 5.1.0 - Jul 6 2016 - Removed need for `libxml_module` subspec by removing references to libxml in public headers. Added Obj-C generics and nullability support to match NSXML API. Added watchOS support. Minimum iOS version is now 8.0.
 * 5.0.3 - Feb 1 2016 - Removed `DDXML_NS_DECLARATIONS_ENABLED` to allow for better Swift compatibility. Added `DDXML.swift` with mappings between NSXML classes and constants and DDXML.
