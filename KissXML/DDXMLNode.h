@@ -80,43 +80,43 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark --- Properties ---
 
-- (DDXMLNodeKind)kind;
+@property (readonly) DDXMLNodeKind kind;
 
-@property (nullable, copy) NSString *name; //primitive
+@property (nullable, copy) NSString *name;
 
 //- (void)setObjectValue:(id)value;
 //- (instancetype)objectValue;
 
-@property (nullable, copy) NSString *stringValue; //primitive
+@property (nullable, copy) NSString *stringValue;
+
 //- (void)setStringValue:(NSString *)string resolvingEntities:(BOOL)resolve;
 
 #pragma mark --- Tree Navigation ---
 
-- (NSUInteger)index;
+@property (readonly) NSUInteger index;
+@property (readonly) NSUInteger level;
 
-- (NSUInteger)level;
+@property (nullable, readonly, retain) DDXMLDocument *rootDocument;
 
-- (nullable DDXMLDocument *)rootDocument;
-
-- (nullable DDXMLNode *)parent;
-- (NSUInteger)childCount;
-- (nullable NSArray<DDXMLNode *> *)children;
+@property (nullable, readonly, copy) DDXMLNode *parent;
+@property (readonly) NSUInteger childCount;
+@property (nullable, readonly, copy) NSArray<DDXMLNode *> *children;
 - (nullable DDXMLNode *)childAtIndex:(NSUInteger)index;
 
-- (nullable DDXMLNode *)previousSibling;
-- (nullable DDXMLNode *)nextSibling;
+@property (nullable, readonly, copy) DDXMLNode *previousSibling;
+@property (nullable, readonly, copy) DDXMLNode *nextSibling;
 
-- (nullable DDXMLNode *)previousNode;
-- (nullable DDXMLNode *)nextNode;
+@property (nullable, readonly, copy) DDXMLNode *previousNode;
+@property (nullable, readonly, copy) DDXMLNode *nextNode;
 
 - (void)detach;
 
-- (nullable NSString *)XPath;
+@property (nullable, readonly, copy) NSString *XPath;
 
 #pragma mark --- QNames ---
 
-- (nullable NSString *)localName;
-- (nullable NSString *)prefix;
+@property (nullable, readonly, copy) NSString *localName;
+@property (nullable, readonly, copy) NSString *prefix;
 
 @property (nullable, copy) NSString *URI; //primitive
 
@@ -126,8 +126,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark --- Output ---
 
-- (nonnull NSString *)description;
-- (nonnull NSString *)XMLString;
+@property (readonly, copy) NSString *description;
+@property (readonly, copy) NSString *XMLString;
 - (nonnull NSString *)XMLStringWithOptions:(NSUInteger)options;
 //- (NSString *)canonicalXMLStringPreservingComments:(BOOL)comments;
 

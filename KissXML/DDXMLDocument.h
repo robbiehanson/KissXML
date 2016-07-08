@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 //- (void)replaceChildAtIndex:(NSUInteger)index withNode:(DDXMLNode *)node;
 
-- (NSData *)XMLData;
+@property (readonly, copy) NSData *XMLData;
 - (NSData *)XMLDataWithOptions:(NSUInteger)options;
 
 //- (instancetype)objectByApplyingXSLT:(NSData *)xslt arguments:(NSDictionary *)arguments error:(NSError **)error;
