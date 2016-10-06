@@ -847,14 +847,12 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 **/
 - (BOOL)isDescendant:(DDXMLNode *)of
 {
-    if (self.parent == nil) {
+    if (self.parent == nil)
         return NO;
-    }
-    if (self.parent == of) {
+    if (self.parent == of)
         return YES;
-    }else {
+    else
         return [self.parent isDescendant:of];
-    }
 }
 
 /**
