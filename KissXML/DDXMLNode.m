@@ -843,6 +843,29 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 }
 
 /**
+ * Returns if node is descendant of the other node.
+**/
+- (BOOL)isDescendant:(DDXMLNode *)of
+{
+    if (self.parent == nil) {
+        return NO;
+    }
+    if (self.parent == of) {
+        return YES;
+    }else {
+        return [self.parent isDescendant:of];
+    }
+}
+
+/**
+ * Returns if node is ancestor of the other node.
+**/
+- (BOOL)isAncestor:(DDXMLNode *)of
+{
+    return [of isDescendant:self];
+}
+
+/**
  * Detaches the receiver from its parent node.
  *
  * This method is applicable to DDXMLNode objects representing elements, text, comments, processing instructions,

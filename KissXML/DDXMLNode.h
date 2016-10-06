@@ -110,6 +110,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, readonly, copy) DDXMLNode *nextNode;
 
 - (void)detach;
+- (BOOL)isDescendant:(DDXMLNode *)of;
+- (BOOL)isAncestor:(DDXMLNode *)of;
 
 @property (nullable, readonly, copy) NSString *XPath;
 
