@@ -523,6 +523,15 @@ static DDAssertionHandler *ddAssertionHandler;
         NSString *ddStr3 = [ddAttr XMLString];
         
         XCTAssert([nsStr3 isEqualToString:ddStr3], @"Failed test 3");
+        
+        [nsAttr setStringValue:@"😎"];
+        [ddAttr setStringValue:@"😎"];
+        
+        NSString *nsStr4 = [nsAttr XMLString];
+        NSString *ddStr4 = [ddAttr XMLString];
+        
+        XCTAssert([nsStr4 isEqualToString:ddStr4], @"Failed test 4");
+        XCTAssert([ddStr4 containsString:@"😎"], @"Failed test 4");
     }}
 
 - (void)testAttrSiblings { @autoreleasepool
