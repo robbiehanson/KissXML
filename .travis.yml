@@ -18,7 +18,11 @@ install:
 
 script:
   - set -o pipefail
-  - travis_retry xcodebuild -workspace ./Mac/KissXML.xcworkspace -scheme KissXMLTests -sdk macosx -arch x86_64 test | xcpretty -c
+  - xcodebuild -project ./Framework/KissXMLTests.xcodeproj -scheme "KissXMLTests (macOS)" -sdk macosx -arch x86_64 test | xcpretty -c
+  - travis_retry xcodebuild -project ./Framework/KissXMLTests.xcodeproj -scheme "KissXMLTests (iOS)" -sdk iphonesimulator -destination "id=$IOS_SIMULATOR_UDID" test | xcpretty -c
+  - xcodebuild -project ../KissXML.xcodeproj -scheme "KissXML (tvOS)" -sdk appletvsimulator -arch x86_64 test | xcpretty -c
+  - xcodebuild -project ../KissXML.xcodeproj -scheme "KissXML (watchOS)" -sdk watchos build | xcpretty -c
+  - xcodebuild -workspace ./Mac/KissXML.xcworkspace -scheme KissXMLTests -sdk macosx -arch x86_64 test | xcpretty -c
   - travis_retry xcodebuild -workspace ./iOS/KissXML.xcworkspace -scheme KissXMLTests -sdk iphonesimulator -destination "id=$IOS_SIMULATOR_UDID" test | xcpretty -c
-  - travis_retry xcodebuild -workspace ./Swift/KissXML.xcworkspace -scheme KissXMLSwiftTests -sdk macosx -arch x86_64 test | xcpretty -c
+  - xcodebuild -workspace ./Swift/KissXML.xcworkspace -scheme KissXMLSwiftTests -sdk macosx -arch x86_64 test | xcpretty -c
   - travis_retry xcodebuild -workspace ./Swift-iOS/KissXML.xcworkspace -scheme KissXMLSwiftTests -sdk iphonesimulator -destination "id=$IOS_SIMULATOR_UDID" test | xcpretty -c

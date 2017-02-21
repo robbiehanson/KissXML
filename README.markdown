@@ -1,9 +1,7 @@
 # [KissXML](https://github.com/robbiehanson/KissXML)
 
 [![CI Status](http://img.shields.io/travis/robbiehanson/KissXML.svg?style=flat)](https://travis-ci.org/robbiehanson/KissXML)
-[![Version](https://img.shields.io/cocoapods/v/KissXML.svg?style=flat)](http://cocoapods.org/pods/KissXML)
-[![License](https://img.shields.io/cocoapods/l/KissXML.svg?style=flat)](http://cocoapods.org/pods/KissXML)
-[![Platform](https://img.shields.io/cocoapods/p/KissXML.svg?style=flat)](http://cocoapods.org/pods/KissXML)
+[![Version](https://img.shields.io/cocoapods/v/KissXML.svg?style=flat)](http://cocoapods.org/pods/KissXML) [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage) [![Platform](https://img.shields.io/cocoapods/p/KissXML.svg?style=flat)](http://cocoapods.org/pods/KissXML) [![License](https://img.shields.io/cocoapods/l/KissXML.svg?style=flat)](http://cocoapods.org/pods/KissXML)
 
 KissXML provides a drop-in replacement for Apple's NSXML class culster in environments without NSXML (e.g. iOS).
 
@@ -21,7 +19,9 @@ KissXML was inspired by the TouchXML project, but was created to add full suppor
 
 ### Getting Started
 
-The minimum deployment target is iOS 8.0 / macOS 10.8 / tvOS 9.0 / watchOS 2.0.
+The minimum deployment target is iOS 8.0 / macOS 10.9 / tvOS 9.0 / watchOS 2.0.
+
+#### CocoaPods
 
 The easiest way to install `KissXML` is using CocoaPods.
 
@@ -38,6 +38,10 @@ import KissXML
 // Objective-C on iOS 8+ with `use_frameworks!`
 @import KissXML;
 ```
+
+#### Carthage
+
+The `KissXML.xcodeproj` project contains framework targets for iOS, macOS, tvOS, and watchOS.
 
 ### Learn More
 

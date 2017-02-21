@@ -1,0 +1,747 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D94132051E5CEED700189BD5 /* KissXMLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94132041E5CEED700189BD5 /* KissXMLSwiftTests.swift */; };
+		D94132061E5CEF5F00189BD5 /* KissXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94131F61E5CEE0900189BD5 /* KissXML.framework */; };
+		D941320D1E5CF00B00189BD5 /* KissXMLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D9AA72571C56EEF500002BEE /* KissXMLTests.m */; };
+		D941320E1E5CF00B00189BD5 /* KissXMLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94132041E5CEED700189BD5 /* KissXMLSwiftTests.swift */; };
+		D94132191E5CF03B00189BD5 /* KissXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94131F81E5CEE0900189BD5 /* KissXML.framework */; };
+		D941321E1E5CF14400189BD5 /* KissXMLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D9AA72571C56EEF500002BEE /* KissXMLTests.m */; };
+		D941321F1E5CF14400189BD5 /* KissXMLSwiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D94132041E5CEED700189BD5 /* KissXMLSwiftTests.swift */; };
+		D941322A1E5CF18F00189BD5 /* KissXML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94131FA1E5CEE0900189BD5 /* KissXML.framework */; };
+		D9AA72581C56EEF500002BEE /* KissXMLTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D9AA72571C56EEF500002BEE /* KissXMLTests.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D94131F51E5CEE0900189BD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0DCD8DCA1E54A3A3001D9832;
+			remoteInfo = "KissXML (iOS)";
+		};
+		D94131F71E5CEE0900189BD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D94131BA1E5CEBE700189BD5;
+			remoteInfo = "KissXML (macOS)";
+		};
+		D94131F91E5CEE0900189BD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D94131D31E5CEC8300189BD5;
+			remoteInfo = "KissXML (tvOS)";
+		};
+		D94131FB1E5CEE0900189BD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D94131EC1E5CECC700189BD5;
+			remoteInfo = "KissXML (watchOS)";
+		};
+		D94132071E5CEF6600189BD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0DCD8DC91E54A3A3001D9832;
+			remoteInfo = "KissXML (iOS)";
+		};
+		D94132171E5CF03500189BD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D94131A31E5CEBE700189BD5;
+			remoteInfo = "KissXML (macOS)";
+		};
+		D94132281E5CF18B00189BD5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D94131BC1E5CEC8300189BD5;
+			remoteInfo = "KissXML (tvOS)";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		79F6C563EBD0290224929F63 /* Pods-KissXMLTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLTests/Pods-KissXMLTests.release.xcconfig"; sourceTree = "<group>"; };
+		843D66BB28687E9E7FA4BA18 /* Pods-KissXMLTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLTests/Pods-KissXMLTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A0047B75CBFA2140D7075177 /* Pods_KissXMLTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KissXMLTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KissXML.xcodeproj; path = ../../KissXML.xcodeproj; sourceTree = "<group>"; };
+		D94132041E5CEED700189BD5 /* KissXMLSwiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KissXMLSwiftTests.swift; path = ../Shared/KissXMLSwiftTests.swift; sourceTree = SOURCE_ROOT; };
+		D94132151E5CF00B00189BD5 /* KissXMLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KissXMLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D94132261E5CF14400189BD5 /* KissXMLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KissXMLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9AA72541C56EEF500002BEE /* KissXMLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KissXMLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D9AA72571C56EEF500002BEE /* KissXMLTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = KissXMLTests.m; path = ../Shared/KissXMLTests.m; sourceTree = SOURCE_ROOT; };
+		D9AA72591C56EEF500002BEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D941320F1E5CF00B00189BD5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94132191E5CF03B00189BD5 /* KissXML.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D94132201E5CF14400189BD5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D941322A1E5CF18F00189BD5 /* KissXML.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9AA72511C56EEF500002BEE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D94132061E5CEF5F00189BD5 /* KissXML.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		85655A93DA386A68A391F57D /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				843D66BB28687E9E7FA4BA18 /* Pods-KissXMLTests.debug.xcconfig */,
+				79F6C563EBD0290224929F63 /* Pods-KissXMLTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		D92683C3CC4DF346FDC804F1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A0047B75CBFA2140D7075177 /* Pods_KissXMLTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D94131EF1E5CEE0900189BD5 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D94131F61E5CEE0900189BD5 /* KissXML.framework */,
+				D94131F81E5CEE0900189BD5 /* KissXML.framework */,
+				D94131FA1E5CEE0900189BD5 /* KissXML.framework */,
+				D94131FC1E5CEE0900189BD5 /* KissXML.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D9AA72491C56EE9D00002BEE = {
+			isa = PBXGroup;
+			children = (
+				D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */,
+				D9AA72561C56EEF500002BEE /* KissXMLTests */,
+				D9AA72551C56EEF500002BEE /* Products */,
+				85655A93DA386A68A391F57D /* Pods */,
+				D92683C3CC4DF346FDC804F1 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		D9AA72551C56EEF500002BEE /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D9AA72541C56EEF500002BEE /* KissXMLTests.xctest */,
+				D94132151E5CF00B00189BD5 /* KissXMLTests.xctest */,
+				D94132261E5CF14400189BD5 /* KissXMLTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D9AA72561C56EEF500002BEE /* KissXMLTests */ = {
+			isa = PBXGroup;
+			children = (
+				D94132041E5CEED700189BD5 /* KissXMLSwiftTests.swift */,
+				D9AA72571C56EEF500002BEE /* KissXMLTests.m */,
+				D9AA72591C56EEF500002BEE /* Info.plist */,
+			);
+			path = KissXMLTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D94132091E5CF00B00189BD5 /* KissXMLTests (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D94132121E5CF00B00189BD5 /* Build configuration list for PBXNativeTarget "KissXMLTests (macOS)" */;
+			buildPhases = (
+				D941320C1E5CF00B00189BD5 /* Sources */,
+				D941320F1E5CF00B00189BD5 /* Frameworks */,
+				D94132111E5CF00B00189BD5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D94132181E5CF03500189BD5 /* PBXTargetDependency */,
+			);
+			name = "KissXMLTests (macOS)";
+			productName = KissXMLTests;
+			productReference = D94132151E5CF00B00189BD5 /* KissXMLTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D941321A1E5CF14400189BD5 /* KissXMLTests (tvOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D94132231E5CF14400189BD5 /* Build configuration list for PBXNativeTarget "KissXMLTests (tvOS)" */;
+			buildPhases = (
+				D941321D1E5CF14400189BD5 /* Sources */,
+				D94132201E5CF14400189BD5 /* Frameworks */,
+				D94132221E5CF14400189BD5 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D94132291E5CF18B00189BD5 /* PBXTargetDependency */,
+			);
+			name = "KissXMLTests (tvOS)";
+			productName = KissXMLTests;
+			productReference = D94132261E5CF14400189BD5 /* KissXMLTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D9AA72531C56EEF500002BEE /* KissXMLTests (iOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D9AA725C1C56EEF500002BEE /* Build configuration list for PBXNativeTarget "KissXMLTests (iOS)" */;
+			buildPhases = (
+				D9AA72501C56EEF500002BEE /* Sources */,
+				D9AA72511C56EEF500002BEE /* Frameworks */,
+				D9AA72521C56EEF500002BEE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D94132081E5CEF6600189BD5 /* PBXTargetDependency */,
+			);
+			name = "KissXMLTests (iOS)";
+			productName = KissXMLTests;
+			productReference = D9AA72541C56EEF500002BEE /* KissXMLTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D9AA724A1C56EE9D00002BEE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 0720;
+				LastUpgradeCheck = 0820;
+				TargetAttributes = {
+					D9AA72531C56EEF500002BEE = {
+						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0820;
+					};
+				};
+			};
+			buildConfigurationList = D9AA724D1C56EE9D00002BEE /* Build configuration list for PBXProject "KissXMLTests" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D9AA72491C56EE9D00002BEE;
+			productRefGroup = D9AA72551C56EEF500002BEE /* Products */;
+			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = D94131EF1E5CEE0900189BD5 /* Products */;
+					ProjectRef = D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */;
+				},
+			);
+			projectRoot = "";
+			targets = (
+				D9AA72531C56EEF500002BEE /* KissXMLTests (iOS) */,
+				D94132091E5CF00B00189BD5 /* KissXMLTests (macOS) */,
+				D941321A1E5CF14400189BD5 /* KissXMLTests (tvOS) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		D94131F61E5CEE0900189BD5 /* KissXML.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = KissXML.framework;
+			remoteRef = D94131F51E5CEE0900189BD5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D94131F81E5CEE0900189BD5 /* KissXML.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = KissXML.framework;
+			remoteRef = D94131F71E5CEE0900189BD5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D94131FA1E5CEE0900189BD5 /* KissXML.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = KissXML.framework;
+			remoteRef = D94131F91E5CEE0900189BD5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D94131FC1E5CEE0900189BD5 /* KissXML.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = KissXML.framework;
+			remoteRef = D94131FB1E5CEE0900189BD5 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D94132111E5CF00B00189BD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D94132221E5CF14400189BD5 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9AA72521C56EEF500002BEE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D941320C1E5CF00B00189BD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D941320D1E5CF00B00189BD5 /* KissXMLTests.m in Sources */,
+				D941320E1E5CF00B00189BD5 /* KissXMLSwiftTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D941321D1E5CF14400189BD5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D941321E1E5CF14400189BD5 /* KissXMLTests.m in Sources */,
+				D941321F1E5CF14400189BD5 /* KissXMLSwiftTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D9AA72501C56EEF500002BEE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D9AA72581C56EEF500002BEE /* KissXMLTests.m in Sources */,
+				D94132051E5CEED700189BD5 /* KissXMLSwiftTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D94132081E5CEF6600189BD5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "KissXML (iOS)";
+			targetProxy = D94132071E5CEF6600189BD5 /* PBXContainerItemProxy */;
+		};
+		D94132181E5CF03500189BD5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "KissXML (macOS)";
+			targetProxy = D94132171E5CF03500189BD5 /* PBXContainerItemProxy */;
+		};
+		D94132291E5CF18B00189BD5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "KissXML (tvOS)";
+			targetProxy = D94132281E5CF18B00189BD5 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D94132131E5CF00B00189BD5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ballinger.KissXMLTests;
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		D94132141E5CF00B00189BD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ballinger.KissXMLTests;
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		D94132241E5CF14400189BD5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ballinger.KissXMLTests;
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		D94132251E5CF14400189BD5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ballinger.KissXMLTests;
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+		D9AA724E1C56EE9D00002BEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		D9AA724F1C56EE9D00002BEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+			};
+			name = Release;
+		};
+		D9AA725A1C56EEF500002BEE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ballinger.KissXMLTests;
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		D9AA725B1C56EEF500002BEE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = io.ballinger.KissXMLTests;
+				PRODUCT_NAME = "$(PROJECT_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D94132121E5CF00B00189BD5 /* Build configuration list for PBXNativeTarget "KissXMLTests (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D94132131E5CF00B00189BD5 /* Debug */,
+				D94132141E5CF00B00189BD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D94132231E5CF14400189BD5 /* Build configuration list for PBXNativeTarget "KissXMLTests (tvOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D94132241E5CF14400189BD5 /* Debug */,
+				D94132251E5CF14400189BD5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D9AA724D1C56EE9D00002BEE /* Build configuration list for PBXProject "KissXMLTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D9AA724E1C56EE9D00002BEE /* Debug */,
+				D9AA724F1C56EE9D00002BEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D9AA725C1C56EEF500002BEE /* Build configuration list for PBXNativeTarget "KissXMLTests (iOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D9AA725A1C56EEF500002BEE /* Debug */,
+				D9AA725B1C56EEF500002BEE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D9AA724A1C56EE9D00002BEE /* Project object */;
+}
