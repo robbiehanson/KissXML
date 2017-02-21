@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  DDXML.swift
 //  KissXML
 //
 //  Created by David Chiles on 1/29/16.
@@ -9,24 +9,24 @@
 import Foundation
 
 #if os(iOS) || os(watchOS) || os(tvOS)
-    public typealias  NSXMLNode = DDXMLNode
-    public typealias  NSXMLElement = DDXMLElement
-    public typealias  NSXMLDocument = DDXMLDocument
-    public let  NSXMLInvalidKind = DDXMLInvalidKind
-    public let  NSXMLDocumentKind = DDXMLDocumentKind
-    public let  NSXMLElementKind = DDXMLElementKind
-    public let  NSXMLAttributeKind = DDXMLAttributeKind
-    public let  NSXMLNamespaceKind = DDXMLNamespaceKind
-    public let  NSXMLProcessingInstructionKind = DDXMLProcessingInstructionKind
-    public let  NSXMLCommentKind = DDXMLCommentKind
-    public let  NSXMLTextKind = DDXMLTextKind
-    public let  NSXMLDTDKind = DDXMLDTDKind
-    public let  NSXMLEntityDeclarationKind = DDXMLEntityDeclarationKind
-    public let  NSXMLAttributeDeclarationKind = DDXMLAttributeDeclarationKind
-    public let  NSXMLElementDeclarationKind = DDXMLElementDeclarationKind
-    public let  NSXMLNotationDeclarationKind = DDXMLNotationDeclarationKind
-    public let  NSXMLNodeOptionsNone = DDXMLNodeOptionsNone
-    public let  NSXMLNodeExpandEmptyElement = DDXMLNodeExpandEmptyElement
-    public let  NSXMLNodeCompactEmptyElement = DDXMLNodeCompactEmptyElement
-    public let  NSXMLNodePrettyPrint = DDXMLNodePrettyPrint
+    public typealias  XMLNode = DDXMLNode
+    public typealias  XMLElement = DDXMLElement
+    public typealias  XMLDocument = DDXMLDocument
+    public let  XMLInvalidKind = DDXMLInvalidKind
+    public let  XMLDocumentKind = DDXMLDocumentKind
+    public let  XMLElementKind = DDXMLElementKind
+    public let  XMLAttributeKind = DDXMLAttributeKind
+    public let  XMLNamespaceKind = DDXMLNamespaceKind
+    public let  XMLProcessingInstructionKind = DDXMLProcessingInstructionKind
+    public let  XMLCommentKind = DDXMLCommentKind
+    public let  XMLTextKind = DDXMLTextKind
+    public let  XMLDTDKind = DDXMLDTDKind
+    public let  XMLEntityDeclarationKind = DDXMLEntityDeclarationKind
+    public let  XMLAttributeDeclarationKind = DDXMLAttributeDeclarationKind
+    public let  XMLElementDeclarationKind = DDXMLElementDeclarationKind
+    public let  XMLNotationDeclarationKind = DDXMLNotationDeclarationKind
+    public let  XMLNodeOptionsNone = DDXMLNodeOptionsNone
+    public let  XMLNodeExpandEmptyElement = DDXMLNodeExpandEmptyElement
+    public let  XMLNodeCompactEmptyElement = DDXMLNodeCompactEmptyElement
+    public let  XMLNodePrettyPrint = DDXMLNodePrettyPrint
 #endif
