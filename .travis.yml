@@ -11,10 +11,10 @@ install:
   - cd Tests/
   - bundle install
   - bundle exec pod repo update
-  - bundle exec pod install --project-directory=./Mac --no-repo-update
-  - bundle exec pod install --project-directory=./iOS --no-repo-update
-  - bundle exec pod install --project-directory=./Swift --no-repo-update
-  - bundle exec pod install --project-directory=./Swift-iOS --no-repo-update
+  - bundle exec pod install --project-directory=./Mac
+  - bundle exec pod install --project-directory=./iOS
+  - bundle exec pod install --project-directory=./Swift
+  - bundle exec pod install --project-directory=./Swift-iOS
 
 script:
   - set -o pipefail
