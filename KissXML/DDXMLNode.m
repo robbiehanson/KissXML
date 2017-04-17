@@ -700,8 +700,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the previous DDXMLNode object that is a sibling node to the receiver.
  * 
- * This object will have an index value that is one less than the receiverÕs.
- * If there are no more previous siblings (that is, other child nodes of the receiverÕs parent) the method returns nil.
+ * This object will have an index value that is one less than the receiverÃ•s.
+ * If there are no more previous siblings (that is, other child nodes of the receiverÃ•s parent) the method returns nil.
 **/
 - (DDXMLNode *)previousSibling
 {
@@ -722,8 +722,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the next DDXMLNode object that is a sibling node to the receiver.
  * 
- * This object will have an index value that is one more than the receiverÕs.
- * If there are no more subsequent siblings (that is, other child nodes of the receiverÕs parent) the
+ * This object will have an index value that is one more than the receiverÃ•s.
+ * If there are no more subsequent siblings (that is, other child nodes of the receiverÃ•s parent) the
  * method returns nil.
 **/
 - (DDXMLNode *)nextSibling
@@ -745,7 +745,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the previous DDXMLNode object in document order.
  * 
- * You use this method to ÒwalkÓ backward through the tree structure representing an XML document or document section.
+ * You use this method to Ã’walkÃ“ backward through the tree structure representing an XML document or document section.
  * (Use nextNode to traverse the tree in the opposite direction.) Document order is the natural order that XML
  * constructs appear in markup text. If you send this message to the first node in the tree (that is, the root element),
  * nil is returned. DDXMLNode bypasses namespace and attribute nodes when it traverses a tree in document order.
@@ -799,7 +799,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the next DDXMLNode object in document order.
  * 
- * You use this method to ÒwalkÓ forward through the tree structure representing an XML document or document section.
+ * You use this method to Ã’walkÃ“ forward through the tree structure representing an XML document or document section.
  * (Use previousNode to traverse the tree in the opposite direction.) Document order is the natural order that XML
  * constructs appear in markup text. If you send this message to the last node in the tree, nil is returned.
  * DDXMLNode bypasses namespace and attribute nodes when it traverses a tree in document order.
@@ -940,7 +940,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
  * Returns the local name of the receiver.
  * 
  * The local name is the part of a node name that follows a namespace-qualifying colon or the full name if
- * there is no colon. For example, ÒchapterÓ is the local name in the qualified name Òacme:chapterÓ.
+ * there is no colon. For example, Ã’chapterÃ“ is the local name in the qualified name Ã’acme:chapterÃ“.
 **/
 - (NSString *)localName
 {
@@ -952,11 +952,11 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 }
 
 /**
- * Returns the prefix of the receiverÕs name.
+ * Returns the prefix of the receiverÃ•s name.
  * 
  * The prefix is the part of a namespace-qualified name that precedes the colon.
- * For example, ÒacmeÓ is the local name in the qualified name Òacme:chapterÓ.
- * This method returns an empty string if the receiverÕs name is not qualified by a namespace.
+ * For example, Ã’acmeÃ“ is the local name in the qualified name Ã’acme:chapterÃ“.
+ * This method returns an empty string if the receiverÃ•s name is not qualified by a namespace.
 **/
 - (NSString *)prefix
 {
@@ -992,9 +992,12 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		{
 			// Create a new xmlNsPtr, add it to the nsDef list, and make ns point to it
 			xmlNsPtr ns = xmlNewNs(NULL, [URI xmlChar], NULL);
-			ns->next = node->nsDef;
-			node->nsDef = ns;
-			node->ns = ns;
+			if(ns != NULL)
+			{
+				ns->next = node->nsDef;
+				node->nsDef = ns;
+				node->ns = ns;
+			}
 		}
 	}
 }
@@ -1002,7 +1005,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the URI associated with the receiver.
  * 
- * A nodeÕs URI is derived from its namespace or a documentÕs URI; for documents, the URI comes either from the
+ * A nodeÃ•s URI is derived from its namespace or a documentÃ•s URI; for documents, the URI comes either from the
  * parsed XML or is explicitly set. You cannot change the URI for a particular node other for than a namespace
  * or document node.
 **/
@@ -1565,10 +1568,12 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 			// Create a copy of the namespace, add to nsDef list, and then set as ns
 			xmlNsPtr nodeNsCopy = xmlNewNs(NULL, nodeNs->href, nodeNs->prefix);
 			
-			nodeNsCopy->next = node->nsDef;
-			node->nsDef = nodeNsCopy;
-			
-			node->ns = nodeNsCopy;
+			if(nodeNsCopy != NULL) 
+			{
+				nodeNsCopy->next = node->nsDef;
+				node->nsDef = nodeNsCopy;
+				node->ns = nodeNsCopy;
+			}
 		}
 	}
 	
@@ -1611,10 +1616,12 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 				// Create a copy of the namespace, add to node's nsDef list, and then set as attribute's ns
 				xmlNsPtr attrNsCopy = xmlNewNs(NULL, attrNs->href, attrNs->prefix);
 				
-				attrNsCopy->next = node->nsDef;
-				node->nsDef = attrNsCopy;
-				
-				attr->ns = attrNsCopy;
+				if(attrNsCopy != NULL)
+				{
+					attrNsCopy->next = node->nsDef;
+					node->nsDef = attrNsCopy;
+					attr->ns = attrNsCopy;
+				}
 			}
 			
 			attrNs = attrNs->next;
