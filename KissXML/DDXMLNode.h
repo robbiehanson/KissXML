@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (id)attributeWithName:(NSString *)name URI:(NSString *)URI stringValue:(NSString *)stringValue;
 
-+ (id)namespaceWithName:(NSString *)name stringValue:(NSString *)stringValue;
++ (id)namespaceWithName:(nullable NSString *)name stringValue:(NSString *)stringValue;
 
 + (id)processingInstructionWithName:(NSString *)name stringValue:(NSString *)stringValue;
 
