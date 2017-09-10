@@ -9,4 +9,3 @@
 
 FOUNDATION_EXPORT double KissXMLVersionNumber;
 FOUNDATION_EXPORT const unsigned char KissXMLVersionString[];
-
