@@ -61,7 +61,7 @@ static DDAssertionHandler *ddAssertionHandler;
     ddAssertionHandler = nil;
 }
 
-- (NSException *)tryCatch:(void (^)())block
+- (NSException *)tryCatch:(void (^)(void))block
 {
     NSException *result = nil;
     

@@ -71,8 +71,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		79F6C563EBD0290224929F63 /* Pods-KissXMLTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLTests/Pods-KissXMLTests.release.xcconfig"; sourceTree = "<group>"; };
-		843D66BB28687E9E7FA4BA18 /* Pods-KissXMLTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KissXMLTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-KissXMLTests/Pods-KissXMLTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A0047B75CBFA2140D7075177 /* Pods_KissXMLTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KissXMLTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = KissXML.xcodeproj; path = ../../KissXML.xcodeproj; sourceTree = "<group>"; };
 		D94132041E5CEED700189BD5 /* KissXMLSwiftTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = KissXMLSwiftTests.swift; path = ../Shared/KissXMLSwiftTests.swift; sourceTree = SOURCE_ROOT; };
@@ -80,7 +78,7 @@
 		D94132261E5CF14400189BD5 /* KissXMLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KissXMLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9AA72541C56EEF500002BEE /* KissXMLTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KissXMLTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9AA72571C56EEF500002BEE /* KissXMLTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = KissXMLTests.m; path = ../Shared/KissXMLTests.m; sourceTree = SOURCE_ROOT; };
-		D9AA72591C56EEF500002BEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D9AA72591C56EEF500002BEE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Framework/Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,15 +109,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		85655A93DA386A68A391F57D /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				843D66BB28687E9E7FA4BA18 /* Pods-KissXMLTests.debug.xcconfig */,
-				79F6C563EBD0290224929F63 /* Pods-KissXMLTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		D92683C3CC4DF346FDC804F1 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -145,7 +134,6 @@
 				D94131EE1E5CEE0900189BD5 /* KissXML.xcodeproj */,
 				D9AA72561C56EEF500002BEE /* KissXMLTests */,
 				D9AA72551C56EEF500002BEE /* Products */,
-				85655A93DA386A68A391F57D /* Pods */,
 				D92683C3CC4DF346FDC804F1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -167,7 +155,8 @@
 				D9AA72571C56EEF500002BEE /* KissXMLTests.m */,
 				D9AA72591C56EEF500002BEE /* Info.plist */,
 			);
-			path = KissXMLTests;
+			name = KissXMLTests;
+			path = ../Shared;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,11 +223,14 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0720;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0900;
 				TargetAttributes = {
+					D94132091E5CF00B00189BD5 = {
+						LastSwiftMigration = 0900;
+					};
 					D9AA72531C56EEF500002BEE = {
 						CreatedOnToolsVersion = 7.2;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 					};
 				};
 			};
@@ -418,7 +410,6 @@
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -461,7 +452,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.ballinger.KissXMLTests;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = macosx;
-				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -512,7 +502,6 @@
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = appletvos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -555,19 +544,24 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.ballinger.KissXMLTests;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = appletvos;
-				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		D9AA724E1C56EE9D00002BEE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -581,18 +575,25 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
 		};
 		D9AA724F1C56EE9D00002BEE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -605,6 +606,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
 		};
@@ -655,7 +657,6 @@
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -698,7 +699,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.ballinger.KissXMLTests;
 				PRODUCT_NAME = "$(PROJECT_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
