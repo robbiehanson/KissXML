@@ -25,7 +25,9 @@ install:
 
 script:
   - set -o pipefail
-  - xcodebuild -project ./Framework/KissXMLTests.xcodeproj -scheme "KissXMLTests (macOS)" -sdk macosx -arch x86_64 test | xcpretty -c
+  # The Swift and Obj-C tests need to be run separately due to a bug in Apple's NSXML code
+  - xcodebuild -project ./Framework/KissXMLTests.xcodeproj -scheme "KissXMLTests (macOS)" -sdk macosx -arch x86_64 -only-testing:"KissXMLTests (macOS)/KissXMLSwiftTests" test | xcpretty -c
+  - xcodebuild -project ./Framework/KissXMLTests.xcodeproj -scheme "KissXMLTests (macOS)" -sdk macosx -arch x86_64 -only-testing:"KissXMLTests (macOS)/KissXMLTests" test | xcpretty -c
   - travis_retry xcodebuild -project ./Framework/KissXMLTests.xcodeproj -scheme "KissXMLTests (iOS)" -sdk iphonesimulator -destination "id=$IOS_SIMULATOR_UDID" test | xcpretty -c
   - xcodebuild -project ../KissXML.xcodeproj -scheme "KissXML (tvOS)" -sdk appletvsimulator -arch x86_64 build | xcpretty -c
   - xcodebuild -project ../KissXML.xcodeproj -scheme "KissXML (watchOS)" -sdk watchos build | xcpretty -c
