@@ -12,7 +12,6 @@
 		0DCD8DE81E54A3C6001D9832 /* NSString+DDXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DD91E54A3C6001D9832 /* NSString+DDXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0DCD8DE91E54A3C6001D9832 /* NSString+DDXML.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DDA1E54A3C6001D9832 /* NSString+DDXML.m */; };
 		0DCD8DEA1E54A3C6001D9832 /* DDXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DDB1E54A3C6001D9832 /* DDXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		0DCD8DEB1E54A3C6001D9832 /* DDXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DDC1E54A3C6001D9832 /* DDXML.swift */; };
 		0DCD8DEC1E54A3C6001D9832 /* DDXMLDocument.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DDD1E54A3C6001D9832 /* DDXMLDocument.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0DCD8DED1E54A3C6001D9832 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DDE1E54A3C6001D9832 /* DDXMLDocument.m */; };
 		0DCD8DEE1E54A3C6001D9832 /* DDXMLElement.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DDF1E54A3C6001D9832 /* DDXMLElement.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -22,7 +21,6 @@
 		0DCD8DF21E54A3C6001D9832 /* KissXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DE31E54A3C6001D9832 /* KissXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0DCD8DF31E54A3C6001D9832 /* DDXMLPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DE51E54A3C6001D9832 /* DDXMLPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
 		D94131A21E5CEB7800189BD5 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DCD8DF51E54A3E9001D9832 /* libxml2.tbd */; };
-		D94131A51E5CEBE700189BD5 /* DDXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DDC1E54A3C6001D9832 /* DDXML.swift */; };
 		D94131A61E5CEBE700189BD5 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DD71E54A3C6001D9832 /* DDXMLElementAdditions.m */; };
 		D94131A71E5CEBE700189BD5 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DDE1E54A3C6001D9832 /* DDXMLDocument.m */; };
 		D94131A81E5CEBE700189BD5 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DE21E54A3C6001D9832 /* DDXMLNode.m */; };
@@ -37,7 +35,6 @@
 		D94131B31E5CEBE700189BD5 /* DDXMLElementAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DD61E54A3C6001D9832 /* DDXMLElementAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D94131B41E5CEBE700189BD5 /* KissXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DE31E54A3C6001D9832 /* KissXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D94131B51E5CEBE700189BD5 /* DDXMLPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DE51E54A3C6001D9832 /* DDXMLPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		D94131BE1E5CEC8300189BD5 /* DDXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DDC1E54A3C6001D9832 /* DDXML.swift */; };
 		D94131BF1E5CEC8300189BD5 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DD71E54A3C6001D9832 /* DDXMLElementAdditions.m */; };
 		D94131C01E5CEC8300189BD5 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DDE1E54A3C6001D9832 /* DDXMLDocument.m */; };
 		D94131C11E5CEC8300189BD5 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DE21E54A3C6001D9832 /* DDXMLNode.m */; };
@@ -52,7 +49,6 @@
 		D94131CC1E5CEC8300189BD5 /* DDXMLElementAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DD61E54A3C6001D9832 /* DDXMLElementAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D94131CD1E5CEC8300189BD5 /* KissXML.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DE31E54A3C6001D9832 /* KissXML.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D94131CE1E5CEC8300189BD5 /* DDXMLPrivate.h in Headers */ = {isa = PBXBuildFile; fileRef = 0DCD8DE51E54A3C6001D9832 /* DDXMLPrivate.h */; settings = {ATTRIBUTES = (Private, ); }; };
-		D94131D71E5CECC700189BD5 /* DDXML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DDC1E54A3C6001D9832 /* DDXML.swift */; };
 		D94131D81E5CECC700189BD5 /* DDXMLElementAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DD71E54A3C6001D9832 /* DDXMLElementAdditions.m */; };
 		D94131D91E5CECC700189BD5 /* DDXMLDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DDE1E54A3C6001D9832 /* DDXMLDocument.m */; };
 		D94131DA1E5CECC700189BD5 /* DDXMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 0DCD8DE21E54A3C6001D9832 /* DDXMLNode.m */; };
@@ -77,7 +73,6 @@
 		0DCD8DD91E54A3C6001D9832 /* NSString+DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+DDXML.h"; sourceTree = "<group>"; };
 		0DCD8DDA1E54A3C6001D9832 /* NSString+DDXML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+DDXML.m"; sourceTree = "<group>"; };
 		0DCD8DDB1E54A3C6001D9832 /* DDXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXML.h; sourceTree = "<group>"; };
-		0DCD8DDC1E54A3C6001D9832 /* DDXML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DDXML.swift; sourceTree = "<group>"; };
 		0DCD8DDD1E54A3C6001D9832 /* DDXMLDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLDocument.h; sourceTree = "<group>"; };
 		0DCD8DDE1E54A3C6001D9832 /* DDXMLDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDXMLDocument.m; sourceTree = "<group>"; };
 		0DCD8DDF1E54A3C6001D9832 /* DDXMLElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLElement.h; sourceTree = "<group>"; };
@@ -154,7 +149,6 @@
 				0DCD8DD51E54A3C6001D9832 /* Additions */,
 				0DCD8DD81E54A3C6001D9832 /* Categories */,
 				0DCD8DDB1E54A3C6001D9832 /* DDXML.h */,
-				0DCD8DDC1E54A3C6001D9832 /* DDXML.swift */,
 				0DCD8DDD1E54A3C6001D9832 /* DDXMLDocument.h */,
 				0DCD8DDE1E54A3C6001D9832 /* DDXMLDocument.m */,
 				0DCD8DDF1E54A3C6001D9832 /* DDXMLElement.h */,
@@ -418,7 +412,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0DCD8DEB1E54A3C6001D9832 /* DDXML.swift in Sources */,
 				0DCD8DE71E54A3C6001D9832 /* DDXMLElementAdditions.m in Sources */,
 				0DCD8DED1E54A3C6001D9832 /* DDXMLDocument.m in Sources */,
 				0DCD8DF11E54A3C6001D9832 /* DDXMLNode.m in Sources */,
@@ -431,7 +424,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D94131A51E5CEBE700189BD5 /* DDXML.swift in Sources */,
 				D94131A61E5CEBE700189BD5 /* DDXMLElementAdditions.m in Sources */,
 				D94131A71E5CEBE700189BD5 /* DDXMLDocument.m in Sources */,
 				D94131A81E5CEBE700189BD5 /* DDXMLNode.m in Sources */,
@@ -444,7 +436,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D94131BE1E5CEC8300189BD5 /* DDXML.swift in Sources */,
 				D94131BF1E5CEC8300189BD5 /* DDXMLElementAdditions.m in Sources */,
 				D94131C01E5CEC8300189BD5 /* DDXMLDocument.m in Sources */,
 				D94131C11E5CEC8300189BD5 /* DDXMLNode.m in Sources */,
@@ -457,7 +448,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D94131D71E5CECC700189BD5 /* DDXML.swift in Sources */,
 				D94131D81E5CECC700189BD5 /* DDXMLElementAdditions.m in Sources */,
 				D94131D91E5CECC700189BD5 /* DDXMLDocument.m in Sources */,
 				D94131DA1E5CECC700189BD5 /* DDXMLNode.m in Sources */,
