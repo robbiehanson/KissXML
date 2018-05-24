@@ -21,27 +21,27 @@
 **/
 
 enum {
-  DDXMLInvalidKind NS_SWIFT_NAME(XMLInvalidKind)                = 0,
-  DDXMLDocumentKind NS_SWIFT_NAME(XMLDocumentKind),
-  DDXMLElementKind NS_SWIFT_NAME(XMLElementKind),
-  DDXMLAttributeKind NS_SWIFT_NAME(XMLAttributeKind),
-  DDXMLNamespaceKind NS_SWIFT_NAME(XMLNamespaceKind),
-  DDXMLProcessingInstructionKind NS_SWIFT_NAME(XMLProcessingInstructionKind),
-  DDXMLCommentKind NS_SWIFT_NAME(XMLCommentKind),
-  DDXMLTextKind NS_SWIFT_NAME(XMLTextKind),
-  DDXMLDTDKind NS_SWIFT_NAME(XMLDTDKind),
-  DDXMLEntityDeclarationKind NS_SWIFT_NAME(XMLEntityDeclarationKind),
-  DDXMLAttributeDeclarationKind NS_SWIFT_NAME(XMLAttributeDeclarationKind),
-  DDXMLElementDeclarationKind NS_SWIFT_NAME(XMLElementDeclarationKind),
-  DDXMLNotationDeclarationKind NS_SWIFT_NAME(XMLNotationDeclarationKind)
+	DDXMLInvalidKind NS_SWIFT_NAME(XMLInvalidKind)                = 0,
+	DDXMLDocumentKind NS_SWIFT_NAME(XMLDocumentKind),
+	DDXMLElementKind NS_SWIFT_NAME(XMLElementKind),
+	DDXMLAttributeKind NS_SWIFT_NAME(XMLAttributeKind),
+	DDXMLNamespaceKind NS_SWIFT_NAME(XMLNamespaceKind),
+	DDXMLProcessingInstructionKind NS_SWIFT_NAME(XMLProcessingInstructionKind),
+	DDXMLCommentKind NS_SWIFT_NAME(XMLCommentKind),
+	DDXMLTextKind NS_SWIFT_NAME(XMLTextKind),
+	DDXMLDTDKind NS_SWIFT_NAME(XMLDTDKind),
+	DDXMLEntityDeclarationKind NS_SWIFT_NAME(XMLEntityDeclarationKind),
+	DDXMLAttributeDeclarationKind NS_SWIFT_NAME(XMLAttributeDeclarationKind),
+	DDXMLElementDeclarationKind NS_SWIFT_NAME(XMLElementDeclarationKind),
+	DDXMLNotationDeclarationKind NS_SWIFT_NAME(XMLNotationDeclarationKind)
 };
 typedef NSUInteger DDXMLNodeKind NS_SWIFT_NAME(XMLNodeKind);
 
 enum {
-  DDXMLNodeOptionsNone NS_SWIFT_NAME(XMLNodeOptionsNone)                  = 0,
-  DDXMLNodeExpandEmptyElement NS_SWIFT_NAME(XMLNodeExpandEmptyElement)    = 1 << 1,
-  DDXMLNodeCompactEmptyElement NS_SWIFT_NAME(XMLNodeCompactEmptyElement)  = 1 << 2,
-  DDXMLNodePrettyPrint NS_SWIFT_NAME(XMLNodePrettyPrint)                  = 1 << 17,
+	DDXMLNodeOptionsNone NS_SWIFT_NAME(XMLNodeOptionsNone)                  = 0,
+	DDXMLNodeExpandEmptyElement NS_SWIFT_NAME(XMLNodeExpandEmptyElement)    = 1 << 1,
+	DDXMLNodeCompactEmptyElement NS_SWIFT_NAME(XMLNodeCompactEmptyElement)  = 1 << 2,
+	DDXMLNodePrettyPrint NS_SWIFT_NAME(XMLNodePrettyPrint)                  = 1 << 17,
 };
 
 
