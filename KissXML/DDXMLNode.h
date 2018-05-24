@@ -21,10 +21,10 @@
 **/
 
 enum {
-	DDXMLInvalidKind NS_SWIFT_NAME(XMLInvalidKind)                = 0,
-	DDXMLDocumentKind NS_SWIFT_NAME(XMLDocumentKind),
-	DDXMLElementKind NS_SWIFT_NAME(XMLElementKind),
-	DDXMLAttributeKind NS_SWIFT_NAME(XMLAttributeKind),
+  DDXMLInvalidKind NS_SWIFT_NAME(XMLInvalidKind)                = 0,
+  DDXMLDocumentKind NS_SWIFT_NAME(XMLDocumentKind),
+  DDXMLElementKind NS_SWIFT_NAME(XMLElementKind),
+  DDXMLAttributeKind NS_SWIFT_NAME(XMLAttributeKind),
   DDXMLNamespaceKind NS_SWIFT_NAME(XMLNamespaceKind),
   DDXMLProcessingInstructionKind NS_SWIFT_NAME(XMLProcessingInstructionKind),
   DDXMLCommentKind NS_SWIFT_NAME(XMLCommentKind),
