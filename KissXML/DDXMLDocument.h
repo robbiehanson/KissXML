@@ -21,12 +21,12 @@
 **/
 
 enum {
-	DDXMLDocumentXMLKind = 0,
-	DDXMLDocumentXHTMLKind,
-	DDXMLDocumentHTMLKind,
-	DDXMLDocumentTextKind
+	DDXMLDocumentXMLKind NS_SWIFT_NAME(XMLDocumentXMLKind) = 0,
+	DDXMLDocumentXHTMLKind NS_SWIFT_NAME(XMLDocumentXHTMLKind),
+	DDXMLDocumentHTMLKind NS_SWIFT_NAME(XMLDocumentHTMLKind),
+	DDXMLDocumentTextKind NS_SWIFT_NAME(XMLDocumentTextKind)
 };
-typedef NSUInteger DDXMLDocumentContentKind;
+typedef NSUInteger DDXMLDocumentContentKind NS_SWIFT_NAME(XMLDocumentContentKind);
 
 NS_ASSUME_NONNULL_BEGIN
 @interface DDXMLDocument : DDXMLNode
@@ -83,4 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 //- (BOOL)validateAndReturnError:(NSError **)error;
 
 @end
+#if TARGET_OS_IPHONE || TARGET_OS_IOS || TARGET_OS_TV || TARGET_OS_WATCH
+@compatibility_alias XMLDocument DDXMLDocument;
+#endif
 NS_ASSUME_NONNULL_END

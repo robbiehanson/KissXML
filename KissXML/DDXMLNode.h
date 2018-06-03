@@ -21,27 +21,27 @@
 **/
 
 enum {
-	DDXMLInvalidKind                = 0,
-	DDXMLDocumentKind,
-	DDXMLElementKind,
-	DDXMLAttributeKind,
-	DDXMLNamespaceKind,
-	DDXMLProcessingInstructionKind,
-	DDXMLCommentKind,
-	DDXMLTextKind,
-	DDXMLDTDKind,
-	DDXMLEntityDeclarationKind,
-	DDXMLAttributeDeclarationKind,
-	DDXMLElementDeclarationKind,
-	DDXMLNotationDeclarationKind
+	DDXMLInvalidKind NS_SWIFT_NAME(XMLInvalidKind)                = 0,
+	DDXMLDocumentKind NS_SWIFT_NAME(XMLDocumentKind),
+	DDXMLElementKind NS_SWIFT_NAME(XMLElementKind),
+	DDXMLAttributeKind NS_SWIFT_NAME(XMLAttributeKind),
+	DDXMLNamespaceKind NS_SWIFT_NAME(XMLNamespaceKind),
+	DDXMLProcessingInstructionKind NS_SWIFT_NAME(XMLProcessingInstructionKind),
+	DDXMLCommentKind NS_SWIFT_NAME(XMLCommentKind),
+	DDXMLTextKind NS_SWIFT_NAME(XMLTextKind),
+	DDXMLDTDKind NS_SWIFT_NAME(XMLDTDKind),
+	DDXMLEntityDeclarationKind NS_SWIFT_NAME(XMLEntityDeclarationKind),
+	DDXMLAttributeDeclarationKind NS_SWIFT_NAME(XMLAttributeDeclarationKind),
+	DDXMLElementDeclarationKind NS_SWIFT_NAME(XMLElementDeclarationKind),
+	DDXMLNotationDeclarationKind NS_SWIFT_NAME(XMLNotationDeclarationKind)
 };
-typedef NSUInteger DDXMLNodeKind;
+typedef NSUInteger DDXMLNodeKind NS_SWIFT_NAME(XMLNodeKind);
 
 enum {
-	DDXMLNodeOptionsNone            = 0,
-	DDXMLNodeExpandEmptyElement     = 1 << 1,
-	DDXMLNodeCompactEmptyElement    = 1 << 2,
-	DDXMLNodePrettyPrint            = 1 << 17,
+	DDXMLNodeOptionsNone NS_SWIFT_NAME(XMLNodeOptionsNone)                  = 0,
+	DDXMLNodeExpandEmptyElement NS_SWIFT_NAME(XMLNodeExpandEmptyElement)    = 1 << 1,
+	DDXMLNodeCompactEmptyElement NS_SWIFT_NAME(XMLNodeCompactEmptyElement)  = 1 << 2,
+	DDXMLNodePrettyPrint NS_SWIFT_NAME(XMLNodePrettyPrint)                  = 1 << 17,
 };
 
 
@@ -138,4 +138,8 @@ NS_ASSUME_NONNULL_BEGIN
 //- (NSArray *)objectsForXQuery:(NSString *)xquery error:(NSError **)error;
 
 @end
+#if TARGET_OS_IPHONE || TARGET_OS_IOS || TARGET_OS_TV || TARGET_OS_WATCH
+@compatibility_alias XMLNode DDXMLNode;
+#endif
+
 NS_ASSUME_NONNULL_END
