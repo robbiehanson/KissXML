@@ -63,4 +63,7 @@ NS_ASSUME_NONNULL_BEGIN
 //- (void)normalizeAdjacentTextNodesPreservingCDATA:(BOOL)preserve;
 
 @end
+#if TARGET_OS_IPHONE || TARGET_OS_IOS || TARGET_OS_TV || TARGET_OS_WATCH
+@compatibility_alias XMLElement DDXMLElement;
+#endif
 NS_ASSUME_NONNULL_END
