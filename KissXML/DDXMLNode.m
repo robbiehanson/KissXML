@@ -1173,20 +1173,16 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		return @"";
 	}
     
-    NSMutableString *xmlString;
+	NSMutableString *xmlString = [NSMutableString stringWithUTF8String:(const char *)bufferPtr->content];
+	xmlBufferFree(bufferPtr);
 	
-	if ([self kind] == DDXMLTextKind)
-	{
-		xmlString = [NSMutableString stringWithUTF8String:(const char *)bufferPtr->content];
-		
-		xmlBufferFree(bufferPtr);
+	if (xmlString == nil) {
+		return @"";
 	}
-	else
+	
+	if ([self kind] != DDXMLTextKind)
 	{
-		xmlString = [NSMutableString stringWithUTF8String:(const char *)bufferPtr->content];
 		CFStringTrimWhitespace((__bridge CFMutableStringRef)xmlString);
-		
-		xmlBufferFree(bufferPtr);
 	}
     
     // Revert wide unicode characters in XML Attribute string values
