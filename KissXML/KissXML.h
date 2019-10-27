@@ -3,9 +3,7 @@
 #if __has_include("DDXMLElementAdditions.h")
     #import "DDXMLElementAdditions.h"
 #endif
-#if __has_include("NSString+DDXML.h")
-    #import "NSString+DDXML.h"
-#endif
+#import "NSString+DDXML.h"
 #import "DDXML.h"
 #import "DDXMLDocument.h"
 #import "DDXMLElement.h"
