@@ -1957,7 +1957,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 		[lastErrorValue getValue:&lastError];
 		
 		int errCode = lastError.code;
-		NSString *errMsg = [[NSString stringWithFormat:@"%s", lastError.message] stringByTrimming];
+		NSString *errMsg = [[NSString stringWithFormat:@"%s", lastError.message] stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
 		
 		NSDictionary *info = [NSDictionary dictionaryWithObject:errMsg forKey:NSLocalizedDescriptionKey];
 			
