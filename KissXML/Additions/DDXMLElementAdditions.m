@@ -5,10 +5,10 @@
 /**
  * Quick method to create an element
 **/
-+ (DDXMLElement *)dd_elementWithName:(NSString *)name xmlns:(NSString *)ns
++ (DDXMLElement *)elementWithName:(NSString *)name xmlns:(NSString *)ns
 {
 	DDXMLElement *element = [DDXMLElement elementWithName:name];
-    element.dd_xmlns = ns;
+	[element setXmlns:ns];
 	return element;
 }
 
@@ -16,7 +16,7 @@
  * This method returns the first child element for the given name.
  * If no child element exists for the given name, returns nil.
 **/
-- (DDXMLElement *)dd_elementForName:(NSString *)name
+- (DDXMLElement *)elementForName:(NSString *)name
 {
 	NSArray *elements = [self elementsForName:name];
 	if([elements count] > 0)
@@ -54,7 +54,7 @@
  * This method returns the first child element for the given name and given xmlns.
  * If no child elements exist for the given name and given xmlns, returns nil.
 **/
-- (DDXMLElement *)dd_elementForName:(NSString *)name xmlns:(NSString *)xmlns
+- (DDXMLElement *)elementForName:(NSString *)name xmlns:(NSString *)xmlns
 {
 	NSArray *elements = [self elementsForLocalName:name URI:xmlns];
 	if([elements count] > 0)
@@ -71,12 +71,12 @@
  * Returns the common xmlns "attribute", which is only accessible via the namespace methods.
  * The xmlns value is often used in jabber elements.
 **/
-- (NSString *)dd_xmlns
+- (NSString *)xmlns
 {
 	return [[self namespaceForPrefix:@""] stringValue];
 }
 
-- (void)setDd_xmlns:(NSString *)ns
+- (void)setXmlns:(NSString *)ns
 {
 	// If you use setURI: then the xmlns won't be displayed in the XMLString.
 	// Adding the namespace this way works properly.
@@ -89,7 +89,7 @@
 /**
  * Shortcut to get a pretty (formatted) string representation of the element.
 **/
-- (NSString *)dd_prettyXMLString
+- (NSString *)prettyXMLString
 {
 	return [self XMLStringWithOptions:(DDXMLNodePrettyPrint | DDXMLNodeCompactEmptyElement)];
 }
@@ -97,7 +97,7 @@
 /**
  * Shortcut to get a compact string representation of the element.
 **/
-- (NSString *)dd_compactXMLString
+- (NSString *)compactXMLString
 {
     return [self XMLStringWithOptions:DDXMLNodeCompactEmptyElement];
 }
@@ -105,7 +105,7 @@
 /**
  *	Shortcut to avoid having to manually create a DDXMLNode everytime.
 **/
-- (void)dd_addAttributeWithName:(NSString *)name stringValue:(NSString *)string
+- (void)addAttributeWithName:(NSString *)name stringValue:(NSString *)string
 {
 	[self addAttribute:[DDXMLNode attributeWithName:name stringValue:string]];
 }
@@ -113,7 +113,7 @@
 /**
  * Returns all the attributes as a dictionary.
 **/
-- (NSDictionary *)dd_attributesAsDictionary
+- (NSDictionary *)attributesAsDictionary
 {
 	NSArray *attributes = [self attributes];
 	NSMutableDictionary *result = [NSMutableDictionary dictionaryWithCapacity:[attributes count]];
@@ -126,46 +126,6 @@
 		[result setObject:[node stringValue] forKey:[node name]];
 	}
 	return result;
-}
-
-@end
-
-@implementation DDXMLElement (DDAdditionsDeprecated)
-
-+ (nullable DDXMLElement *)elementWithName:(NSString *)name xmlns:(NSString *)ns  {
-    return [self dd_elementWithName:name xmlns:ns];
-}
-
-- (nullable DDXMLElement *)elementForName:(NSString *)name {
-    return [self dd_elementForName:name];
-}
-
-- (nullable DDXMLElement *)elementForName:(NSString *)name xmlns:(NSString *)xmlns {
-    return [self dd_elementForName:name xmlns:xmlns];
-}
-
-- (nullable NSString *)xmlns {
-    return [self dd_xmlns];
-}
-
-- (void)setXmlns:(NSString *)ns {
-    [self setDd_xmlns:ns];
-}
-
-- (NSString *)prettyXMLString {
-    return [self dd_prettyXMLString];
-}
-
-- (NSString *)compactXMLString {
-    return [self dd_compactXMLString];
-}
-
-- (void)addAttributeWithName:(NSString *)name stringValue:(NSString *)string {
-    return [self dd_addAttributeWithName:name stringValue:string];
-}
-
-- (NSDictionary<NSString*,NSString*> *)attributesAsDictionary {
-    return [self dd_attributesAsDictionary];
 }
 
 @end
