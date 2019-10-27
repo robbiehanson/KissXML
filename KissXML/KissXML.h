@@ -1,6 +1,8 @@
 #import <Foundation/Foundation.h>
 
-#import "DDXMLElementAdditions.h"
+#if __has_include("DDXMLElementAdditions.h")
+    #import "DDXMLElementAdditions.h"
+#endif
 #import "NSString+DDXML.h"
 #import "DDXML.h"
 #import "DDXMLDocument.h"
