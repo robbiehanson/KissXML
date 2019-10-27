@@ -14,12 +14,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, readwrite, nullable) NSString *dd_xmlns;
 
-- (NSString *)dd_prettyXMLString;
-- (NSString *)dd_compactXMLString;
+@property (nonatomic, readonly) NSString *dd_prettyXMLString;
+@property (nonatomic, readonly) NSString *dd_compactXMLString;
 
 - (void)dd_addAttributeWithName:(NSString *)name stringValue:(NSString *)string;
 
-- (NSDictionary<NSString*,NSString*> *)dd_attributesAsDictionary;
+@property (nonatomic, readonly) NSDictionary<NSString*,NSString*> *dd_attributesAsDictionary;
 
 @end
 
