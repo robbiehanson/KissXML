@@ -108,7 +108,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 {
 	xmlAttrPtr attr = xmlNewProp(NULL, [name dd_xmlChar], [stringValue dd_xmlChar]);
 	
-	if (attr == NULL) return nil;
+	if (attr == NULL) return [[self alloc] init];
 	
 	return [[DDXMLAttributeNode alloc] initWithAttrPrimitive:attr owner:nil];
 }
@@ -117,7 +117,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 {
 	xmlAttrPtr attr = xmlNewProp(NULL, [name dd_xmlChar], [stringValue dd_xmlChar]);
 	
-	if (attr == NULL) return nil;
+	if (attr == NULL) return [[self alloc] init];
 	
 	DDXMLAttributeNode *result = [[DDXMLAttributeNode alloc] initWithAttrPrimitive:attr owner:nil];
 	[result setURI:URI];
@@ -132,7 +132,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 	
 	xmlNsPtr ns = xmlNewNs(NULL, [stringValue dd_xmlChar], xmlName);
 	
-	if (ns == NULL) return nil;
+	if (ns == NULL) return [[self alloc] init];
 	
 	return [[DDXMLNamespaceNode alloc] initWithNsPrimitive:ns nsParent:NULL owner:nil];
 }
@@ -141,7 +141,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 {
 	xmlNodePtr procInst = xmlNewPI([name dd_xmlChar], [stringValue dd_xmlChar]);
 	
-	if (procInst == NULL) return nil;
+	if (procInst == NULL) return [[self alloc] init];
 	
 	return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)procInst owner:nil];
 }
@@ -150,7 +150,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 {
 	xmlNodePtr comment = xmlNewComment([stringValue dd_xmlChar]);
 	
-	if (comment == NULL) return nil;
+	if (comment == NULL) return [[self alloc] init];
 	
 	return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)comment owner:nil];
 }
@@ -159,7 +159,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 {
 	xmlNodePtr text = xmlNewText([stringValue dd_xmlChar]);
 	
-	if (text == NULL) return nil;
+	if (text == NULL) return [[self alloc] init];
 	
 	return [[DDXMLNode alloc] initWithPrimitive:(xmlKindPtr)text owner:nil];
 }
