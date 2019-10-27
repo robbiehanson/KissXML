@@ -6,18 +6,18 @@
 
 @implementation NSString (DDXML)
 
-- (const xmlChar *)xmlChar
+- (const xmlChar *)dd_xmlChar
 {
 	return (const xmlChar *)[self UTF8String];
 }
 
 #ifdef GNUSTEP
-- (NSString *)stringByTrimming
+- (NSString *)dd_stringByTrimming
 {
 	return [self stringByTrimmingSpaces];
 }
 #else
-- (NSString *)stringByTrimming
+- (NSString *)dd_stringByTrimming
 {
 	NSMutableString *mStr = [self mutableCopy];
 	CFStringTrimWhitespace((__bridge CFMutableStringRef)mStr);
@@ -27,5 +27,20 @@
 	return result;
 }
 #endif
+
+@end
+
+@implementation NSString (DDXMLDeprecated)
+
+/**
+ * xmlChar - A basic replacement for char, a byte in a UTF-8 encoded string.
+**/
+- (const xmlChar *)xmlChar {
+    return [self dd_xmlChar];
+}
+
+- (NSString *)stringByTrimming {
+    return [self dd_stringByTrimming];
+}
 
 @end

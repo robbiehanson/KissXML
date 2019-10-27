@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'KissXML'
-  s.version      = '5.2.4'
+  s.version      = '5.3.0'
   s.license      = { :type => 'MIT', :file => 'LICENSE.txt' }
   s.summary      = 'A replacement for Cocoa\'s NSXML cluster of classes. Based on libxml.'
   s.homepage     = 'https://github.com/robbiehanson/KissXML'
@@ -20,11 +20,17 @@ Pod::Spec.new do |s|
 
   s.subspec 'Additions' do |ss|
     ss.dependency 'KissXML/Core'
-    ss.source_files = 'KissXML/Additions/*.{h,m}', 'KissXML/Categories/*.{h,m}'
+    ss.source_files = 'KissXML/Additions/*.{h,m}'
+  end
+
+  s.subspec 'Categories' do |ss|
+    ss.dependency 'KissXML/Core'
+    ss.source_files = 'KissXML/Categories/*.{h,m}'
   end
 
   s.subspec 'All' do |ss|
     ss.dependency 'KissXML/Core'
+    ss.dependency 'KissXML/Categories'
     ss.dependency 'KissXML/Additions'
   end
 
