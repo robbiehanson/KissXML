@@ -9,9 +9,20 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  * xmlChar - A basic replacement for char, a byte in a UTF-8 encoded string.
 **/
-- (const xmlChar *)xmlChar;
+- (const xmlChar *)dd_xmlChar;
 
-- (NSString *)stringByTrimming;
+- (NSString *)dd_stringByTrimming;
+
+@end
+
+@interface NSString (DDXMLDeprecated)
+
+/**
+ * xmlChar - A basic replacement for char, a byte in a UTF-8 encoded string.
+**/
+- (const xmlChar *)xmlChar DEPRECATED_MSG_ATTRIBUTE("use dd_xmlChar instead.");
+
+- (NSString *)stringByTrimming  DEPRECATED_MSG_ATTRIBUTE("use dd_stringByTrimming instead.");
 
 @end
 NS_ASSUME_NONNULL_END

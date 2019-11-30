@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = 'KissXML'
-  s.version      = '5.2.3'
+  s.version      = '5.3.1'
   s.license      = { :type => 'MIT', :file => 'LICENSE.txt' }
   s.summary      = 'A replacement for Cocoa\'s NSXML cluster of classes. Based on libxml.'
   s.homepage     = 'https://github.com/robbiehanson/KissXML'
@@ -9,10 +9,24 @@ Pod::Spec.new do |s|
 
   s.requires_arc = true
 
-  s.source_files = 'KissXML/**/*.{h,m}'
-  s.private_header_files = 'KissXML/Private/**/*.h'
-  s.library      = 'xml2'
-  s.xcconfig     = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2'}
+  s.default_subspec = 'All'
+
+  s.subspec 'Core' do |ss|
+    ss.source_files = 'KissXML/*.{h,m}', 'KissXML/Categories/*.{h,m}', 'KissXML/Private/*.h'
+    ss.private_header_files = 'KissXML/Private/**/*.h'
+    ss.library      = 'xml2'
+    ss.xcconfig     = { 'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2'}
+  end
+
+  s.subspec 'Additions' do |ss|
+    ss.dependency 'KissXML/Core'
+    ss.source_files = 'KissXML/Additions/*.{h,m}'
+  end
+
+  s.subspec 'All' do |ss|
+    ss.dependency 'KissXML/Core'
+    ss.dependency 'KissXML/Additions'
+  end
 
   s.ios.deployment_target = '8.0'
   s.osx.deployment_target = '10.9'
