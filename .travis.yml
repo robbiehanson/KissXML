@@ -33,3 +33,4 @@ script:
   - xcodebuild -workspace ./Swift/KissXML.xcworkspace -scheme KissXMLSwiftTests -sdk macosx -arch x86_64 test | xcpretty -c
   - travis_retry xcodebuild -workspace ./Swift-iOS/KissXML.xcworkspace -scheme KissXMLSwiftTests -sdk iphonesimulator -destination "id=$IOS_SIMULATOR_UDID" test | xcpretty -c
   - bundle exec pod lib lint ../KissXML.podspec
+  - swift test -c release
