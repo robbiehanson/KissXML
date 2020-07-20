@@ -1,0 +1,10 @@
+module KissXML {
+    header "DDXML.h"
+    header "DDXMLDocument.h"
+    header "DDXMLElement.h"
+    header "DDXMLNode.h"
+    header "Additions/DDXMLElementAdditions.h"
+    header "Categories/NSString+DDXML.h"
+
+    export *
+}
