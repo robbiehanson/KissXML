@@ -21,9 +21,19 @@ KissXML was inspired by the TouchXML project, but was created to add full suppor
 
 The minimum deployment target is iOS 8.0 / macOS 10.9 / tvOS 9.0 / watchOS 2.0.
 
+#### Swift Package Manager
+The easiest way to install `KissXML` is using Swift Package Manager, simply add the following to your **`Package.swift`**:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/robbiehanson/KissXML.git", .upToNextMajor(from: "x.x.x"))
+]
+```
+> Make sure to replace `x.x.x` with the appropriate version number.
+
 #### CocoaPods
 
-The easiest way to install `KissXML` is using CocoaPods.
+To install `KissXML` using CocoaPods, add the following to your **`Podfile`**:
 
 ```ruby
 use_frameworks!
