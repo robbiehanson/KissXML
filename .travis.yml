@@ -1,35 +1,46 @@
-osx_image: xcode11.1
 language: objective-c
 
-cache:
-  directories:
-  - Tests/Mac/Pods
-  - Tests/iOS/Pods
-  - Tests/Swift/Pods
-  - Tests/Swift-iOS/Pods
+jobs:
+  include:
+    - stage: Swift PM
+      osx_image: xcode11.5
+      script:
+      # Build the project using Swift PM
+        - swift build
+      # Test the project using Swift PM
+        - swift test
 
-before_install:
-  # Fix Travis  xcodebuild exited with 65 https://github.com/travis-ci/travis-ci/issues/6675#issuecomment-257964767
-  - export IOS_SIMULATOR_UDID=`instruments -s devices | grep -m 1 "iPhone 8 (13" | awk -F '[ ]' '{print $4}' | awk -F '[\[]' '{print $2}' | sed 's/.$//'`
-  - echo $IOS_SIMULATOR_UDID
+    - stage: Xcode Tests
+      osx_image: xcode11.1
+      cache:
+        directories:
+        - Tests/Mac/Pods
+        - Tests/iOS/Pods
+        - Tests/Swift/Pods
+        - Tests/Swift-iOS/Pods
 
-install:
-  - cd Tests/
-  - bundle install
-  - bundle exec pod repo update --silent
-  - bundle exec pod install --project-directory=./Mac
-  - bundle exec pod install --project-directory=./iOS
-  - bundle exec pod install --project-directory=./Swift
-  - bundle exec pod install --project-directory=./Swift-iOS
+      before_install:
+        # Fix Travis  xcodebuild exited with 65 https://github.com/travis-ci/travis-ci/issues/6675#issuecomment-257964767
+        - export IOS_SIMULATOR_UDID=`instruments -s devices | grep -m 1 "iPhone 8 (13" | awk -F '[ ]' '{print $4}' | awk -F '[\[]' '{print $2}' | sed 's/.$//'`
+        - echo $IOS_SIMULATOR_UDID
 
-script:
-  - set -o pipefail
-  - xcodebuild -project ./Framework/KissXMLTests.xcodeproj -scheme "KissXMLTests (macOS)" -sdk macosx -arch x86_64 test | xcpretty -c
-  - travis_retry xcodebuild -project ./Framework/KissXMLTests.xcodeproj -scheme "KissXMLTests (iOS)" -sdk iphonesimulator -destination "id=$IOS_SIMULATOR_UDID" test | xcpretty -c
-  - xcodebuild -project ../KissXML.xcodeproj -scheme "KissXML (tvOS)" -sdk appletvsimulator -arch x86_64 build | xcpretty -c
-  - xcodebuild -project ../KissXML.xcodeproj -scheme "KissXML (watchOS)" -sdk watchos build | xcpretty -c
-  - xcodebuild -workspace ./Mac/KissXML.xcworkspace -scheme KissXMLTests -sdk macosx -arch x86_64 test | xcpretty -c
-  - travis_retry xcodebuild -workspace ./iOS/KissXML.xcworkspace -scheme KissXMLTests -sdk iphonesimulator -destination "id=$IOS_SIMULATOR_UDID" test | xcpretty -c
-  - xcodebuild -workspace ./Swift/KissXML.xcworkspace -scheme KissXMLSwiftTests -sdk macosx -arch x86_64 test | xcpretty -c
-  - travis_retry xcodebuild -workspace ./Swift-iOS/KissXML.xcworkspace -scheme KissXMLSwiftTests -sdk iphonesimulator -destination "id=$IOS_SIMULATOR_UDID" test | xcpretty -c
-  - bundle exec pod lib lint ../KissXML.podspec
+      install:
+        - cd Tests/
+        - bundle install
+        - bundle exec pod repo update --silent
+        - bundle exec pod install --project-directory=./Mac
+        - bundle exec pod install --project-directory=./iOS
+        - bundle exec pod install --project-directory=./Swift
+        - bundle exec pod install --project-directory=./Swift-iOS
+
+      script:
+        - set -o pipefail
+        - xcodebuild -project ./Framework/KissXMLTests.xcodeproj -scheme "KissXMLTests (macOS)" -sdk macosx -arch x86_64 test | xcpretty -c
+        - travis_retry xcodebuild -project ./Framework/KissXMLTests.xcodeproj -scheme "KissXMLTests (iOS)" -sdk iphonesimulator -destination "id=$IOS_SIMULATOR_UDID" test | xcpretty -c
+        - xcodebuild -project ../KissXML.xcodeproj -scheme "KissXML (tvOS)" -sdk appletvsimulator -arch x86_64 build | xcpretty -c
+        - xcodebuild -project ../KissXML.xcodeproj -scheme "KissXML (watchOS)" -sdk watchos build | xcpretty -c
+        - xcodebuild -workspace ./Mac/KissXML.xcworkspace -scheme KissXMLTests -sdk macosx -arch x86_64 test | xcpretty -c
+        - travis_retry xcodebuild -workspace ./iOS/KissXML.xcworkspace -scheme KissXMLTests -sdk iphonesimulator -destination "id=$IOS_SIMULATOR_UDID" test | xcpretty -c
+        - xcodebuild -workspace ./Swift/KissXML.xcworkspace -scheme KissXMLSwiftTests -sdk macosx -arch x86_64 test | xcpretty -c
+        - travis_retry xcodebuild -workspace ./Swift-iOS/KissXML.xcworkspace -scheme KissXMLSwiftTests -sdk iphonesimulator -destination "id=$IOS_SIMULATOR_UDID" test | xcpretty -c
+        - bundle exec pod lib lint ../KissXML.podspec

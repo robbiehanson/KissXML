@@ -6,7 +6,11 @@
 //
 
 #import <XCTest/XCTest.h>
-#import <KissXML/KissXML.h>
+#if SWIFT_PACKAGE
+    @import KissXML;
+#else
+    #import <KissXML/KissXML.h>
+#endif
 
 @interface DDAssertionHandler : NSAssertionHandler
 {

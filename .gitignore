@@ -20,6 +20,11 @@ DerivedData
 *.hmap
 *.ipa
 
+Package.pins
+Package.resolved
+.swiftpm
+.build
+
 # Bundler
 .bundle
 
