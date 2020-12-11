@@ -700,8 +700,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the previous DDXMLNode object that is a sibling node to the receiver.
  * 
- * This object will have an index value that is one less than the receiver’s.
- * If there are no more previous siblings (that is, other child nodes of the receiver’s parent) the method returns nil.
+ * This object will have an index value that is one less than the receiver's.
+ * If there are no more previous siblings (that is, other child nodes of the receiver's parent) the method returns nil.
 **/
 - (DDXMLNode *)previousSibling
 {
@@ -722,8 +722,8 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the next DDXMLNode object that is a sibling node to the receiver.
  * 
- * This object will have an index value that is one more than the receiver’s.
- * If there are no more subsequent siblings (that is, other child nodes of the receiver’s parent) the
+ * This object will have an index value that is one more than the receiver's.
+ * If there are no more subsequent siblings (that is, other child nodes of the receiver's parent) the
  * method returns nil.
 **/
 - (DDXMLNode *)nextSibling
@@ -745,7 +745,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the previous DDXMLNode object in document order.
  * 
- * You use this method to “walk” backward through the tree structure representing an XML document or document section.
+ * You use this method to "walk" backward through the tree structure representing an XML document or document section.
  * (Use nextNode to traverse the tree in the opposite direction.) Document order is the natural order that XML
  * constructs appear in markup text. If you send this message to the first node in the tree (that is, the root element),
  * nil is returned. DDXMLNode bypasses namespace and attribute nodes when it traverses a tree in document order.
@@ -799,7 +799,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the next DDXMLNode object in document order.
  * 
- * You use this method to “walk” forward through the tree structure representing an XML document or document section.
+ * You use this method to "walk" forward through the tree structure representing an XML document or document section.
  * (Use previousNode to traverse the tree in the opposite direction.) Document order is the natural order that XML
  * constructs appear in markup text. If you send this message to the last node in the tree, nil is returned.
  * DDXMLNode bypasses namespace and attribute nodes when it traverses a tree in document order.
@@ -940,7 +940,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
  * Returns the local name of the receiver.
  * 
  * The local name is the part of a node name that follows a namespace-qualifying colon or the full name if
- * there is no colon. For example, “chapter” is the local name in the qualified name “acme:chapter”.
+ * there is no colon. For example, "chapter" is the local name in the qualified name "acme:chapter".
 **/
 - (NSString *)localName
 {
@@ -952,11 +952,11 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 }
 
 /**
- * Returns the prefix of the receiver’s name.
+ * Returns the prefix of the receiver's name.
  * 
  * The prefix is the part of a namespace-qualified name that precedes the colon.
- * For example, “acme” is the local name in the qualified name “acme:chapter”.
- * This method returns an empty string if the receiver’s name is not qualified by a namespace.
+ * For example, "acme" is the local name in the qualified name "acme:chapter".
+ * This method returns an empty string if the receiver's name is not qualified by a namespace.
 **/
 - (NSString *)prefix
 {
@@ -1002,7 +1002,7 @@ static void MarkDeath(void *xmlPtr, DDXMLNode *wrapper);
 /**
  * Returns the URI associated with the receiver.
  * 
- * A node’s URI is derived from its namespace or a document’s URI; for documents, the URI comes either from the
+ * A node's URI is derived from its namespace or a document's URI; for documents, the URI comes either from the
  * parsed XML or is explicitly set. You cannot change the URI for a particular node other for than a namespace
  * or document node.
 **/

@@ -247,7 +247,6 @@
 	}
 	else
 	{
-		NSString *prefix;
 		NSString *realLocalName;
 		
 		[DDXMLNode getPrefix:&prefix localName:&realLocalName forName:localName];
