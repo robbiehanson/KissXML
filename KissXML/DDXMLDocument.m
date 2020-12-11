@@ -78,7 +78,7 @@
 **/
 - (instancetype)initWithData:(NSData *)data options:(NSUInteger)mask error:(NSError **)error
 {
-	if (data == nil || [data length] == 0)
+	if (data == nil || [data length] == 0 || [data length] > INT_MAX)
 	{
 		if (error) *error = [NSError errorWithDomain:@"DDXMLErrorDomain" code:0 userInfo:nil];
 		
