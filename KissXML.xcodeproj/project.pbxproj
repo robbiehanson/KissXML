@@ -82,6 +82,7 @@
 		0DCD8DE31E54A3C6001D9832 /* KissXML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KissXML.h; sourceTree = "<group>"; };
 		0DCD8DE51E54A3C6001D9832 /* DDXMLPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDXMLPrivate.h; sourceTree = "<group>"; };
 		0DCD8DF51E54A3E9001D9832 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
+		8A10E6DC24C5749B005BB692 /* module.modulemap */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.module-map"; path = module.modulemap; sourceTree = "<group>"; };
 		D94131BA1E5CEBE700189BD5 /* KissXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KissXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D94131D31E5CEC8300189BD5 /* KissXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KissXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D94131EC1E5CECC700189BD5 /* KissXML.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = KissXML.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -158,6 +159,7 @@
 				0DCD8DE31E54A3C6001D9832 /* KissXML.h */,
 				0DCD8DE41E54A3C6001D9832 /* Private */,
 				0DCD8DCE1E54A3A3001D9832 /* Info.plist */,
+				8A10E6DC24C5749B005BB692 /* module.modulemap */,
 			);
 			path = KissXML;
 			sourceTree = SOURCE_ROOT;
