@@ -1,8 +1,6 @@
 #import <Foundation/Foundation.h>
 
-#if __has_include("<KissXML/DDXMLElementAdditions.h>)
-    #import <KissXML/DDXMLElementAdditions.h>
-#endif
+#import <KissXML/DDXMLElementAdditions.h>
 #import <KissXML/NSString+DDXML.h>
 #import <KissXML/DDXML.h>
 #import <KissXML/DDXMLDocument.h>
